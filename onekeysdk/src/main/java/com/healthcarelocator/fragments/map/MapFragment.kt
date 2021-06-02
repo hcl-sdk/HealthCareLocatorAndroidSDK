@@ -317,6 +317,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         } else {
             this.activities = activities
             if (googleMap == null) return
+            lastItemSelected = null
             googleMap!!.clear()
             val boundBuilder = LatLngBounds.builder()
             val markers = arrayListOf<OneKeyMarker>()

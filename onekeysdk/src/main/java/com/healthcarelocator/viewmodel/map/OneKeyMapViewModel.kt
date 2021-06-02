@@ -2,6 +2,10 @@ package com.healthcarelocator.viewmodel.map
 
 import android.content.Context
 import base.viewmodel.AppViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.OneKeyNearMeFragment
@@ -10,14 +14,12 @@ import com.healthcarelocator.model.map.OneKeyMarker
 import com.healthcarelocator.model.map.compareByDistance
 import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.utils.OneKeyLog
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
@@ -87,6 +89,12 @@ class OneKeyMapViewModel : AppViewModel<MapFragment>() {
             client.removeLocationUpdate()
             client.releaseApiClient()
             disposable?.add(Flowable.just(markers)
+                    .delay(500, TimeUnit.MILLISECONDS)
+                    .switchMap {
+                        Flowable.create<ArrayList<OneKeyMarker>>({ s ->
+                            s.success(it)
+                        }, BackpressureStrategy.LATEST)
+                    }
                     .map {
                         it.map { marker ->
                             marker.distance = getDistanceFromLatLonInKm(
@@ -192,6 +200,6 @@ class OneKeyMapViewModel : AppViewModel<MapFragment>() {
                     map
                 }
                 .compose(compose())
-                .subscribe({callback(it)}, {callback(hashMapOf())}))
+                .subscribe({ callback(it) }, { callback(hashMapOf()) }))
     }
 }

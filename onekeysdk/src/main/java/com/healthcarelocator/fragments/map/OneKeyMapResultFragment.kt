@@ -68,7 +68,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                         ids.indexOf(it.id) >= 0
                     }
                     if (selectedPosition.isNotEmpty()) {
-                        rvLocations.smoothScrollToPosition(selectedPosition.first())
+                        rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
                         searchAdapter.setSelectedPosition(selectedPosition)
                     }
                 }

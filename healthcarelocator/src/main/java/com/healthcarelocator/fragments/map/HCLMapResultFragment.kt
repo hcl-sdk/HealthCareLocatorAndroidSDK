@@ -59,16 +59,27 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             showDistance()
             searchAdapter.setData(activities)
         }
-        rvLocations.postDelay({
+        rvLocations.postDelay({rv->
             getRunningMapFragment()?.drawMarkerOnMap(activities, false,
                     getAbsFragment()?.isNearMe() ?: false)
-            getRunningMapFragment()?.onMarkerSelectionChanged = { ids ->
-                val selectedPosition = activities.getIndexes {
-                    ids.indexOf(it.id)>=0
+            getRunningMapFragment()?.apply {
+                onMarkerSelectionChanged = { ids ->
+                    val selectedPosition = activities.getIndexes {
+                        ids.indexOf(it.id) >= 0
+                    }
+                    if (selectedPosition.isNotEmpty()) {
+                        rvLocations.smoothScrollToPosition(selectedPosition.first())
+                        searchAdapter.setSelectedPosition(selectedPosition)
+                    }
                 }
-                if (selectedPosition.isNotEmpty()) {
-                    rvLocations.smoothScrollToPosition(selectedPosition.first())
-                    searchAdapter.setSelectedPosition(selectedPosition)
+                onMarkerSelection = { position ->
+                    val selectedPosition = activities.getIndexes {
+                        (it.workplace?.address?.location?.getLocationByString() ?: "") == position
+                    }
+                    if (selectedPosition.isNotEmpty()) {
+                        rv.smoothScrollToPosition(selectedPosition.first())
+                        searchAdapter.setSelectedPosition(selectedPosition)
+                    }
                 }
             }
         }, 1000L)
@@ -126,6 +137,12 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     }
 
+    override fun onDestroyView() {
+        searchAdapter.reset()
+        searchAdapter.notifyDataSetChanged()
+        super.onDestroyView()
+    }
+
     fun requestRelaunch() {
         isRelaunch = true
         getAbsFragment()?.setRelaunchState(true)
@@ -168,8 +185,9 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnRelaunch.visibility = state.getVisibility()
     }
 
-    private fun showDistance(){
-        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()?:false
+    private fun showDistance() {
+        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()
+                ?: false
     }
 
     private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>

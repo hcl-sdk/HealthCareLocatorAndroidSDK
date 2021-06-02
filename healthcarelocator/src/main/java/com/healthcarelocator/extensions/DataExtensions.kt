@@ -158,3 +158,11 @@ fun <T> ArrayList<T>.getIndexes(condition: (t: T) -> Boolean): ArrayList<Int> {
     }
     return indexes
 }
+
+fun String.getLatLng(): Array<Double> = arrayOf<Double>(0.0, 0.0).apply {
+    val list = this@getLatLng.split(",")
+    if (list.size == 2) {
+        this[0] = list[0].toDouble()
+        this[1] = list[1].toDouble()
+    }
+}

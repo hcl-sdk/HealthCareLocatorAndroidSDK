@@ -60,7 +60,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
         notifyDataSetChanged()
     }
 
-    private fun reset() {
+    fun reset() {
         getData().map { it.selected = false }
     }
 }

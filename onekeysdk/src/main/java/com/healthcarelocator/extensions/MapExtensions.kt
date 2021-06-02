@@ -304,6 +304,20 @@ fun getDistanceFromBoundingBox(lat1: Double, lng1: Double, lat2: Double, lng2: D
     return EARTH_RADIUS_IN_METERS * c
 }
 
+fun getDistanceFromTwoCoordinates(c1: LatLng, c2: LatLng): Double {
+    val loc1 = Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = c1.latitude
+        longitude = c1.longitude
+    }
+    val loc2 = Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = c2.latitude
+        longitude = c2.longitude
+    }
+    return loc1.distanceTo(loc2).toDouble()
+}
+
+fun LatLng?.getString(): String = if (this.isNullable()) "null" else "${this!!.latitude},$longitude"
+
 fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery.Builder {
     val geoBuilder = GeopointQuery.builder()
     if (place.isNotNullable() && place!!.placeId.isNotEmpty() && place.placeId != "near_me") {
@@ -312,7 +326,8 @@ fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery
         if (place.address.isNotNullable() && place.address!!.houseNumber.isNotEmpty()) {
             geoBuilder.distanceMeter(5000.0)
         } else if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
-                        || place.address!!.city.isNotEmpty())) {
+                        || place.address!!.city.isNotEmpty())
+        ) {
             val distanceMeter = place.getDistanceMeter()
             geoBuilder.distanceMeter(distanceMeter)
         } else if (place.address.isNotNullable() && place.address!!.countryCode.isNotEmpty()) {

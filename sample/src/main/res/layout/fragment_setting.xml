@@ -199,16 +199,14 @@
             android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Map"
             android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text"
-            android:visibility="gone" />
+            android:textSize="@dimen/default_text" />
 
         <RadioGroup
             android:id="@+id/mapGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_tiny"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rBtnOpenStreetMap"

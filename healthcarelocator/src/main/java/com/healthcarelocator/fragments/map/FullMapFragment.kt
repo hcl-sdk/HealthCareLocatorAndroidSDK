@@ -335,7 +335,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         if (!isAdded) return
         this.place = place
         tvAddress.text = place.displayName
-        viewModel.getActivities(criteria, if (speciality.isNotNullable())
+        viewModel.getActivities(criteria, if (speciality.isNotNullable() && speciality!!.id.isNotEmpty())
             arrayListOf(speciality!!.id) else specialities, place) { activities ->
             this@FullMapFragment.activities = activities
             runOnUiThread(Runnable {

@@ -18,6 +18,7 @@ import io.reactivex.Flowable
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
@@ -87,6 +88,12 @@ class HCLMapViewModel : AppViewModel<MapFragment>() {
             client.removeLocationUpdate()
             client.releaseApiClient()
             disposable?.add(Flowable.just(markers)
+                    .delay(500, TimeUnit.MILLISECONDS)
+                    .switchMap {
+                        Flowable.create<ArrayList<HCLMarker>>({ s ->
+                            s.success(it)
+                        }, BackpressureStrategy.LATEST)
+                    }
                     .map {
                         it.map { marker ->
                             marker.distance = getDistanceFromLatLonInKm(

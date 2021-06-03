@@ -32,6 +32,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
     private var searchGoogleToken: AutocompleteSessionToken? = null
     private var placeClient: PlacesClient? = null
+    private val countries by lazy { arrayListOf<String>() }
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<OneKeyPlace>>() }
@@ -52,8 +53,14 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             val key = t.activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY")
             if (key.isNotNullAndEmpty()) {
                 Places.initialize(t.context!!, key!!, Locale(HealthCareLocatorSDK.getInstance().getConfiguration().getLocaleCode()))
-                searchGoogleToken = AutocompleteSessionToken.newInstance()
                 placeClient = Places.createClient(t.context!!)
+                searchGoogleToken = AutocompleteSessionToken.newInstance()
+                countries.clear()
+                countries.addAll(HealthCareLocatorSDK.getInstance().getConfiguration().run {
+                    if (defaultCountry.isNotEmpty()) listOf(defaultCountry)
+                    else countries.filter { it.isNotEmpty() }
+                            .distinctBy { it }.map { it.getValidCountryCodes() }
+                })
             }
         }
         searchDisposable = CompositeDisposable()
@@ -105,7 +112,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     fun onAddressChanged(view: EditText) {
         disposable?.add(
-                RxTextView.afterTextChangeEvents(view)
+                RxTextView.afterTextChangeEvents(view).debounce(1, TimeUnit.SECONDS)
                         .map { event -> event.view().text.toString() }
                         .subscribe({ key ->
                             addressEvent.postValue(key.isNotEmpty())
@@ -149,15 +156,41 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         } else if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
             val request = FindAutocompletePredictionsRequest.builder()
                     .setSessionToken(searchGoogleToken).setTypeFilter(TypeFilter.ADDRESS)
+                    .setCountries(countries)
                     .setQuery(query).build()
             placeClient?.findAutocompletePredictions(request)
                     ?.addOnSuccessListener { response ->
-                        OneKeyLog.d("$response")
+                        val list = arrayListOf<OneKeyPlace>()
+                        response.autocompletePredictions.forEach { obj ->
+                            list.add(OneKeyPlace(placeId = obj.placeId, displayName = obj.getFullText(null).toString()))
+                        }
+                        addressState.postValue(false)
+                        places.postValue(list)
                     }
                     ?.addOnFailureListener { e ->
-                        OneKeyLog.e("Error: ${e.localizedMessage}")
+                        addressState.postValue(false)
+                        places.postValue(arrayListOf())
                     }
         }
+    }
+
+    fun getGooglePlaceDetail(ref: SearchFragment, place: OneKeyPlace) {
+        placeClient?.getPlace(place.placeId, searchGoogleToken, {
+            if (it.viewport.isNullable() || it.latLng.isNullable()) {
+                ref.getLoadingDialog()?.dismiss()
+                return@getPlace
+            }
+            val bound = it.viewport!!
+            val latLng = it.latLng!!
+            place.latitude = "${it.latLng!!.latitude}"
+            place.longitude = "${it.latLng!!.longitude}"
+            place.distance = getDistanceFromBoundingBox(bound.northeast.latitude, bound.northeast.longitude,
+                    bound.southwest.latitude, bound.southwest.longitude)
+            ref.getLoadingDialog()?.dismiss()
+        }, {
+            it.printStackTrace()
+            ref.getLoadingDialog()?.dismiss()
+        })
     }
 
     private fun getIndividualByName(ref: SearchFragment, name: String) {

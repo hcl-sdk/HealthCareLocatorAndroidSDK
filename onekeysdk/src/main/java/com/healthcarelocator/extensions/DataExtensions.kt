@@ -8,14 +8,14 @@ import android.text.format.DateUtils
 import android.view.View
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.healthcarelocator.R
 import com.healthcarelocator.error.OneKeyException
 import com.healthcarelocator.model.SearchObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.home.OneKeyHomeObject
 import com.healthcarelocator.utils.OneKeyLog
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,7 +31,7 @@ fun Context?.getMetaDataFromManifest(name: String): String {
             applicationInfo.metaData.getString(name)
         } ?: ""
     } catch (e: Exception) {
-        OneKeyLog.e(OneKeyException(ErrorReference.DATA_INVALID, "Can not get Google map API Key.").toString())
+        OneKeyLog.e(OneKeyException(ErrorReference.DATA_INVALID, "Can not get Meta data from Manifest.").toString())
         ""
     }
 }

@@ -16,6 +16,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.healthcarelocator.model.OneKeyLocation
 import com.healthcarelocator.model.map.OneKeyPlace
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -353,3 +357,15 @@ fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery
 //    Location.distanceBetween(lat1, lng1, lat2, lng2, results)
 //    return results[0].toDouble()
 //}
+
+fun PlacesClient.getPlace(placeId: String, token: AutocompleteSessionToken?,
+                          success: (place: Place) -> Unit, error: (e: Exception) -> Unit) {
+    val request = FetchPlaceRequest.builder(placeId,
+            listOf(Place.Field.VIEWPORT, Place.Field.LAT_LNG))
+            .setSessionToken(token).build()
+    this.fetchPlace(request).addOnSuccessListener { response ->
+        success(response.place)
+    }.addOnFailureListener {
+        error(it)
+    }
+}

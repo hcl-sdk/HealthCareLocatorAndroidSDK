@@ -15,6 +15,7 @@ import base.extensions.pushFragment
 import base.fragments.AppFragment
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.search.IndividualAdapter
+import com.healthcarelocator.dialog.LoadingDialog
 import com.healthcarelocator.adapter.search.HCLPlaceAdapter
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.FullMapFragment
@@ -62,6 +63,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private var currentLocation: Location? = null
     private var selectedSpeciality: HealthCareLocatorSpecialityObject? = null
     private var isExpand = false
+    private var loadingDialog: LoadingDialog? = null
     var onItemClicked = false
 
     override val viewModel: SearchViewModel = SearchViewModel()
@@ -157,6 +159,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         initIndividual()
         initAddress()
         KeyboardUtils.showSoftKeyboard(activity)
+        if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+            loadingDialog = LoadingDialog(context!!)
+            loadingDialog?.initLayout()
+        }
     }
 
     override fun onResume() {
@@ -243,6 +249,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         locationSelectedWrapper.visibility = View.VISIBLE
         tvLocationSelected.text = place.displayName
         this.selectedPlace = place
+        if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+            getLoadingDialog()?.show()
+            viewModel.getGooglePlaceDetail(this, selectedPlace!!)
+        }
     }
 
     private fun initIndividual() {
@@ -360,5 +370,11 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     fun showMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun getLoadingDialog(): LoadingDialog? {
+        if (loadingDialog == null)
+            loadingDialog = LoadingDialog(context!!)
+        return loadingDialog
     }
 }

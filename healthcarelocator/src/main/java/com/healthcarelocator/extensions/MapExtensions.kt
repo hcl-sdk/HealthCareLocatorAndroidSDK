@@ -16,6 +16,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.healthcarelocator.model.HCLLocation
 import com.healthcarelocator.model.map.HCLPlace
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -304,6 +308,20 @@ fun getDistanceFromBoundingBox(lat1: Double, lng1: Double, lat2: Double, lng2: D
     return EARTH_RADIUS_IN_METERS * c
 }
 
+fun getDistanceFromTwoCoordinates(c1: LatLng, c2: LatLng): Double {
+    val loc1 = Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = c1.latitude
+        longitude = c1.longitude
+    }
+    val loc2 = Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = c2.latitude
+        longitude = c2.longitude
+    }
+    return loc1.distanceTo(loc2).toDouble()
+}
+
+fun LatLng?.getString(): String = if (this.isNullable()) "null" else "${this!!.latitude},$longitude"
+
 fun GetActivitiesQuery.Builder.getQuery(place: HCLPlace?): GetActivitiesQuery.Builder {
     val geoBuilder = GeopointQuery.builder()
     if (place.isNotNullable() && place!!.placeId.isNotEmpty() && place.placeId != "near_me") {
@@ -338,3 +356,15 @@ fun GetActivitiesQuery.Builder.getQuery(place: HCLPlace?): GetActivitiesQuery.Bu
 //    Location.distanceBetween(lat1, lng1, lat2, lng2, results)
 //    return results[0].toDouble()
 //}
+
+fun PlacesClient.getPlace(placeId: String, token: AutocompleteSessionToken?,
+                          success: (place: Place) -> Unit, error: (e: Exception) -> Unit) {
+    val request = FetchPlaceRequest.builder(placeId,
+            listOf(Place.Field.VIEWPORT, Place.Field.LAT_LNG))
+            .setSessionToken(token).build()
+    this.fetchPlace(request).addOnSuccessListener { response ->
+        success(response.place)
+    }.addOnFailureListener {
+        error(it)
+    }
+}

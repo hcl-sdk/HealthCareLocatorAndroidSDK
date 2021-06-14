@@ -12,6 +12,7 @@ import com.healthcarelocator.extensions.ErrorReference
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.fragments.HCLHomeFragment
 import com.healthcarelocator.fragments.HCLHomeFullFragment
+import com.healthcarelocator.fragments.home.HCLHomeMainFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
 import com.healthcarelocator.model.map.HCLPlace
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -31,16 +32,12 @@ class HCLActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_one_
         val config = HealthCareLocatorSDK.getInstance().getConfiguration()
         val fragment: IFragment = when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
-                if (config.specialities.isEmpty())
-                    throw HCLException(ErrorReference.DATA_INVALID,
-                            "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 this.changeLocale(config.locale)
                 HCLNearMeFragment.newInstance(config, "", null,
-                        HCLPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
-                        config.specialities)
+                    HCLPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
+                    config.specialities)
             }
-            ScreenReference.HOME_FULL -> HCLHomeFragment.newInstance()
-            else -> HCLHomeFullFragment.newInstance()
+            else -> HCLHomeMainFragment.newInstance()
         }
         arrayListOf(fragment)
     }

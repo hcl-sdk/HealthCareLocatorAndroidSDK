@@ -116,6 +116,7 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
             throw HCLException(ErrorReference.ACTIVITY_INVALID,
                     "The provided Activity must NOT be nullable.")
         reverseGeoCoding(activity!!)
+        readConfig(activity)
         activity!!.startActivity(Intent(activity, HCLActivity::class.java))
     }
 

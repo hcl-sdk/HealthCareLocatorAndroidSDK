@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import base.fragments.IFragment
 import com.bumptech.glide.Glide
+import com.ekino.sample.onekeysdk.R
 import com.healthcarelocator.model.config.HCLQueryObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.state.HealthCareLocatorServiceCallback
-import com.ekino.sample.onekeysdk.R
+import com.healthcarelocator.utils.HCLLog
 import com.iqvia.onekey.GetCodeByLabelQuery
 import kotlinx.android.synthetic.main.fragment_landing_page.*
 
@@ -32,14 +33,17 @@ class LandingPageFragment : IFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnSearchNearMe ->{}
+            R.id.btnSearchNearMe -> {
+            }
 //                (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true)
             R.id.btnSearch -> {
                 val builder = HCLQueryObject.Builder(criteria = "gen", codeTypes = arrayListOf("SP"))
-                val service = HealthCareLocatorSDK.init("200002c2aaf5b168").getServices(requireContext())
+                val service = HealthCareLocatorSDK.init("Your API Key")
+                        .getServices(requireContext())
                 service.getCodeByLabel(builder.build(),
                         object : HealthCareLocatorServiceCallback<ArrayList<GetCodeByLabelQuery.Code>>() {
                             override fun onServiceFailed(message: String, e: Throwable) {
+                                HCLLog.d("$message")
                                 //TODO: Handle error
                             }
 

@@ -17,9 +17,9 @@ import com.healthcarelocator.fragments.home.HCLHomeMainFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.map.HCLPlace
+import com.healthcarelocator.service.location.HCLMapService
 import com.healthcarelocator.service.location.LocationAPI
 import com.healthcarelocator.service.location.LocationClient
-import com.healthcarelocator.service.location.HCLMapService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
@@ -116,12 +116,15 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
             throw HCLException(ErrorReference.ACTIVITY_INVALID,
                     "The provided Activity must NOT be nullable.")
         reverseGeoCoding(activity!!)
+        readConfig(activity)
         activity!!.startActivity(Intent(activity, HCLActivity::class.java))
     }
 
     override fun getServices(context: Context): HealthCareLocatorService {
         if (getApiKey().isEmpty()) throw HCLException(ErrorReference.API_KEY_INVALID,
                 "The provided API key must NOT be nullable or emtpy.")
+        reverseGeoCoding(context)
+        readConfig(context)
         return HealthCareLocatorService.getInstance(context)
     }
 

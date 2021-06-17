@@ -2,7 +2,7 @@ package com.healthcarelocator.model.config
 
 /**
  * HCLQueryObject provides the parameters for fetching data from the service without UI.
- * @param id is the id of activity or individual.
+ * @param id Id of object representing the query. This can be a query to get a list of HCPs, list of activities, details on an HCP, or details on an activity.
  * @param first the size of list data which is returning from web service.
  * @param offset the page of the results.
  * @param criteria is searching the key word from user's input.

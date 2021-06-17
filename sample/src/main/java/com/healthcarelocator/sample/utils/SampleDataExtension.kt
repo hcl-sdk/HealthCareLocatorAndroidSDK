@@ -68,6 +68,6 @@ fun getColorList(): ArrayList<ColorObject> = arrayListOf<ColorObject>().apply {
     add(ColorObject("colorMarkerSelected", "Marker Selected", "#fd8670"))
     add(ColorObject("colorViewBackground", "View Background", "#f8f9fa"))
     add(ColorObject("colorListBackground", "List Background", "#f8f9fa"))
-//    add(ColorObject("colorVoteUp", "Vote Up", "#43b02a"))
+    add(ColorObject("colorVoteUp", "Vote Up", "#43b02a"))
     add(ColorObject("colorVoteDown", "Vote Down", "#ff0000"))
 }

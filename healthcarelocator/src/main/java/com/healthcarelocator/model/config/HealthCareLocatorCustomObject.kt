@@ -25,7 +25,7 @@ import java.util.*
  * @param colorMarker Set marker color in colorId which will show on the map (Must start with #).
  * @param colorMarkerSelected Set selected marker color in colorId which will show on the map (Must start with #).
  * @param fontDefault Set default font size in integer.
- * @param fontSmall Set font size for small level in [HeathCareLocatorViewFontObject].
+ * @param fontSmall Set font size for small level in [HealthCareLocatorViewFontObject].
  * @param searchIcon Set search icon in drawableId.
  * @param editIcon Set edit icon in drawableId.
  * @param markerIcon Set marker icon in drawableId.
@@ -36,73 +36,73 @@ data class HealthCareLocatorCustomObject private constructor(
     val textColor: String = "#2d3c4d",
     val colorMarker: String = "#fe8a12",
     val colorMarkerSelected: String = "#fd8670",
-    val fontButton: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontButton: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "button",
         size = 14
     ).build(),
-    val fontDefault: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontDefault: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "default",
         size = 14
     ).build(),
     val searchIcon: Int = R.drawable.baseline_search_white_24dp,
     val editIcon: Int = R.drawable.baseline_edit_white_36dp,
     val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-    var fontSearchInput: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    var fontSearchInput: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "searchInput",
         size = 16
     ).build(),
-    val fontSmall: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontSmall: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "small",
         size = 12
     ).build(),
-    val fontTitleMain: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontTitleMain: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "titleMain",
         size = 20
     ).build(),
-    val fontTitleSecondary: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontTitleSecondary: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "titleSecondary",
         size = 16,
         weight = Typeface.BOLD
     ).build(),
-    val fontSearchResultTotal: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontSearchResultTotal: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "searchResultTotal",
         size = 14,
         weight = Typeface.BOLD
     ).build(),
-    val fontSearchResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontSearchResultTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "searchResultTitle",
         size = 16
     ).build(),
-    val fontResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontResultTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "resultTitle",
         size = 14
     ).build(),
-    val fontResultSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontResultSubTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "resultSubTitle",
         size = 14
     ).build(),
-    val fontProfileTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontProfileTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "profileTitle",
         size = 18
     ).build(),
-    val fontProfileSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontProfileSubTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "profileSubTitle",
         size = 16
     ).build(),
-    val fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontProfileTitleSection: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "profileTitleSection",
         size = 16
     ).build(),
-    val fontCardTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontCardTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "cardTitle",
         size = 16,
         weight = Typeface.BOLD
     ).build(),
-    val fontModalTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontModalTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "modalTitle",
         size = 18
     ).build(),
-    val fontSortCriteria: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    val fontSortCriteria: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
         id = "sortCriteria",
         size = 16
     ).build(),
@@ -117,8 +117,8 @@ data class HealthCareLocatorCustomObject private constructor(
     val iconMarkerMin: Int, val iconSort: Int, val iconList: Int, val iconMap: Int,
     val iconArrowRight: Int, val iconMapGeoLoc: Int, val iconPhone: Int, val iconFax: Int,
     val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
-    val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject,
-    val fontNoResultDesc: HeathCareLocatorViewFontObject,
+    val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
+    val fontNoResultDesc: HealthCareLocatorViewFontObject,
     val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
     var defaultCountry: String = ""
 ) {
@@ -130,73 +130,73 @@ data class HealthCareLocatorCustomObject private constructor(
         var textColor: String = "#2d3c4d",
         var colorMarker: String = "#fe8a12",
         var colorMarkerSelected: String = "#fd8670",
-        var fontButton: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontButton: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "button",
             size = 16
         ).build(),
-        var fontDefault: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontDefault: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "default",
             size = 14
         ).build(),
         var searchIcon: Int = R.drawable.baseline_search_white_24dp,
         var editIcon: Int = R.drawable.baseline_edit_white_36dp,
         var markerIcon: Int = R.drawable.baseline_location_on_black_36dp,
-        var fontSearchInput: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontSearchInput: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "searchInput",
             size = 16
         ).build(),
-        var fontSmall: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontSmall: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "small",
             size = 12
         ).build(),
-        var fontTitleMain: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontTitleMain: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "titleMain",
             size = 20
         ).build(),
-        var fontTitleSecondary: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontTitleSecondary: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "titleSecondary",
             size = 16,
             weight = Typeface.BOLD
         ).build(),
-        var fontSearchResultTotal: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontSearchResultTotal: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "searchResultTotal",
             size = 14,
             weight = Typeface.BOLD
         ).build(),
-        var fontSearchResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontSearchResultTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "searchResultTitle",
             size = 16
         ).build(),
-        var fontResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontResultTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "resultTitle",
             size = 14
         ).build(),
-        var fontResultSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontResultSubTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "resultSubTitle",
             size = 14
         ).build(),
-        var fontProfileTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontProfileTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "profileTitle",
             size = 18
         ).build(),
-        var fontProfileSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontProfileSubTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "profileSubTitle",
             size = 16
         ).build(),
-        var fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontProfileTitleSection: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "profileTitleSection",
             size = 16
         ).build(),
-        var fontCardTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontCardTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "cardTitle",
             size = 16,
             weight = Typeface.BOLD
         ).build(),
-        var fontModalTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontModalTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "modalTitle",
             size = 18
         ).build(),
-        var fontSortCriteria: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontSortCriteria: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "sortCriteria",
             size = 16
         ).build(),
@@ -232,11 +232,11 @@ data class HealthCareLocatorCustomObject private constructor(
         var iconProfile: Int = R.drawable.icon_profile,
         var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
         var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
-        var fontNoResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontNoResultTitle: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "fontNoResultTitle",
             size = 20
         ).build(),
-        var fontNoResultDesc: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+        var fontNoResultDesc: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "fontNoResultDesc",
             size = 16
         ).build(),
@@ -254,11 +254,11 @@ data class HealthCareLocatorCustomObject private constructor(
         fun colorMarkerSelected(markerSelectedColor: String) =
             apply { this.colorMarkerSelected = markerSelectedColor }
 
-        fun fontButton(fontButton: HeathCareLocatorViewFontObject?) = apply {
+        fun fontButton(fontButton: HealthCareLocatorViewFontObject?) = apply {
             this.fontButton = fontButton ?: this.fontButton
         }
 
-        fun fontDefault(fontDefaultSize: HeathCareLocatorViewFontObject?) = apply {
+        fun fontDefault(fontDefaultSize: HealthCareLocatorViewFontObject?) = apply {
             this.fontDefault = fontDefaultSize ?: this.fontDefault
         }
 
@@ -281,74 +281,74 @@ data class HealthCareLocatorCustomObject private constructor(
         fun iconMarkerMin(iconMarkerMin: Int) = apply { this.iconMarkerMin = iconMarkerMin }
         fun iconLocation(iconLocation: Int) = apply { this.iconLocation = iconLocation }
 
-        fun fontSearchInput(fontSearchInput: HeathCareLocatorViewFontObject?) = apply {
+        fun fontSearchInput(fontSearchInput: HealthCareLocatorViewFontObject?) = apply {
             if (fontSearchInput.isNullable()) return@apply
             this.fontSearchInput = fontSearchInput!!
         }
 
-        fun fontSmall(fontSmallSize: HeathCareLocatorViewFontObject?) = apply {
+        fun fontSmall(fontSmallSize: HealthCareLocatorViewFontObject?) = apply {
             if (fontSmallSize.isNullable()) return@apply
             this.fontSmall = fontSmallSize!!
         }
 
-        fun fontTitleMain(fontTitleMain: HeathCareLocatorViewFontObject?) = apply {
+        fun fontTitleMain(fontTitleMain: HealthCareLocatorViewFontObject?) = apply {
             if (fontTitleMain.isNullable()) return@apply
             this.fontTitleMain = fontTitleMain!!
         }
 
-        fun fontTitleSecondary(fontTitleSecondary: HeathCareLocatorViewFontObject?) = apply {
+        fun fontTitleSecondary(fontTitleSecondary: HealthCareLocatorViewFontObject?) = apply {
             if (fontTitleSecondary.isNullable()) return@apply
             this.fontTitleSecondary = fontTitleSecondary!!
         }
 
-        fun fontSearchResultTotal(fontSearchResultTotal: HeathCareLocatorViewFontObject?) = apply {
+        fun fontSearchResultTotal(fontSearchResultTotal: HealthCareLocatorViewFontObject?) = apply {
             this.fontSearchResultTotal = fontSearchResultTotal ?: this.fontSearchResultTotal
         }
 
-        fun fontSearchResultTitle(fontSearchResultTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontSearchResultTitle(fontSearchResultTitle: HealthCareLocatorViewFontObject?) = apply {
             if (fontSearchResultTitle.isNullable()) return@apply
             this.fontSearchResultTitle = fontSearchResultTitle!!
         }
 
-        fun fontResultTitle(fontResultTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontResultTitle(fontResultTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontResultTitle = fontResultTitle ?: this.fontResultTitle
         }
 
-        fun fontResultSubTitle(fontResultSubTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontResultSubTitle(fontResultSubTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontResultSubTitle = fontResultSubTitle ?: this.fontResultSubTitle
         }
 
-        fun fontProfileTitle(fontProfileTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontProfileTitle(fontProfileTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontProfileTitle = fontProfileTitle ?: this.fontProfileTitle
         }
 
-        fun fontProfileSubTitle(fontProfileSubTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontProfileSubTitle(fontProfileSubTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontProfileSubTitle = fontProfileSubTitle ?: this.fontProfileSubTitle
         }
 
-        fun fontProfileTitleSection(fontProfileTitleSection: HeathCareLocatorViewFontObject?) =
+        fun fontProfileTitleSection(fontProfileTitleSection: HealthCareLocatorViewFontObject?) =
             apply {
                 this.fontProfileTitleSection =
                     fontProfileTitleSection ?: this.fontProfileTitleSection
             }
 
-        fun fontCardTitle(fontCardTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontCardTitle(fontCardTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontCardTitle = fontCardTitle ?: this.fontCardTitle
         }
 
-        fun fontModalTitle(fontModalTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontModalTitle(fontModalTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontModalTitle = fontModalTitle ?: this.fontModalTitle
         }
 
-        fun fontSortCriteria(fontSortCriteria: HeathCareLocatorViewFontObject?) = apply {
+        fun fontSortCriteria(fontSortCriteria: HealthCareLocatorViewFontObject?) = apply {
             this.fontSortCriteria = fontSortCriteria ?: this.fontSortCriteria
         }
 
-        fun fontNoResultTitle(fontNoResultTitle: HeathCareLocatorViewFontObject?) = apply {
+        fun fontNoResultTitle(fontNoResultTitle: HealthCareLocatorViewFontObject?) = apply {
             this.fontNoResultTitle = fontNoResultTitle ?: this.fontNoResultTitle
         }
 
-        fun fontNoResultDesc(fontNoResultDesc: HeathCareLocatorViewFontObject?) = apply {
+        fun fontNoResultDesc(fontNoResultDesc: HealthCareLocatorViewFontObject?) = apply {
             this.fontNoResultDesc = fontNoResultDesc ?: this.fontNoResultDesc
         }
 

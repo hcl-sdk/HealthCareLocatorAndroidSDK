@@ -11,7 +11,7 @@ import com.healthcarelocator.custom.IOneKeyView
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.getEnum
-import com.healthcarelocator.model.config.HeathCareLocatorViewFontObject
+import com.healthcarelocator.model.config.HealthCareLocatorViewFontObject
 import com.healthcarelocator.utils.FontUtil
 import com.healthcarelocator.utils.HCLLog
 
@@ -102,7 +102,7 @@ class HCLTextView : AppCompatTextView, IOneKeyView {
         }
     }
 
-    fun setFont(font: HeathCareLocatorViewFontObject, forceTextSize: Boolean = false) {
+    fun setFont(font: HealthCareLocatorViewFontObject, forceTextSize: Boolean = false) {
         try {
             var f = font.fontName
             if (TextUtils.isEmpty(f)) {

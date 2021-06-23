@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.apollographql.apollo'
 apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
-
 
 group = "com.healthcarelocator"
 version = "1.0.0"
@@ -126,16 +126,55 @@ dependencies {
     testImplementation "com.google.truth:truth:1.0.1"
 
 }
+/*
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file:" + System.getenv("HOME") + "/.m2/repository")
-            pom.version = '1.0.0'
-            pom.groupId = 'com.healthcarelocator'
-            pom.artifactId = 'client-stack-sdk'
+
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+             repository(url: "https://s01.oss.sonatype.org/service/local/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+             }
+
+             snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+             }
+
+            pom.project {
+                name = 'Heahtcare Locator Android Client Stack'
+                description = 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API'
+                url = 'https://www.healthcarelocator.com'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'contact'
+                        name = 'Contact'
+                        email = 'contact@healthcarelocator.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+                    developerConnection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+                    url = 'https://www.healthcarelocator.com'
+                }
+            }
         }
     }
 }
+
+
+signing {
+    sign configurations.archives
+}
+*/
+
 
 publishing {
     publications {
@@ -179,3 +218,8 @@ publishing {
         }
     }
 }
+
+signing {
+    sign publishing.publications.aar
+}
+

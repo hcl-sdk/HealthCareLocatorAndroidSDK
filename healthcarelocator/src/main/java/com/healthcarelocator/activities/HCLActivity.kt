@@ -6,12 +6,7 @@ import base.activity.AppActivity
 import base.extensions.changeLocale
 import base.fragments.IFragment
 import com.healthcarelocator.R
-import com.healthcarelocator.databinding.ActivityOneKeySdkBinding
-import com.healthcarelocator.error.HCLException
-import com.healthcarelocator.extensions.ErrorReference
 import com.healthcarelocator.extensions.ScreenReference
-import com.healthcarelocator.fragments.HCLHomeFragment
-import com.healthcarelocator.fragments.HCLHomeFullFragment
 import com.healthcarelocator.fragments.home.HCLHomeMainFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
 import com.healthcarelocator.model.map.HCLPlace
@@ -19,11 +14,12 @@ import com.healthcarelocator.state.HealthCareLocatorSDK
 import org.osmdroid.config.Configuration
 import java.util.*
 
-class HCLActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_one_key_sdk) {
+class HCLActivity : AppActivity(R.layout.activity_one_key_sdk) {
 
     override fun initView(savedInstanceState: Bundle?) {
         try {
-            Configuration.getInstance().load(this, this.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+            Configuration.getInstance()
+                .load(this, this.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
         } catch (e: Exception) {
         }
     }
@@ -33,9 +29,11 @@ class HCLActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_one_
         val fragment: IFragment = when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
                 this.changeLocale(config.locale)
-                HCLNearMeFragment.newInstance(config, "", null,
+                HCLNearMeFragment.newInstance(
+                    config, "", null,
                     HCLPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
-                    config.specialities)
+                    config.specialities
+                )
             }
             else -> HCLHomeMainFragment.newInstance()
         }

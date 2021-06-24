@@ -20,7 +20,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
-        versionName "1.0.0"
+        versionName version
 
         Properties properties = new Properties()
         if (rootProject.file("map.properties").exists()) {
@@ -121,7 +121,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation 'com.google.android.libraries.places:places:1.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
     compileOnly "org.jetbrains:annotations:13.0"
     testImplementation "com.google.truth:truth:1.0.1"
 
@@ -175,51 +175,64 @@ signing {
 }
 */
 
+def pomConfig = {
+   name 'Heahtcare Locator Android Client Stack'
+   url 'https://www.healthcarelocator.com'
+
+   licenses {
+        license {
+            name  'The Apache License, Version 2.0'
+            url  'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+    }
+    developers {
+        developer {
+            id  'contact'
+            name  'Contact'
+            email 'contact@healthcarelocator.com'
+        }
+    }
+    scm {
+        connection  'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+        developerConnection  'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+        url  'https://www.healthcarelocator.com'
+    }
+}
+
 
 publishing {
     publications {
-        aar(MavenPublication) {
+        maven(MavenPublication) {
             groupId 'com.healthcarelocator'
             artifactId 'client-stack-sdk'
-            version '1.0.0'
+            version version
 
             // Tell maven to prepare the generated "*.aar" file for publishing
             artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
 
             pom {
-                name = 'Heahtcare Locator Android Client Stack'
-                description = 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API'
-                url = 'https://www.healthcarelocator.com'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                packaging 'aar'
+                withXml {
+                    def root = asNode()
+                    root.appendNode("description", 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API')
+                    root.children().last() + pomConfig
+
+                    def dependenciesNode = root.appendNode('dependencies')
+                    configurations.implementation.allDependencies.each { dependency ->
+                        if (dependency.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                        }
                     }
-                }
-                developers {
-                    developer {
-                        id = 'contact'
-                        name = 'Contact'
-                        email = 'contact@healthcarelocator.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
-                    developerConnection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
-                    url = 'https://www.healthcarelocator.com'
                 }
             }
-
-        }
-    }
-    repositories {
-        maven {
-            url("file:" + System.getenv("HOME") + "/.m2/repository")
         }
     }
 }
 
 signing {
-    sign publishing.publications.aar
+    sign publishing.publications.maven
 }
 

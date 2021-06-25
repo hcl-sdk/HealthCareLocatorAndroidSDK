@@ -63,7 +63,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
         super.onDestroy()
     }
 
-    fun getAppActivity(): AppActivity<*>? = activity as? AppActivity<*>
+    fun getAppActivity(): AppActivity? = activity as? AppActivity
 
     fun changeFragment(fragment: AppFragment<*, *>) {
         getAppActivity()?.changeFragment(fragment)

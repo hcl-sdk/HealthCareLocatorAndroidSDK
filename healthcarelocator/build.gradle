@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.apollographql.apollo'
 apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
-
 
 group = "com.healthcarelocator"
 version = "1.0.0"
@@ -20,7 +20,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
-        versionName "1.0.0"
+        versionName version
 
         Properties properties = new Properties()
         if (rootProject.file("map.properties").exists()) {
@@ -38,11 +38,6 @@ android {
         }
         debug{
         }
-    }
-
-    buildFeatures {
-        dataBinding true
-        viewBinding = true
     }
 
     compileOptions {
@@ -121,33 +116,28 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation 'com.google.android.libraries.places:places:1.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
     compileOnly "org.jetbrains:annotations:13.0"
     testImplementation "com.google.truth:truth:1.0.1"
 
 }
+/*
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file:" + System.getenv("HOME") + "/.m2/repository")
-            pom.version = '1.0.0'
-            pom.groupId = 'com.healthcarelocator'
-            pom.artifactId = 'client-stack-sdk'
-        }
-    }
-}
 
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId 'com.healthcarelocator'
-            artifactId 'client-stack-sdk'
-            version '1.0.0'
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            // Tell maven to prepare the generated "*.aar" file for publishing
-            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+             repository(url: "https://s01.oss.sonatype.org/service/local/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+             }
 
-            pom {
+             snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+             }
+
+            pom.project {
                 name = 'Heahtcare Locator Android Client Stack'
                 description = 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API'
                 url = 'https://www.healthcarelocator.com'
@@ -170,12 +160,74 @@ publishing {
                     url = 'https://www.healthcarelocator.com'
                 }
             }
-
-        }
-    }
-    repositories {
-        maven {
-            url("file:" + System.getenv("HOME") + "/.m2/repository")
         }
     }
 }
+
+
+signing {
+    sign configurations.archives
+}
+*/
+
+def pomConfig = {
+   name 'Heahtcare Locator Android Client Stack'
+   url 'https://www.healthcarelocator.com'
+
+   licenses {
+        license {
+            name  'The Apache License, Version 2.0'
+            url  'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+    }
+    developers {
+        developer {
+            id  'contact'
+            name  'Contact'
+            email 'contact@healthcarelocator.com'
+        }
+    }
+    scm {
+        connection  'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+        developerConnection  'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+        url  'https://www.healthcarelocator.com'
+    }
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.healthcarelocator'
+            artifactId 'client-stack-sdk'
+            version version
+
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+
+            pom {
+                packaging 'aar'
+                withXml {
+                    def root = asNode()
+                    root.appendNode("description", 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API')
+                    root.children().last() + pomConfig
+
+                    def dependenciesNode = root.appendNode('dependencies')
+                    configurations.implementation.allDependencies.each { dependency ->
+                        if (dependency.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
+}
+

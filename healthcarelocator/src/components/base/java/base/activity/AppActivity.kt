@@ -4,16 +4,14 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import base.fragments.*
 import com.healthcarelocator.R
 import com.healthcarelocator.extensions.mapZoomInEvent
 import com.healthcarelocator.extensions.mapZoomOutEvent
 import java.util.*
 
-abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int) :
-        AppCompatActivity(), IPrevChangeFragAction {
+abstract class AppActivity(private val layoutId: Int) :
+    AppCompatActivity(), IPrevChangeFragAction {
     abstract fun initView(savedInstanceState: Bundle?)
     abstract val stackFragment: ArrayList<IFragment>
     abstract val activeStack: Int
@@ -23,12 +21,11 @@ abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int)
     private val fragmentState: IFragmentState by lazy {
         FragmentState(this.supportFragmentManager, R.id.fragmentContainer)
     }
-    private var binding: BINDING? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         require(layoutId != 0) { "The layout id can not be 0 or nullable." }
-        binding = DataBindingUtil.setContentView(this, layoutId)
+        setContentView(layoutId)
         initView(savedInstanceState)
         if (stackFragment.isNotEmpty())
             fragmentState.run {
@@ -66,8 +63,6 @@ abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int)
         }
         return super.onKeyUp(keyCode, event)
     }
-
-    fun getBinding(): BINDING? = binding
 
     fun <T : AppFragment<*, *>> changeFragment(fragment: T) {
         fragmentState.pushFragmentKeepOld(this, fragment)

@@ -14,6 +14,7 @@ import com.healthcarelocator.model.map.HCLMarker
 import com.healthcarelocator.model.map.compareByDistance
 import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.utils.HCLLog
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint

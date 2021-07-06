@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.sample.onekeysdk.R
 import com.healthcarelocator.extensions.getColor
-import com.healthcarelocator.model.config.HeathCareLocatorViewFontObject
+import com.healthcarelocator.model.config.HealthCareLocatorViewFontObject
 import com.healthcarelocator.sample.SampleApplication
 import com.healthcarelocator.sample.SampleOneKeySDKActivity
 import com.healthcarelocator.sample.adapter.ColorAdapter
@@ -36,45 +36,45 @@ class CustomThemeFragment(
                 CustomThemeFragment(themeObject.clone() as ThemeObject, callback)
     }
 
-    private var fontDefault: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "default", title = "Default").build()
-    private var fontTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
-    private var fontTitle2: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
-    private var fontTitle3: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total")
+    private var fontDefault: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "default", title = "Default").build()
+    private var fontTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
+    private var fontTitle2: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
+    private var fontTitle3: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total")
                     .build()
-    private var fontButton: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "button", title = "Button").build()
-    private var fontSmall: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "small", title = "Small").build()
-    private var fontSearchInput: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
-    private var fontSearchResultTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title")
+    private var fontButton: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "button", title = "Button").build()
+    private var fontSmall: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "small", title = "Small").build()
+    private var fontSearchInput: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
+    private var fontSearchResultTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title")
                     .build()
-    private var fontResultTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
-    private var fontResultSubTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
-    private var fontProfileTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
-    private var fontProfileSubTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title")
+    private var fontResultTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
+    private var fontResultSubTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
+    private var fontProfileTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
+    private var fontProfileSubTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title")
                     .build()
-    private var fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
+    private var fontProfileTitleSection: HealthCareLocatorViewFontObject = HealthCareLocatorViewFontObject.Builder(
             id = "fontProfileTitleSection",
             title = "Profile Title Section"
     ).build()
-    private var fontCardTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
-    private var fontModalTitle: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
-    private var fontSortCriteria: HeathCareLocatorViewFontObject =
-            HeathCareLocatorViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
+    private var fontCardTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
+    private var fontModalTitle: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
+    private var fontSortCriteria: HealthCareLocatorViewFontObject =
+            HealthCareLocatorViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
     private val gson by lazy { Gson() }
-    private val fonts by lazy { arrayListOf<HeathCareLocatorViewFontObject>() }
+    private val fonts by lazy { arrayListOf<HealthCareLocatorViewFontObject>() }
     private var colors = arrayListOf<ColorObject>()
     private val colorAdapter by lazy { ColorAdapter() }
     private val fontAdapter by lazy { FontAdapter() }
@@ -248,7 +248,7 @@ class CustomThemeFragment(
         }
     }
 
-    private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =
-            gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
+    private fun getFontSetting(json: String): HealthCareLocatorViewFontObject =
+            gson.fromJson(json, object : TypeToken<HealthCareLocatorViewFontObject>() {}.type)
 
 }

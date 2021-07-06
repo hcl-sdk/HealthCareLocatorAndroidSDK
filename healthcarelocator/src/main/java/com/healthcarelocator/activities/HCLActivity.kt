@@ -1,0 +1,47 @@
+package com.healthcarelocator.activities
+
+import android.content.Context
+import android.os.Bundle
+import base.activity.AppActivity
+import base.extensions.changeLocale
+import base.fragments.IFragment
+import com.healthcarelocator.R
+import com.healthcarelocator.extensions.ScreenReference
+import com.healthcarelocator.fragments.home.HCLHomeMainFragment
+import com.healthcarelocator.fragments.map.HCLNearMeFragment
+import com.healthcarelocator.model.map.HCLPlace
+import com.healthcarelocator.state.HealthCareLocatorSDK
+import org.osmdroid.config.Configuration
+import java.util.*
+
+class HCLActivity : AppActivity(R.layout.activity_one_key_sdk) {
+
+    override fun initView(savedInstanceState: Bundle?) {
+        try {
+            Configuration.getInstance()
+                .load(this, this.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+        } catch (e: Exception) {
+        }
+    }
+
+    override val stackFragment: ArrayList<IFragment> by lazy {
+        val config = HealthCareLocatorSDK.getInstance().getConfiguration()
+        val fragment: IFragment = when (config.screenReference) {
+            ScreenReference.SEARCH_NEAR_ME -> {
+                this.changeLocale(config.locale)
+                HCLNearMeFragment.newInstance(
+                    config, "", null,
+                    HCLPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
+                    config.specialities
+                )
+            }
+            else -> HCLHomeMainFragment.newInstance()
+        }
+        arrayListOf(fragment)
+    }
+    override val activeStack: Int = 0
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+}

@@ -1,5 +1,0 @@
-{
-  "clientHCLUrl": "https://apim-prod-westeu-onekey.azure-api.net/api/graphql/query",
-  "modificationUrl": "https://www.healthcarelocator.com/%s/suggest-modification?apiKey=%s&id=%s",
-  "env": "uat"
-}

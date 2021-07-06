@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
-import com.healthcarelocator.model.config.HeathCareLocatorViewFontObject
+import com.healthcarelocator.model.config.HealthCareLocatorViewFontObject
 import com.healthcarelocator.sample.fragments.*
 import com.healthcarelocator.sample.model.ColorObject
 import com.healthcarelocator.sample.model.ThemeObject
@@ -107,22 +107,22 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             selectedTheme.markerSelectedHexColor
         )
             ?: selectedTheme.markerSelectedHexColor
-        var fontDefault: HeathCareLocatorViewFontObject? = null
-        var fontTitle1: HeathCareLocatorViewFontObject? = null
-        var fontButton: HeathCareLocatorViewFontObject? = null
-        var fontTitle2: HeathCareLocatorViewFontObject? = null
-        var fontTitle3: HeathCareLocatorViewFontObject? = null
-        var fontSmall: HeathCareLocatorViewFontObject? = null
-        var fontSearchInput: HeathCareLocatorViewFontObject? = null
-        var fontSearchResultTitle: HeathCareLocatorViewFontObject? = null
-        var fontResultTitle: HeathCareLocatorViewFontObject? = null
-        var fontResultSubTitle: HeathCareLocatorViewFontObject? = null
-        var fontProfileTitle: HeathCareLocatorViewFontObject? = null
-        var fontProfileSubTitle: HeathCareLocatorViewFontObject? = null
-        var fontProfileTitleSection: HeathCareLocatorViewFontObject? = null
-        var fontCardTitle: HeathCareLocatorViewFontObject? = null
-        var fontModalTitle: HeathCareLocatorViewFontObject? = null
-        var fontSortCriteria: HeathCareLocatorViewFontObject? = null
+        var fontDefault: HealthCareLocatorViewFontObject? = null
+        var fontTitle1: HealthCareLocatorViewFontObject? = null
+        var fontButton: HealthCareLocatorViewFontObject? = null
+        var fontTitle2: HealthCareLocatorViewFontObject? = null
+        var fontTitle3: HealthCareLocatorViewFontObject? = null
+        var fontSmall: HealthCareLocatorViewFontObject? = null
+        var fontSearchInput: HealthCareLocatorViewFontObject? = null
+        var fontSearchResultTitle: HealthCareLocatorViewFontObject? = null
+        var fontResultTitle: HealthCareLocatorViewFontObject? = null
+        var fontResultSubTitle: HealthCareLocatorViewFontObject? = null
+        var fontProfileTitle: HealthCareLocatorViewFontObject? = null
+        var fontProfileSubTitle: HealthCareLocatorViewFontObject? = null
+        var fontProfileTitleSection: HealthCareLocatorViewFontObject? = null
+        var fontCardTitle: HealthCareLocatorViewFontObject? = null
+        var fontModalTitle: HealthCareLocatorViewFontObject? = null
+        var fontSortCriteria: HealthCareLocatorViewFontObject? = null
         SampleApplication.sharedPreferences.also {
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())
@@ -259,8 +259,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //        HealthCareLocatorSDK.getInstance().startSDKActivity(this)
     }
 
-    private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =
-        gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
+    private fun getFontSetting(json: String): HealthCareLocatorViewFontObject =
+        gson.fromJson(json, object : TypeToken<HealthCareLocatorViewFontObject>() {}.type)
 
     fun openSettingsPage() {
         resetStack()
@@ -276,8 +276,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
     }
 
     fun openPreviewFont(
-        font: HeathCareLocatorViewFontObject,
-        callback: (font: HeathCareLocatorViewFontObject) -> Unit
+        font: HealthCareLocatorViewFontObject,
+        callback: (font: HealthCareLocatorViewFontObject) -> Unit
     ) {
         this.addFragment(
             R.id.fragmentContainer,

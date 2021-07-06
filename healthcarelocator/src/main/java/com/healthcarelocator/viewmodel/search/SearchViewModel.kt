@@ -160,9 +160,9 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                     .setQuery(query).build()
             placeClient?.findAutocompletePredictions(request)
                     ?.addOnSuccessListener { response ->
-                        val list = arrayListOf<OneKeyPlace>()
+                        val list = arrayListOf<HCLPlace>()
                         response.autocompletePredictions.forEach { obj ->
-                            list.add(OneKeyPlace(placeId = obj.placeId, displayName = obj.getFullText(null).toString()))
+                            list.add(HCLPlace(placeId = obj.placeId, displayName = obj.getFullText(null).toString()))
                         }
                         addressState.postValue(false)
                         places.postValue(list)
@@ -174,7 +174,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         }
     }
 
-    fun getGooglePlaceDetail(ref: SearchFragment, place: OneKeyPlace) {
+    fun getGooglePlaceDetail(ref: SearchFragment, place: HCLPlace) {
         placeClient?.getPlace(place.placeId, searchGoogleToken, {
             if (it.viewport.isNullable() || it.latLng.isNullable()) {
                 ref.getLoadingDialog()?.dismiss()

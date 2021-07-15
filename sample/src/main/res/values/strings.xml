@@ -34,5 +34,13 @@
     <string-array name="languages">
         <item>English</item>
         <item>French</item>
+        <item>Spanish (CO)</item>
+        <item>Spanish</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Polish</item>
+        <item>Turkish</item>
+        <item>Russian</item>
+        <item>Arabic</item>
     </string-array>
 </resources>

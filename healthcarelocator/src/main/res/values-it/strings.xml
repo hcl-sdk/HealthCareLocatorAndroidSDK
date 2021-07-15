@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Trova e localizza<br/>operatori sanitari</string>
+    <string name="hcl_home_feat_find_hcp_title">Trova operatori sanitari</string>
+    <string name="hcl_home_feat_find_hcp_text">Trova fornitori di assistenza sanitaria per località, nome, specializzazione o cercando nelle vicinanze</string>
+    <string name="hcl_home_feat_consult_profile_title">Accedi ai profili degli operatori sanitari</string>
+    <string name="hcl_home_feat_consult_profile_text">Esamina i profili dettagliati dei fornitori, inclusi specializzazioni, località e recapiti</string>
+    <string name="hcl_home_feat_request_info_update_title">Condividi operatori sanitari</string>
+    <string name="hcl_home_feat_request_info_update_text">Condividi i profili con amici e familiari tramite SMS o e-mail</string>
+
+    <string name="hcl_start_new_search">Inizia una nuova ricerca</string>
+
+    <string name="hcl_hcps_near_me">Operatori sanitari nelle vicinanze</string>
+    <string name="hcl_last_searches">Ultime ricerche</string>
+    <string name="hcl_view_more">Visualizza altro</string>
+    <string name="hcl_view_less">Visualizza meno</string>
+    <string name="hcl_last_hcps_consulted">Ultimi operatori sanitari consultati</string>
+    <string name="hcl_find_healthcare_professional">Trova operatore sanitario</string>
+
+    <string name="hcl_search_first_field_label">Nome, Specializzazione</string>
+    <string name="hcl_search_second_field_label">Dove? (indirizzo, città…)</string>
+    <string name="hcl_near_me">Nelle vicinanze</string>
+    <string name="hcl_anywhere">Ovunque</string>
+
+    <string name="hcl_results_label">Risultati</string>
+    <string name="hcl_list_label">Elenco</string>
+    <string name="hcl_map_label">Mappa</string>
+    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_no_result_found">Nessun risultato trovato</string>
+    <string name="hcl_no_result_message">Sembra che non ci siano corrispondenze per la ricerca.</string>
+    <string name="hcl_relaunch">Riavvia</string>
+
+    <string name="hcl_sort_label">Ordina</string>
+    <string name="hcl_relevance_item">Rilevanza</string>
+    <string name="hcl_distance_item">Distanza</string>
+    <string name="hcl_name_item">Nome</string>
+    <string name="hcl_apply_button">Applica</string>
+    <string name="hcl_reset_button">Reimposta</string>
+
+    <string name="hcl_main_information_label">Informazioni principali</string>
+    <string name="hcl_rate_refunds_label">Tariffa e rimborsi</string>
+    <string name="hcl_specialities_label">Specializzazioni</string>
+    <string name="hcl_information_label">Informazioni</string>
+    <string name="hcl_information_description">Le informazioni ricevute su questo operatore sanitario erano corrette?</string>
+    <string name="hcl_information_yes_label">Sì</string>
+    <string name="hcl_information_no_label">No</string>
+    <string name="hcl_improve_quality_label">Migliora la qualità dei dati</string>
+    <string name="hcl_improve_quality_text">Condividi con noi più informazioni su questo operatore sanitario.</string>
+    <string name="hcl_suggess_modification_button">Suggerisci una modifica</string>
+</resources>

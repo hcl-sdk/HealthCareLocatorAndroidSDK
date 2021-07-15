@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Encontrar<br/>profesionales sanitarios</string>
+    <string name="hcl_home_feat_find_hcp_title">Encontrar PS</string>
+    <string name="hcl_home_feat_find_hcp_text">Encontrar proveedores sanitarios por ubicación, nombre, especialidad o cercanía</string>
+    <string name="hcl_home_feat_consult_profile_title">Acceder a los perfiles de los PS</string>
+    <string name="hcl_home_feat_consult_profile_text">Revisar los perfiles detallados de proveedores, incluidas especialidades, ubicación e información de contacto</string>
+    <string name="hcl_home_feat_request_info_update_title">Compartir PS</string>
+    <string name="hcl_home_feat_request_info_update_text">Usar SMS o correo electrónico para compartir perfiles con amigos y familiares</string>
+
+    <string name="hcl_start_new_search">Iniciar una búsqueda nueva</string>
+
+    <string name="hcl_hcps_near_me">PS cercanos</string>
+    <string name="hcl_last_searches">Últimas búsquedas</string>
+    <string name="hcl_view_more">Ver más</string>
+    <string name="hcl_view_less">Ver menos</string>
+    <string name="hcl_last_hcps_consulted">Últimos PS consultados</string>
+    <string name="hcl_find_healthcare_professional">Encontrar un profesional sanitario</string>
+
+    <string name="hcl_search_first_field_label">Nombre, especialidad</string>
+    <string name="hcl_search_second_field_label">¿Dónde? (dirección, ciudad, etc.)</string>
+    <string name="hcl_near_me">Cerca de mí</string>
+    <string name="hcl_anywhere">En cualquier lugar</string>
+
+    <string name="hcl_results_label">Resultados</string>
+    <string name="hcl_list_label">Listado</string>
+    <string name="hcl_map_label">Mapa</string>
+    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_no_result_found">No se ha encontrado ningún resultado.</string>
+    <string name="hcl_no_result_message">Lo sentimos, no hay coincidencias para su búsqueda.</string>
+    <string name="hcl_relaunch">Relanzar</string>
+
+    <string name="hcl_sort_label">Ordenar</string>
+    <string name="hcl_relevance_item">Relevancia</string>
+    <string name="hcl_distance_item">Distancia</string>
+    <string name="hcl_name_item">Nombre</string>
+    <string name="hcl_apply_button">Solicitar</string>
+    <string name="hcl_reset_button">Restablecer</string>
+
+    <string name="hcl_main_information_label">Información principal</string>
+    <string name="hcl_rate_refunds_label">Tarifa y reembolsos</string>
+    <string name="hcl_specialities_label">Especialidades</string>
+    <string name="hcl_information_label">Información</string>
+    <string name="hcl_information_description">¿La información recibida sobre este PS es correcta?</string>
+    <string name="hcl_information_yes_label">Sí</string>
+    <string name="hcl_information_no_label">No</string>
+    <string name="hcl_improve_quality_label">Mejorar la calidad de los datos</string>
+    <string name="hcl_improve_quality_text">Compartir con nosotros más información sobre este PS.</string>
+    <string name="hcl_suggess_modification_button">Sugerir una modificación</string>
+</resources>

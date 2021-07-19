@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HealthCareLocator SDK</string>
 
-    <string name="hcl_home_title">البحث عن وتحديد أماكن<br/>البحث عن وتحديد أماكن</string>
+    <string name="hcl_home_title">البحث عن وتحديد أماكنn\البحث عن وتحديد أماكن</string>
     <string name="hcl_home_feat_find_hcp_title">البحث عن المُتخَصصين في الرِّعاية الصِّحيَّة</string>
     <string name="hcl_home_feat_find_hcp_text">البحث عن مُقدمي خدمات الرِّعاية الصِّحيَّة عن طريق تحديد الموقع والاسم والتَّخصص أو البحث في الأماكن القريبة</string>
     <string name="hcl_home_feat_consult_profile_title">الوُصول للملفات الشَّخصية الخاصة بالمُتخَصصين في الرِّعاية الصِّحيَّة</string>

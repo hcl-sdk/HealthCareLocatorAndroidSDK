@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HealthCareLocator SDK</string>
 
-    <string name="hcl_home_title"><br/>Sağlık Çalışanlarını Bulun ve Konumunu Belirleyin</string>
+    <string name="hcl_home_title">\nSağlık Çalışanlarını Bulun ve Konumunu Belirleyin</string>
     <string name="hcl_home_feat_find_hcp_title">HCP\'leri bulun</string>
     <string name="hcl_home_feat_find_hcp_text">Konuma, ada, uzmanlığa göre ya da yakınınızda arama yapacak Sağlık Çalışanlarını bulun</string>
     <string name="hcl_home_feat_consult_profile_title">HCP profillerine erişin</string>

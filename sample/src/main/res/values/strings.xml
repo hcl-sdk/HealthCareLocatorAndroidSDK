@@ -32,15 +32,19 @@
         <item>Full</item>
     </string-array>
     <string-array name="languages">
-        <item>English</item>
+        <item>US</item>
         <item>French</item>
-        <item>Spanish (CO)</item>
+        <item>Canada</item>
         <item>Spanish</item>
+        <item>Spanish (CO)</item>
         <item>Italian</item>
+        <item>German</item>
         <item>Portuguese</item>
         <item>Polish</item>
         <item>Turkish</item>
         <item>Russian</item>
         <item>Arabic</item>
+        <item>Dutch</item>
+        <item>UK</item>
     </string-array>
 </resources>

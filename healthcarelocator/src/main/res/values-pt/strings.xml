@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HealthCareLocator SDK</string>
 
-    <string name="hcl_home_title">Encontrar e localizar<br/>profissionais de saúde</string>
+    <string name="hcl_home_title">Encontrar e localizar\nprofissionais de saúde</string>
     <string name="hcl_home_feat_find_hcp_title">Encontrar profissionais de saúde</string>
     <string name="hcl_home_feat_find_hcp_text">Encontrar profissionais de saúde por localização, nome, especialidade ou por pesquisa nas proximidades</string>
     <string name="hcl_home_feat_consult_profile_title">Aceder ao perfil de profissionais de saúde</string>

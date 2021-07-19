@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HealthCareLocator SDK</string>
 
-    <string name="hcl_home_title">Находите МР и узнавайте<br/>их местоположение</string>
+    <string name="hcl_home_title">Находите МР и узнавайте\nих местоположение</string>
     <string name="hcl_home_feat_find_hcp_title">Поиск МР</string>
     <string name="hcl_home_feat_find_hcp_text">Находите медицинских работников по местоположению, имени, специализации или поблизости от вас</string>
     <string name="hcl_home_feat_consult_profile_title">Доступ к профилям МР</string>

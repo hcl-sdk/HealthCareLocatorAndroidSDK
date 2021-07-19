@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HealthCareLocator SDK</string>
 
-    <string name="hcl_home_title">Znajduj i lokalizuj<br/>przedstawicieli fachowego personelu medycznego (HCP)</string>
+    <string name="hcl_home_title">Znajduj i lokalizuj\nprzedstawicieli fachowego personelu medycznego (HCP)</string>
     <string name="hcl_home_feat_find_hcp_title">Znajdź HCP</string>
     <string name="hcl_home_feat_find_hcp_text">Znajdź przedstawicieli fachowego personelu medycznego według adresu, imienia i nazwiska, specjalizacji lub lokalizacji (znajdujących się w Twojej okolicy)</string>
     <string name="hcl_home_feat_consult_profile_title">Dostęp do profili HCP</string>

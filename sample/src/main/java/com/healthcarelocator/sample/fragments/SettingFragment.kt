@@ -43,7 +43,8 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnBack.setOnClickListener { activity?.onBackPressed() }
-        val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
+//        val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
+        val apiKey = "2210cf8387f14995bfdd553628812be3"
         edtAPIKey.setText(apiKey)
         edtCountryCode.setText(SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: "")
 

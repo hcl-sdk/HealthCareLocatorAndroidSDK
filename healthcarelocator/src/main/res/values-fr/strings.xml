@@ -30,7 +30,7 @@
     <string name="hcl_distance_unit_android">%sm</string>
     <string name="hcl_no_result_found">Aucun résultat trouvé</string>
     <string name="hcl_no_result_message">Oups, il semble qu\'il n\'y ait aucune correspondance pour votre recherche.</string>
-    <string name="hcl_relaunch">Relaunch</string>
+    <string name="hcl_relaunch">Relancer</string>
 
     <!--Sort-->
     <string name="hcl_sort_label">Trier</string>

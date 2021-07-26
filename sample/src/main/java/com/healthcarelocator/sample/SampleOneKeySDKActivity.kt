@@ -219,7 +219,23 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //                .iconSort(R.drawable.baseline_location_on_white_36dp)
 //                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
 //                .iconLocation(R.drawable.baseline_list_white_24dp)
-            .locale(if (language == 0) "en" else "fr")
+            .locale(when (language) {
+                0 -> "en"
+                1 -> "fr"
+                2 -> "ca"
+                3 -> "es"
+                4 -> "co"
+                5 -> "it"
+                6 -> "de"
+                7 -> "pt"
+                8 -> "pl"
+                9 -> "tr"
+                10 -> "ru"
+                11 -> "ar"
+                12 -> "nl"
+                13 -> "uk"
+                else -> "en"
+            })
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
                 .colorSecondary(colors.first { it.id == "colorSecondary" }.color)

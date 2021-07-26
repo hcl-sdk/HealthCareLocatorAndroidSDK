@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Znajduj i lokalizuj\nprzedstawicieli fachowego personelu medycznego (HCP)</string>
+    <string name="hcl_home_feat_find_hcp_title">Znajdź HCP</string>
+    <string name="hcl_home_feat_find_hcp_text">Znajdź przedstawicieli fachowego personelu medycznego według adresu, imienia i nazwiska, specjalizacji lub lokalizacji (znajdujących się w Twojej okolicy)</string>
+    <string name="hcl_home_feat_consult_profile_title">Dostęp do profili HCP</string>
+    <string name="hcl_home_feat_consult_profile_text">Przeglądaj profile zawierające szczegółowe informacje, jak specjalizacje, lokalizacja oraz dane kontaktowe</string>
+    <string name="hcl_home_feat_request_info_update_title">Udostępnianie profili HCP</string>
+    <string name="hcl_home_feat_request_info_update_text">Udostępniaj profile HCP znajomym i rodzinie przy użyciu wiadomości sms oraz e-mail</string>
+
+    <string name="hcl_start_new_search">Rozpocznij nowe wyszukiwanie</string>
+
+    <string name="hcl_hcps_near_me">HCP w mojej okolicy</string>
+    <string name="hcl_last_searches">Ostatnie wyszukania</string>
+    <string name="hcl_view_more">Pokaż więcej</string>
+    <string name="hcl_view_less">Pokaż mniej</string>
+    <string name="hcl_last_hcps_consulted">Ostatni oglądany profil HCP</string>
+    <string name="hcl_find_healthcare_professional">Znajdź przedstawiciela fachowego personelu medycznego</string>
+
+    <string name="hcl_search_first_field_label">Imię i nazwisko, specjalizacja</string>
+    <string name="hcl_search_second_field_label">Gdzie? (adres, miejscowość…)</string>
+    <string name="hcl_near_me">W mojej okolicy</string>
+    <string name="hcl_anywhere">Gdziekolwiek</string>
+
+    <string name="hcl_results_label">Wyniki</string>
+    <string name="hcl_list_label">Lista</string>
+    <string name="hcl_map_label">Mapa</string>
+    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_no_result_found">Brak wyników</string>
+    <string name="hcl_no_result_message">Ups! Wygląda na to, że nie ma żadnych wyników dla Twojego wyszukania.</string>
+    <string name="hcl_relaunch">Spróbuj ponownie</string>
+
+    <string name="hcl_sort_label">Sortuj</string>
+    <string name="hcl_relevance_item">Trafność</string>
+    <string name="hcl_distance_item">Odległość</string>
+    <string name="hcl_name_item">Imię i nazwisko</string>
+    <string name="hcl_apply_button">Zastosuj</string>
+    <string name="hcl_reset_button">Resetuj</string>
+
+    <string name="hcl_main_information_label">Podstawowe dane</string>
+    <string name="hcl_rate_refunds_label">Ceny i refundacja</string>
+    <string name="hcl_specialities_label">Specjalizacje</string>
+    <string name="hcl_information_label">Dane</string>
+    <string name="hcl_information_description">Czy otrzymane dane HCP były poprawne?</string>
+    <string name="hcl_information_yes_label">Tak</string>
+    <string name="hcl_information_no_label">Nie</string>
+    <string name="hcl_improve_quality_label">Ulepsz jakość danych</string>
+    <string name="hcl_improve_quality_text">Podziel się z nami informacjami na temat tego HCP.</string>
+    <string name="hcl_suggess_modification_button">Zaproponuj zmianę</string>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Encontrar y localizar\nprofesionales de la salud</string>
+    <string name="hcl_home_feat_find_hcp_title">Encontrar profesionales de la salud</string>
+    <string name="hcl_home_feat_find_hcp_text">Encontrar profesionales de la salud por ubicación, nombre, especialidad o búsqueda cercana</string>
+    <string name="hcl_home_feat_consult_profile_title">Acceder a los perfiles de los profesionales de la salud</string>
+    <string name="hcl_home_feat_consult_profile_text">Revisar los perfiles detallados de los proveedores, incluidas las especialidades, la ubicación y la información de contacto</string>
+    <string name="hcl_home_feat_request_info_update_title">Compartir profesionales de la salud</string>
+    <string name="hcl_home_feat_request_info_update_text">Compartir los perfiles con amigos y familiares por SMS o correo electrónico</string>
+
+    <string name="hcl_start_new_search">Empezar una nueva búsqueda</string>
+
+    <string name="hcl_hcps_near_me">Profesionales de la salud cercanos</string>
+    <string name="hcl_last_searches">Últimas búsquedas</string>
+    <string name="hcl_view_more">Ver más</string>
+    <string name="hcl_view_less">Ver menos</string>
+    <string name="hcl_last_hcps_consulted">Últimos profesionales de la salud consultados</string>
+    <string name="hcl_find_healthcare_professional">Encontrar un profesional de la salud</string>
+
+    <string name="hcl_search_first_field_label">Nombre, especialidad</string>
+    <string name="hcl_search_second_field_label">¿Dónde? (dirección, ciudad…)</string>
+    <string name="hcl_near_me">Cercanos</string>
+    <string name="hcl_anywhere">En cualquier lugar</string>
+
+    <string name="hcl_results_label">Resultados</string>
+    <string name="hcl_list_label">Lista</string>
+    <string name="hcl_map_label">Mapa</string>
+    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_no_result_found">No se encontraron resultados</string>
+    <string name="hcl_no_result_message">¡Lo sentimos! Parece que no hay coincidencias para su búsqueda.</string>
+    <string name="hcl_relaunch">Reintentar</string>
+
+    <string name="hcl_sort_label">Ordenar</string>
+    <string name="hcl_relevance_item">Relevancia</string>
+    <string name="hcl_distance_item">Distancia</string>
+    <string name="hcl_name_item">Nombre</string>
+    <string name="hcl_apply_button">Aplicar</string>
+    <string name="hcl_reset_button">Restablecer</string>
+
+    <string name="hcl_main_information_label">Información principal</string>
+    <string name="hcl_rate_refunds_label">Tarifa y reembolsos</string>
+    <string name="hcl_specialities_label">Especialidades</string>
+    <string name="hcl_information_label">Información</string>
+    <string name="hcl_information_description">¿Es correcta la información que recibió sobre este profesional de la salud?</string>
+    <string name="hcl_information_yes_label">Sí</string>
+    <string name="hcl_information_no_label">No</string>
+    <string name="hcl_improve_quality_label">Mejorar la calidad de los datos</string>
+    <string name="hcl_improve_quality_text">Comparta más información sobre este profesional de la salud con nosotros.</string>
+    <string name="hcl_suggess_modification_button">Sugerir una modificación</string>
+</resources>

@@ -205,11 +205,15 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed)
                     )
                     return
+                } else if (selectedSpeciality == null && edtName.text.toString().isNotEmpty() && viewModel.getIndividualByName().isNotEmpty()) {
+                    edtName.setText(viewModel.getIndividualByName())
                 }
-                if (selectedPlace == null && selectedPlace?.placeId.isNullOrEmpty() && edtWhere.text.toString().isNotEmpty()) {
+                if (selectedPlace == null && selectedPlace?.placeId.isNullOrEmpty() && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressChanged().isEmpty()) {
                     setError(addressWrapper,
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
+                } else if (selectedPlace == null && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressChanged().isNotEmpty()) {
+                    edtWhere.setText(viewModel.getAddressChanged())
                 }
                 setFocusable(false)
                 healthCareLocatorCustomObject?.also {

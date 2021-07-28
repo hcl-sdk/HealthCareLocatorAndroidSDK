@@ -7,22 +7,14 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.healthcarelocator.R
 import com.healthcarelocator.custom.IOneKeyView
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.getEnum
 import com.healthcarelocator.model.config.HealthCareLocatorViewFontObject
-import com.healthcarelocator.state.HealthCareLocatorSDK
-import com.healthcarelocator.strategy.NormalTextFillStrategy
-import com.healthcarelocator.strategy.TextFillStrategy
 import com.healthcarelocator.utils.FontUtil
 import com.healthcarelocator.utils.HCLLog
 
 class HCLEditText : AppCompatEditText, IOneKeyView {
-    private var suggestions: ArrayList<String>? = null
-    private var textFillStrategy: TextFillStrategy? = null
-    private var firstChange = false
-    private var typeAutoFill: TypedArray? = null
-    private var isFill: Boolean = false
-
     constructor(context: Context) : super(context) {
         init(null)
     }
@@ -49,8 +41,6 @@ class HCLEditText : AppCompatEditText, IOneKeyView {
             textStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextStyle, HCLTextView.HCLTextStyle.OneKeyStyleDefault)
             colorStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextColor, HCLTextView.HCLColorStyle.NONE)
             typeArray.recycle()
-            suggestions = ArrayList<String>()
-            typeAutoFill = context.obtainStyledAttributes(attributeSet, R.styleable.AutoFillEditText)
         }
         mapFontForView(textStyle, forceTextSize)
         mapTextColor(colorStyle)
@@ -127,39 +117,4 @@ class HCLEditText : AppCompatEditText, IOneKeyView {
         setHintTextColor(theme.colorGreyLight.getColor())
     }
 
-    private fun setAutoFill() {
-        try {
-            val suggestionsValue = typeAutoFill!!.getTextArray(R.styleable.AutoFillEditText_suggestions)
-            if (suggestionsValue != null) {
-                for (value in suggestionsValue) {
-                    suggestions!!.add(value.toString())
-                }
-            }
-
-        } catch (ex: java.lang.Exception) {
-            ex.printStackTrace()
-        }
-
-        textFillStrategy = NormalTextFillStrategy(this, suggestions)
-    }
-
-    override fun onTextChanged(text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int) {
-        super.onTextChanged(text, start, lengthBefore, lengthAfter)
-        if (isFill) {
-            if (!firstChange) {
-                firstChange = true
-                return
-            }
-            if (text!!.length > 2) {
-                val upperString: String = text.split(' ').joinToString(" ") { it.capitalize() }
-                textFillStrategy!!.apply(upperString)
-            }
-        }
-    }
-
-    fun addSuggestions(suggest: String, isAutoFill: Boolean) {
-        this.isFill = isAutoFill
-        suggestions!!.add(suggest)
-        setAutoFill()
-    }
 }

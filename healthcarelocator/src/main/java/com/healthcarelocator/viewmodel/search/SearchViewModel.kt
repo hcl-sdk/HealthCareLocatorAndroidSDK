@@ -2,7 +2,6 @@ package com.healthcarelocator.viewmodel.search
 
 import android.Manifest
 import android.text.TextUtils
-import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
@@ -11,6 +10,7 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.healthcarelocator.custom.text.HCLEditText
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.search.SearchFragment
 import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
@@ -92,7 +92,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         }
     }
 
-    fun onSpecialityChanged(ref: SearchFragment, view: EditText) {
+    fun onSpecialityChanged(ref: SearchFragment, view: HCLEditText) {
         disposable?.add(
                 RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS).map {
                     it.view().text.toString()
@@ -101,7 +101,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                     if (!ref.onItemClicked) {
                         if (it.isNotEmpty() && it.length >= 3) {
                             individualsState.postValue(true)
-                            getIndividualByName(ref, it)
+                            getIndividualByName(ref, it, view)
                         } else individuals.postValue(arrayListOf())
                     } else ref.onItemClicked = false
                 }, {
@@ -110,7 +110,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         )
     }
 
-    fun onAddressChanged(view: EditText) {
+    fun onAddressChanged(view: HCLEditText) {
         disposable?.add(
                 RxTextView.afterTextChangeEvents(view).debounce(1, TimeUnit.SECONDS)
                         .map { event -> event.view().text.toString() }
@@ -120,7 +120,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                                 places.postValue(arrayListOf())
                             } else {
                                 searchParameters["q"] = key
-                                searchAddress(key)
+                                searchAddress(key, view)
                             }
                         }, {
                             (getFragmentReference() as? SearchFragment)?.showMessage("Error:: ${it.localizedMessage}")
@@ -129,8 +129,9 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         )
     }
 
-    private fun searchAddress(query: String) {
+    private fun searchAddress(query: String, view: HCLEditText) {
         addressState.postValue(true)
+        val placeAutoFill = mutableListOf<String>()
         if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.OSM) {
             searchDisposable?.clear()
             searchDisposable?.add(
@@ -141,6 +142,12 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                                         if (place.address!!.road.isNotEmpty() || place.address!!.city.isNotEmpty()) {
                                             val box = place.getBox()
                                             place.distance = getDistanceFromBoundingBox(box[0], box[2], box[1], box[3])
+                                            if(place.displayName.isNotNullAndEmpty()) {
+                                                placeAutoFill.add(place.displayName)
+                                                if (placeAutoFill.size > 0) {
+                                                    view.addSuggestions(placeAutoFill[0], true)
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -193,7 +200,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         })
     }
 
-    private fun getIndividualByName(ref: SearchFragment, name: String) {
+    private fun getIndividualByName(ref: SearchFragment, name: String, view: HCLEditText) {
         getCodeByLabel(name) { codes ->
             ref.clearIndividualData()
             individuals.value = arrayListOf()
@@ -206,6 +213,14 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                 })
 
                 individualsState.postValue(false)
+            }
+
+            val nameAutoFill = mutableListOf<String>()
+            if(individuals.value!!.size > 0) {
+                nameAutoFill.add(individuals.value!![0].toString())
+                if (nameAutoFill.size > 0) {
+                    view.addSuggestions(individuals.value!![0].toString(), true)
+                }
             }
         }
     }

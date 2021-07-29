@@ -205,15 +205,17 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed)
                     )
                     return
-                } else if (selectedSpeciality == null && edtName.text.toString().isNotEmpty() && viewModel.getIndividualByName().isNotEmpty()) {
-                    edtName.setText(viewModel.getIndividualByName())
+                } else if (selectedSpeciality == null && edtName.text.toString().isNotEmpty() && viewModel.getIndividualSearch().isNotNullable()) {
+                    selectedSpeciality = viewModel.getIndividualSearch()
+                    edtName.setText(viewModel.getIndividualSearch().toString())
                 }
-                if (selectedPlace == null && selectedPlace?.placeId.isNullOrEmpty() && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressChanged().isEmpty()) {
+                if (selectedPlace == null && selectedPlace?.placeId.isNullOrEmpty() && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressSearch().isNullable()) {
                     setError(addressWrapper,
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
-                } else if (selectedPlace == null && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressChanged().isNotEmpty()) {
-                    edtWhere.setText(viewModel.getAddressChanged())
+                } else if (selectedPlace == null && edtWhere.text.toString().isNotEmpty() && viewModel.getAddressSearch().isNotNullable()) {
+                    selectedPlace = viewModel.getAddressSearch()
+                    edtWhere.setText(viewModel.getAddressSearch()!!.displayName)
                 }
                 setFocusable(false)
                 healthCareLocatorCustomObject?.also {

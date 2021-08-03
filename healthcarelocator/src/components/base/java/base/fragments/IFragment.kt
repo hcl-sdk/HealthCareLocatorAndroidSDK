@@ -17,7 +17,7 @@ abstract class IFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPreferences = context!!.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)
+        sharedPreferences = context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
 //        activity?.onBackPressedDispatcher?.addCallback(activity!!, object : OnBackPressedCallback(true) {
 //            override fun handleOnBackPressed() {
 //                isEnabled = false

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
@@ -81,6 +82,9 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
+        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
+            putBoolean(isLocationSelection, false)
+        }
         if (savedInstanceState != null) {
             selectedSpeciality = savedInstanceState.getParcelable("selectedSpeciality")
             selectedPlace = savedInstanceState.getParcelable("selectedPlace")

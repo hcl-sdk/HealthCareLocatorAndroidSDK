@@ -33,6 +33,8 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private var searchGoogleToken: AutocompleteSessionToken? = null
     private var placeClient: PlacesClient? = null
     private val countries by lazy { arrayListOf<String>() }
+    private var individual: HealthCareLocatorSpecialityObject? = null
+    private var address: HCLPlace? = null
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<HCLPlace>>() }
@@ -102,7 +104,9 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                         if (it.isNotEmpty() && it.length >= 3) {
                             individualsState.postValue(true)
                             getIndividualByName(ref, it)
-                        } else individuals.postValue(arrayListOf())
+                        } else {
+                            individuals.postValue(arrayListOf())
+                        }
                     } else ref.onItemClicked = false
                 }, {
                     HCLLog.e(it.localizedMessage)
@@ -129,6 +133,19 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         )
     }
 
+    private fun checkAddressSearch(listAddress: MutableList<HCLPlace>): HCLPlace? {
+        address = if (listAddress.size > 0)
+            listAddress[0]
+        else
+            null
+
+        return address
+    }
+
+    fun getAddressSearch(): HCLPlace? {
+        return address
+    }
+
     private fun searchAddress(query: String) {
         addressState.postValue(true)
         if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.OSM) {
@@ -149,6 +166,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                             .compose(compose()).subscribe({
                                 addressState.postValue(false)
                                 places.postValue(it)
+                                checkAddressSearch(it)
                             }, {
                                 addressState.postValue(false)
                                 places.postValue(arrayListOf())
@@ -210,6 +228,19 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         }
     }
 
+    private fun checkIndividualSearch(listIndividuals: ArrayList<HealthCareLocatorSpecialityObject>): HealthCareLocatorSpecialityObject? {
+        individual = if (listIndividuals.size > 0)
+            listIndividuals[0]
+         else
+            null
+
+        return individual
+    }
+
+    fun getIndividualSearch(): HealthCareLocatorSpecialityObject? {
+        return individual
+    }
+
     private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
         query({
             GetIndividualByNameQuery.builder()
@@ -241,6 +272,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             }
         }, {
             callback(it)
+            checkIndividualSearch(it)
         }, {
             callback(arrayListOf())
         })

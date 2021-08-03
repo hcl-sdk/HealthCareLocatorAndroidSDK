@@ -81,4 +81,8 @@
         <attr name="el_parallax" format="float" />
         <attr name="android:orientation" />
     </declare-styleable>
+
+    <declare-styleable name="AutoFillEditText">
+        <attr name="suggestions" format="reference" />
+    </declare-styleable>
 </resources>

@@ -454,20 +454,19 @@ data class HealthCareLocatorCustomObject private constructor(
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) {
         when (locale) {
-            "fr" -> "fr_FR"
-            "ca" -> "fr_CA"
+            "de" -> "de_DE"
+            "en" -> "en_US"
             "es" -> "es_ES"
             "co" -> "es_CO"
+            "fr" -> "fr_FR"
+            "ca" -> "fr_CA"
             "it" -> "it_IT"
-            "de" -> "de_DE"
-            "pt" -> "pt_PT"
+            "nl" -> "nl_NL"
             "pl" -> "pl_PL"
-            "tr" -> "tr_TR"
+            "pt" -> "pt_PT"
+            "tr" -> "tr_tR"
             "ru" -> "ru_RU"
             "ar" -> "ar_SA"
-            "ma" -> "ar_MA"
-            "nl" -> "nl_NL"
-            "uk" -> "en_GB"
             else -> locale
         }
     } else Locale.getDefault().language

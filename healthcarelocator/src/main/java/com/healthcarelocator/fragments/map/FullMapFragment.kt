@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -236,6 +237,8 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
 
     private fun setModeButtons(active: Int) {
         if (active == 0) {
+            sorting = 0
+            applySorting(sorting)
             listViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 255)
@@ -247,6 +250,9 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
                 setViewModeColor(mapViewMode, color)
             })
         } else {
+            sorting = 1
+            applySorting(sorting)
+            HCLSortFragment.newInstance(healthCareLocatorCustomObject, sorting)
             mapViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 255)

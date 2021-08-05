@@ -2,6 +2,7 @@ package com.healthcarelocator.fragments.map
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,9 +35,8 @@ class HCLSortFragment : AppFragment<HCLSortFragment, HCLSortViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         sortList.clear()
-        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_relevance_item)),
-                HCLSortObject("1", getString(R.string.hcl_distance_item)),
-                HCLSortObject("2", getString(R.string.hcl_name_item))))
+        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_distance_item)),
+                HCLSortObject("1", getString(R.string.hcl_name_item))))
         var sort = sortList
 
         if (savedInstanceState != null) {

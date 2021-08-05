@@ -48,7 +48,7 @@
     <string name="hcl_sort_label">Sort</string>
     <string name="hcl_relevance_item">Relevance</string>
     <string name="hcl_distance_item">Distance</string>
-    <string name="hcl_name_item">Name</string>
+    <string name="hcl_name_item">Last name</string>
     <string name="hcl_apply_button">Apply</string>
     <string name="hcl_reset_button">Reset</string>
 

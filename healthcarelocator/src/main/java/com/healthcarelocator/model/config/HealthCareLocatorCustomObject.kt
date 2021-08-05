@@ -455,7 +455,6 @@ data class HealthCareLocatorCustomObject private constructor(
     fun getLocaleCode(): String = if (locale.isNotEmpty()) {
         when (locale) {
             "de" -> "de_DE"
-            "en" -> "en_US"
             "es" -> "es_ES"
             "co" -> "es_CO"
             "fr" -> "fr_FR"

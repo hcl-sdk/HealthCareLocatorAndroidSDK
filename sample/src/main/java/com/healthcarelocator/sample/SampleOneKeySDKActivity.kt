@@ -220,20 +220,19 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
 //                .iconLocation(R.drawable.baseline_list_white_24dp)
             .locale(when (language) {
-                0 -> "en"
-                1 -> "fr"
-                2 -> "ca"
-                3 -> "es"
-                4 -> "co"
-                5 -> "it"
-                6 -> "de"
-                7 -> "pt"
+                0 -> "de"
+                1 -> "en"
+                2 -> "es"
+                3 -> "co"
+                4 -> "fr"
+                5 -> "ca"
+                6 -> "it"
+                7 -> "nl"
                 8 -> "pl"
-                9 -> "tr"
-                10 -> "ru"
-                11 -> "ar"
-                12 -> "nl"
-                13 -> "uk"
+                9 -> "pt"
+                10 -> "tr"
+                11 -> "ru"
+                12 -> "ar"
                 else -> "en"
             })
         if (theme == "C") {

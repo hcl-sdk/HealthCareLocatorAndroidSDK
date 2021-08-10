@@ -82,9 +82,6 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
-        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
-            putBoolean(isLocationSelection, false)
-        }
         if (savedInstanceState != null) {
             selectedSpeciality = savedInstanceState.getParcelable("selectedSpeciality")
             selectedPlace = savedInstanceState.getParcelable("selectedPlace")
@@ -203,6 +200,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 selectedPlace = null
             }
             R.id.btnSearch -> {
+                context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
+                    putBoolean(isLocationSelection, false)
+                    putString(locationSelection, "")
+                }
                 if (edtName.text.toString().isEmpty() && selectedPlace?.placeId != "near_me") {
                     setError(
                             specialityWrapper,

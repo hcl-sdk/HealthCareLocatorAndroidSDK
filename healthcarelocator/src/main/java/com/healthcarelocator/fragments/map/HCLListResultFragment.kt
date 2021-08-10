@@ -45,7 +45,7 @@ class HCLListResultFragment : IFragment() {
             getAbsFragment()?.apply {
                 val json = sharedPreferences.getString(locationSelection, "")
                 val selectedPosition = Gson().fromJson<ArrayList<Int>>(json, object : TypeToken<ArrayList<Int?>?>() {}.type)
-                if (selectedPosition.isNotNullable() && selectedPosition.isNotEmpty() && sharedPreferences.getBoolean(isLocationSelection, false)) {
+                if (selectedPosition.isNotNullable() && selectedPosition.isNotEmpty() && sharedPreferences.getBoolean(isLocationSelection, false) && json != "") {
                     rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
                     searchAdapter.setSelectedPosition(selectedPosition)
                 }

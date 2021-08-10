@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.search.SearchAdapter
-import com.healthcarelocator.state.HealthCareLocatorSDK
-import com.healthcarelocator.extensions.getColor
-import com.healthcarelocator.extensions.isNotNullAndEmpty
+import com.healthcarelocator.extensions.*
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class HCLListResultFragment : IFragment() {
@@ -40,6 +41,16 @@ class HCLListResultFragment : IFragment() {
             showDistance()
             searchAdapter.setData(activities)
         }
+        rvResult.postDelay({ rv ->
+            getAbsFragment()?.apply {
+                val json = sharedPreferences.getString(locationSelection, "")
+                val selectedPosition = Gson().fromJson<ArrayList<Int>>(json, object : TypeToken<ArrayList<Int?>?>() {}.type)
+                if (selectedPosition.isNotNullable() && selectedPosition.isNotEmpty() && sharedPreferences.getBoolean(isLocationSelection, false) && json != "") {
+                    rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
+                    searchAdapter.setSelectedPosition(selectedPosition)
+                }
+            }
+        }, 1000L)
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is HCLNearMeFragment) (parentFragment as HCLNearMeFragment).navigateToHCPProfile(oneKeyLocation)

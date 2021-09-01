@@ -126,9 +126,9 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         Flowable.just(list)
                 .map {
                     it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 0) o1.distance.compareTo(o2.distance)
+                        if (sorting == 0) (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
                         else
-                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                            o1.distance.compareTo(o2.distance)
                     })
                     it
                 }

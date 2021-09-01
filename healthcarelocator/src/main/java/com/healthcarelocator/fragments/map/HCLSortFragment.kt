@@ -34,8 +34,8 @@ class HCLSortFragment : AppFragment<HCLSortFragment, HCLSortViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         sortList.clear()
-        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_distance_item)),
-                HCLSortObject("1", getString(R.string.hcl_name_item))))
+        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_name_item)),
+                HCLSortObject("1", getString(R.string.hcl_distance_item))))
         var sort = sortList
 
         if (savedInstanceState != null) {

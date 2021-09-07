@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
+import com.google.gson.Gson
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.search.SearchAdapter
 import com.healthcarelocator.custom.CenterLayoutManager
@@ -70,6 +72,10 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                     if (selectedPosition.isNotEmpty()) {
                         rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
                         searchAdapter.setSelectedPosition(selectedPosition)
+                        sharedPreferences.edit {
+                            putBoolean(isLocationSelection, true)
+                            putString(locationSelection, Gson().toJson(selectedPosition))
+                        }
                     }
                 }
                 onMarkerSelection = { position ->

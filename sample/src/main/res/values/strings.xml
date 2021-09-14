@@ -32,8 +32,8 @@
         <item>Full</item>
     </string-array>
     <string-array name="languages">
-        <item>Deutsch</item>
         <item>English</item>
+        <item>Deutsch</item>
         <item>Español</item>
         <item>Español (CO)</item>
         <item>Français</item>

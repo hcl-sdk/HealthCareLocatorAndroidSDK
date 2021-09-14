@@ -67,7 +67,7 @@ class IndividualAdapter : HCLAdapter<Any,
                 }
                 val specialty = data.professionalType().label()
                 val address = data.mainActivity().workplace().address()?.run {
-                    "${longLabel()}, ${city().label()}"
+                    "${longLabel()}, ${postalCode()} ${city().label()}"
                 } ?: ""
                 ivArrow.setColorFilter(theme.colorSecondary.getColor())
                 tvHCPSpeciality.visibility = specialty.isNotEmpty().getVisibility()

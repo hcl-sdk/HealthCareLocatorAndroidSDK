@@ -376,6 +376,8 @@ class HCLProfileFragment :
                 string += "\n${address?.buildingLabel}"
             if (!address?.longLabel.isNullOrEmpty())
                 string += "\n${address?.longLabel}"
+            if (address.isNotNullable())
+                string += ", ${address?.postalCode} ${address?.city?.label}"
             string
         } ?: ""
         websiteWrapper.visibility = webAddress.isNotEmpty().getVisibility()

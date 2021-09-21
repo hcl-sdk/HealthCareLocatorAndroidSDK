@@ -220,8 +220,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
 //                .iconLocation(R.drawable.baseline_list_white_24dp)
             .locale(when (language) {
-                0 -> "de"
-                1 -> "en"
+                0 -> "en"
+                1 -> "de"
                 2 -> "es"
                 3 -> "co"
                 4 -> "fr"

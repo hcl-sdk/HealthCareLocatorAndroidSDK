@@ -1,6 +1,7 @@
 package com.healthcarelocator.adapter.search
 
 import android.graphics.Color
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.healthcarelocator.adapter.HCLViewHolder
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.setBackgroundWithCorner
 import com.healthcarelocator.extensions.setIconFromDrawableId
+import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.layout_search_item.view.*
@@ -34,7 +36,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         itemView.layoutParams = lp
                     }
                 tvName.text = data.individual?.mailingName ?: ""
-                tvSpeciality.text = data.individual?.professionalType?.label ?: ""
+                tvSpeciality.text = TextUtils.join(",", data.individual?.specialties ?: arrayListOf<LabelObject>())
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 if (isPlaceAvailable) {
                     tvDistance.visibility = View.VISIBLE

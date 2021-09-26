@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Danışılan son HCP\'ler</string>
     <string name="hcl_find_healthcare_professional">Sağlık Çalışanı bul</string>
 
-    <string name="hcl_search_first_field_label">Adı, Uzmanlığı</string>
+    <string name="hcl_search_field_label">Adı</string>
+    <string name="hcl_search_first_field_label">Uzmanlığı</string>
     <string name="hcl_search_second_field_label">Nerede? (adresi, şehri…)</string>
     <string name="hcl_near_me">Yakınımda</string>
     <string name="hcl_anywhere">Herhangi bir yerde</string>

@@ -35,7 +35,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         lp.width = (screenWidth * 0.85f).toInt()
                         itemView.layoutParams = lp
                     }
-                tvName.text = data.individual?.mailingName ?: ""
+                tvName.text = (data.individual?.firstName + " " + data.individual?.lastName) ?: ""
                 tvSpeciality.text = TextUtils.join(",", data.individual?.specialties ?: arrayListOf<LabelObject>())
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 if (isPlaceAvailable) {

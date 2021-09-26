@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Последние консультации с МР</string>
     <string name="hcl_find_healthcare_professional">Найти медицинского работника</string>
 
-    <string name="hcl_search_first_field_label">Ф. И. О., специализация</string>
+    <string name="hcl_search_field_label">Ф. И. О.</string>
+    <string name="hcl_search_first_field_label">Cпециализация</string>
     <string name="hcl_search_second_field_label">Местоположение (адрес, город…)</string>
     <string name="hcl_near_me">Рядом со мной</string>
     <string name="hcl_anywhere">Везде</string>

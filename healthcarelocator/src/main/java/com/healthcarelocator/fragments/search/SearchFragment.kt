@@ -251,7 +251,6 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                                 edtName.setText(viewModel.getNameSearch()!!.mailingName())
                             }
                         }
-                        selectedSpeciality = viewModel.getSpecialtySearch()
                     }
                 }
 

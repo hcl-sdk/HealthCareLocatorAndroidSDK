@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Ostatni oglądany profil HCP</string>
     <string name="hcl_find_healthcare_professional">Znajdź przedstawiciela fachowego personelu medycznego</string>
 
-    <string name="hcl_search_first_field_label">Imię i nazwisko, specjalizacja</string>
+    <string name="hcl_search_field_label">Imię i nazwisko</string>
+    <string name="hcl_search_first_field_label">Specjalizacja</string>
     <string name="hcl_search_second_field_label">Gdzie? (adres, miejscowość…)</string>
     <string name="hcl_near_me">W mojej okolicy</string>
     <string name="hcl_anywhere">Gdziekolwiek</string>

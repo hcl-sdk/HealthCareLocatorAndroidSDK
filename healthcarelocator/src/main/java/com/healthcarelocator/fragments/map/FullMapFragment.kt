@@ -27,10 +27,11 @@ import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.map.HCLPlace
 import com.healthcarelocator.state.HealthCareLocatorSDK
-import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.utils.HCLConstant
+import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
+import kotlin.collections.ArrayList
 
 class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
@@ -212,7 +213,12 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
     }
 
     private fun initHeader() {
-        tvSpeciality.text = speciality?.longLbl ?: criteria
+        val showTitleSearch = if (speciality?.longLbl.isNotNullAndEmpty() && !criteria.contains(",")) {
+            speciality?.longLbl
+        } else {
+            criteria
+        }
+        tvSpeciality.text = showTitleSearch
         tvAddress.text = place?.displayName ?: ""
         mapViewMode.setRippleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 50f, 3)

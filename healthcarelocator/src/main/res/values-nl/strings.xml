@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Laatst geraadpleegde zorgverlener</string>
     <string name="hcl_find_healthcare_professional">Zorgverlener zoeken</string>
 
-    <string name="hcl_search_first_field_label">Naam, specialisatie</string>
+    <string name="hcl_search_field_label">Naam</string>
+    <string name="hcl_search_first_field_label">Specialisatie</string>
     <string name="hcl_search_second_field_label">Waar? (adres, plaats…)</string>
     <string name="hcl_near_me">Bij mij in de buurt</string>
     <string name="hcl_anywhere">Overal</string>

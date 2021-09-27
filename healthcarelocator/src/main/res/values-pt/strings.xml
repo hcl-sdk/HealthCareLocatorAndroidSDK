@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Últimos profissionais de saúde consultados</string>
     <string name="hcl_find_healthcare_professional">Encontrar profissional de saúde</string>
 
-    <string name="hcl_search_first_field_label">Nome, especialidade</string>
+    <string name="hcl_search_field_label">Nome</string>
+    <string name="hcl_search_first_field_label">Especialidade</string>
     <string name="hcl_search_second_field_label">Onde? (endereço, cidade…)</string>
     <string name="hcl_near_me">Próximo de mim</string>
     <string name="hcl_anywhere">Em qualquer local</string>

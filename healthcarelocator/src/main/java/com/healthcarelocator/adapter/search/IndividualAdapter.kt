@@ -58,7 +58,7 @@ class IndividualAdapter : HCLAdapter<Any,
             HCLViewHolder<GetIndividualByNameQuery.Individual>(itemView) {
         override fun bind(position: Int, data: GetIndividualByNameQuery.Individual) {
             itemView.apply {
-                val name: String = data.mailingName() ?: ""
+                val name: String = (data.firstName() + " " + data.lastName()) ?: ""
                 tvName.text = SpannableStringBuilder(name).apply {
                     val indexOf = name.toLowerCase().indexOf(keyword.toLowerCase())
                     if (indexOf >= 0)

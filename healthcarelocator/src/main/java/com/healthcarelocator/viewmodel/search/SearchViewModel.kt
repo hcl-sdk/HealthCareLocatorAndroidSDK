@@ -33,16 +33,19 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private var searchGoogleToken: AutocompleteSessionToken? = null
     private var placeClient: PlacesClient? = null
     private val countries by lazy { arrayListOf<String>() }
-    private var individual: HealthCareLocatorSpecialityObject? = null
+    private var specialty: HealthCareLocatorSpecialityObject? = null
     private var address: HCLPlace? = null
+    private var name: GetIndividualByNameQuery.Individual? = null
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<HCLPlace>>() }
+    val nameEvent by lazy { MutableLiveData<Boolean>() }
     val specialityEvent by lazy { MutableLiveData<Boolean>() }
     val addressEvent by lazy { MutableLiveData<Boolean>() }
     val permissionGranted by lazy { MutableLiveData<Boolean>() }
     val individuals by lazy { MutableLiveData<ArrayList<Any>>() }
-    val individualsState by lazy { MutableLiveData<Boolean>() }
+    val specialtyState by lazy { MutableLiveData<Boolean>() }
+    val nameState by lazy { MutableLiveData<Boolean>() }
     val addressState by lazy { MutableLiveData<Boolean>() }
 
     private val executor: LocationAPI by lazy {
@@ -94,6 +97,26 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         }
     }
 
+    fun onNameChanged(ref: SearchFragment, view: EditText) {
+        disposable?.add(
+            RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS).map {
+                it.view().text.toString()
+            }.subscribe({
+                nameEvent.postValue(it.isNotEmpty())
+                if (!ref.onItemClicked) {
+                    if (it.isNotEmpty()) {
+                        nameState.postValue(true)
+                        getIndividualLabelByName(ref, it)
+                    } else {
+                        individuals.postValue(arrayListOf())
+                    }
+                } else ref.onItemClicked = false
+            }, {
+                HCLLog.e(it.localizedMessage)
+            })
+        )
+    }
+
     fun onSpecialityChanged(ref: SearchFragment, view: EditText) {
         disposable?.add(
                 RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS).map {
@@ -102,8 +125,8 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                     specialityEvent.postValue(it.isNotEmpty())
                     if (!ref.onItemClicked) {
                         if (it.isNotEmpty() && it.length >= 3) {
-                            individualsState.postValue(true)
-                            getIndividualByName(ref, it)
+                            specialtyState.postValue(true)
+                            getIndividualSpecialtyByName(ref, it)
                         } else {
                             individuals.postValue(arrayListOf())
                         }
@@ -211,45 +234,63 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         })
     }
 
-    private fun getIndividualByName(ref: SearchFragment, name: String) {
+    private fun getIndividualLabelByName(ref: SearchFragment, name: String) {
+        getIndividualByName(name) { list ->
+            ref.clearIndividualData()
+            individuals.value = arrayListOf()
+            individuals.postValue((individuals.value ?: arrayListOf()).apply {
+                this.addAll(list)
+            })
+            nameState.postValue(false)
+        }
+    }
+
+    private fun getIndividualSpecialtyByName(ref: SearchFragment, name: String) {
         getCodeByLabel(name) { codes ->
             ref.clearIndividualData()
             individuals.value = arrayListOf()
             individuals.postValue((individuals.value ?: arrayListOf()).apply {
                 this.addAll(codes)
             })
-            getIndividualByName(name) { list ->
-                individuals.postValue((individuals.value ?: arrayListOf()).apply {
-                    this.addAll(list)
-                })
-
-                individualsState.postValue(false)
-            }
+            specialtyState.postValue(false)
         }
     }
 
-    private fun checkIndividualSearch(listIndividuals: ArrayList<HealthCareLocatorSpecialityObject>): HealthCareLocatorSpecialityObject? {
-        individual = if (listIndividuals.size > 0)
-            listIndividuals[0]
+    private fun checkSpecialtySearch(listSpecialty: ArrayList<HealthCareLocatorSpecialityObject>): HealthCareLocatorSpecialityObject? {
+        specialty = if (listSpecialty.size > 0)
+            listSpecialty[0]
          else
             null
-
-        return individual
+        return specialty
     }
 
-    fun getIndividualSearch(): HealthCareLocatorSpecialityObject? {
-        return individual
+    fun getSpecialtySearch(): HealthCareLocatorSpecialityObject? {
+        return specialty
+    }
+
+    private fun checkNameSearch(listName: ArrayList<GetIndividualByNameQuery.Individual>): GetIndividualByNameQuery.Individual? {
+        if (listName.size > 0)
+            name = listName[0]
+        else
+            null
+        return name
+    }
+
+    fun getNameSearch(): GetIndividualByNameQuery.Individual? {
+        return name
     }
 
     private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
         query({
             GetIndividualByNameQuery.builder()
-                    .criteria(name).first(5).offset(0).locale(theme.getLocaleCode()).build()
+                    .criteria(name).first(30).offset(0).locale(theme.getLocaleCode()).build()
         }, { response ->
-            if (response.data?.individualsByName()?.individuals().isNullable())
+            if (response.data?.individualsByName()?.individuals().isNullable()) {
                 callback(arrayListOf())
-            else
+            } else {
                 callback(ArrayList(response.data?.individualsByName()?.individuals()!!))
+                checkNameSearch(ArrayList(response.data?.individualsByName()?.individuals()!!))
+            }
         }, { e ->
             HCLLog.d("onFailure::${e.localizedMessage}")
             callback(arrayListOf())
@@ -258,7 +299,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     private fun getCodeByLabel(name: String, callback: (ArrayList<HealthCareLocatorSpecialityObject>) -> Unit) {
         rxQuery({
-            GetCodeByLabelQuery.builder().criteria(name).first(5).offset(0).locale(theme.locale)
+            GetCodeByLabelQuery.builder().criteria(name).first(30).offset(0).locale(theme.locale)
                     .codeTypes(listOf("SP")).build()
         }, { response ->
             if (response.data?.codesByLabel()?.codes().isNullable())
@@ -272,7 +313,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             }
         }, {
             callback(it)
-            checkIndividualSearch(it)
+            checkSpecialtySearch(it)
         }, {
             callback(arrayListOf())
         })

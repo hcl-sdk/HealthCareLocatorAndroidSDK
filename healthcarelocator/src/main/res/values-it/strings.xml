@@ -19,7 +19,8 @@
     <string name="hcl_last_hcps_consulted">Ultimi operatori sanitari consultati</string>
     <string name="hcl_find_healthcare_professional">Trova operatore sanitario</string>
 
-    <string name="hcl_search_first_field_label">Nome, Specializzazione</string>
+    <string name="hcl_search_field_label">Nome</string>
+    <string name="hcl_search_first_field_label">Specializzazione</string>
     <string name="hcl_search_second_field_label">Dove? (indirizzo, città…)</string>
     <string name="hcl_near_me">Nelle vicinanze</string>
     <string name="hcl_anywhere">Ovunque</string>

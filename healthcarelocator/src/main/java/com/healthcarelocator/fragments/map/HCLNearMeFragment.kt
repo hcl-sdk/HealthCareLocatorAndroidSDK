@@ -283,8 +283,15 @@ class HCLNearMeFragment :
         }
     }
 
+    private fun applySortSetMode(sort: Int) {
+        this.sorting = sort
+        applySorting(sorting)
+        HCLSortFragment.newInstance(healthCareLocatorCustomObject, sorting)
+    }
+
     private fun setModeButtons(active: Int) {
         if (active == 0) {
+            applySortSetMode(0)
             listViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(
@@ -299,6 +306,7 @@ class HCLNearMeFragment :
                 setViewModeColor(mapViewMode, color)
             })
         } else {
+            applySortSetMode(1)
             mapViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(

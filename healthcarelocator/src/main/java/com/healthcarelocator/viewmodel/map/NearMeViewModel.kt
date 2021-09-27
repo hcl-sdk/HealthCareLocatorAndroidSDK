@@ -179,9 +179,8 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
     ) {
         Flowable.just(list)
                 .map {
-                    if (sorting == 0) return@map it
                     it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 1) o1.distance.compareTo(o2.distance)
+                        if (sorting == 0) o1.distance.compareTo(o2.distance)
                         else
                             (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
                     })

@@ -204,6 +204,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 edtName.requestFocus()
                 setNameClearState(false)
                 selectedName = null
+                viewBlockedNameEditable.visibility = View.GONE
             }
             R.id.ivSpecialityClear -> {
                 edtSpecialty.setText("")
@@ -240,11 +241,15 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     }
 
                     if (edtName.text.toString().isNotEmpty() && viewModel.getNameSearch().isNotNullable()) {
+                        viewBlockedNameEditable.visibility = View.VISIBLE
                         when {
-                            viewModel.getNameSearch()!!.firstName().isNotNullAndEmpty() -> {
+                            viewModel.getNameSearch()!!.firstName().isNotNullAndEmpty() && viewModel.getNameSearch()!!.lastName().isNotNullAndEmpty() -> {
+                                edtName.setText(viewModel.getNameSearch()!!.firstName() + " " + viewModel.getNameSearch()!!.lastName())
+                            }
+                            viewModel.getNameSearch()!!.firstName().isNotNullAndEmpty() && viewModel.getNameSearch()!!.lastName().isEmpty() -> {
                                 edtName.setText(viewModel.getNameSearch()!!.firstName())
                             }
-                            viewModel.getNameSearch()!!.lastName().isNotNullAndEmpty() -> {
+                            viewModel.getNameSearch()!!.firstName().isNullOrEmpty() && viewModel.getNameSearch()!!.lastName().isNotNullAndEmpty() -> {
                                 edtName.setText(viewModel.getNameSearch()!!.lastName())
                             }
                             else -> {

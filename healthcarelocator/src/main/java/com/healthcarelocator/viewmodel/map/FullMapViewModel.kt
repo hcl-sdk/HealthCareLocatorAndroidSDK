@@ -40,9 +40,11 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                     .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty() && !criteria.contains(",")) {
                 builder.specialties(specialities)
+            } else if (criteria.isNotEmpty() && !criteria.contains(",")){
+                builder.criteria(criteria)
             } else {
-                if (criteria.isNotEmpty())
-                    builder.criteria(criteria)
+                builder.criteria(criteria)
+                builder.specialties(specialities)
             }
             builder.getQuery(place)
             builder.build()

@@ -299,7 +299,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     private fun getCodeByLabel(name: String, callback: (ArrayList<HealthCareLocatorSpecialityObject>) -> Unit) {
         rxQuery({
-            GetCodeByLabelQuery.builder().criteria(name).first(30).offset(0).locale(theme.locale)
+            GetCodeByLabelQuery.builder().criteria(name).first(30).offset(0).locale(theme.getLocaleCode())
                     .codeTypes(listOf("SP")).build()
         }, { response ->
             if (response.data?.codesByLabel()?.codes().isNullable())

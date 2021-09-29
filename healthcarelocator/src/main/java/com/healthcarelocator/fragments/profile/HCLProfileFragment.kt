@@ -289,8 +289,10 @@ class HCLProfileFragment :
                 val shareString = "Here is a healthcare professional that I recommend:\n" +
                         "\n" +
                         "$name\n" + "${activityDetail.individual?.professionalType?.label}\n\n" +
-                        "$address\n\n" +
-                        "${obj?.phone}\n" +
+                        "${activityDetail.workplace?.address?.longLabel}\n\n" +
+                        "${activityDetail.workplace?.address?.postalCode}\n\n" +
+                        "${activityDetail.workplace?.address?.city}\n\n" +
+                        "${activityDetail.phone}\n" +
                         "\n" +
                         "I found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
                 activity?.share(shareString, "Share HCP")

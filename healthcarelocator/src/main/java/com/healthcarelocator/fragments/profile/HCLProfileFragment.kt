@@ -268,14 +268,7 @@ class HCLProfileFragment :
 
             R.id.btnShare -> {
                 val obj = addressSpinner.selectedItem as? OtherActivityObject
-                val address = obj?.workplace?.run {
-                    var string = "$name"
-                    if (!address?.buildingLabel.isNullOrEmpty())
-                        string += "\n${address?.buildingLabel}"
-                    if (!address?.longLabel.isNullOrEmpty())
-                        string += "\n${address?.longLabel}"
-                    string
-                } ?: ""
+                val address = activityDetail.workplace?.run {"$name"} ?: ""
                 val link = with(HealthCareLocatorSDK.getInstance().getAppDownloadLink()) {
                     if (this.isEmpty()) ""
                     " - ${HealthCareLocatorSDK.getInstance().getAppDownloadLink()}"
@@ -286,15 +279,27 @@ class HCLProfileFragment :
                         "$firstName $middleName $lastName"
                     }
                 }
-                val shareString = "Here is a healthcare professional that I recommend:\n" +
-                        "\n" +
-                        "$name\n" + "${activityDetail.individual?.professionalType?.label}\n\n" +
-                        "${activityDetail.workplace?.address?.longLabel}\n\n" +
-                        "${activityDetail.workplace?.address?.postalCode}\n\n" +
-                        "${activityDetail.workplace?.address?.city}\n\n" +
-                        "${activityDetail.phone}\n" +
-                        "\n" +
-                        "I found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
+                var shareString = "Here is a healthcare professional that I recommend:\n\n$name\n"
+                if (activityDetail.individual?.professionalType?.label.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.individual?.professionalType?.label}\n\n"
+                }
+                shareString += "$address\n"
+                if (activityDetail.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.buildingLabel}\n"
+                }
+                if (activityDetail.workplace?.address?.longLabel.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.longLabel}\n"
+                }
+                if (activityDetail.workplace?.address?.postalCode.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.postalCode}\n"
+                }
+                if (activityDetail.workplace?.address?.city.isNotNullable()) {
+                    shareString += "${activityDetail.workplace?.address?.city}\n\n"
+                }
+                if (activityDetail.phone.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.phone}\n"
+                }
+                shareString += "\nI found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
                 activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {

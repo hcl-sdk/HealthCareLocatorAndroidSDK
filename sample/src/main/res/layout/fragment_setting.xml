@@ -95,6 +95,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:text="Special Label"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <EditText
+            android:id="@+id/edtSpecialtyLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner"
+            android:hint="Input special label"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/default_padding_smaller"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:text="Special Code"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <EditText
+            android:id="@+id/edtSpecialtyCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner"
+            android:hint="Input special code"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/default_padding_smaller"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Theme"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_text" />

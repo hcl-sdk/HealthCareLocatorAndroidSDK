@@ -248,12 +248,16 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .colorMarker(selectedTheme.markerHexColor)
                 .colorMarkerSelected(selectedTheme.markerSelectedHexColor)
         }
+        val specialtyLabel =
+                SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "") ?: ""
+        val specialtyCode =
+                SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: ""
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.08"))
-                .entryScreen(ScreenReference.SEARCH_NEAR_ME)
+                .entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, arrayListOf(specialtyCode))
         }
         if (nearMe) {
-            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
+            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, arrayListOf(specialtyCode))
         }
         val countryCodeString =
             SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""

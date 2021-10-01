@@ -184,7 +184,7 @@ class HCLProfileFragment :
 
         activityDetail.apply {
             this@HCLProfileFragment.phone = phone
-            tvDoctorName.text = individual?.mailingName ?: ""
+            tvDoctorName.text = (individual?.firstName + " " + individual?.lastName) ?: ""
             tvSpeciality.text = individual?.professionalType?.label ?: ""
 
             tvSpecialities.text = TextUtils.join(

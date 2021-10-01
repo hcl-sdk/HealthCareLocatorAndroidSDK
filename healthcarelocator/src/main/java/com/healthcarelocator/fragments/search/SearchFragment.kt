@@ -15,9 +15,9 @@ import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
 import com.healthcarelocator.R
+import com.healthcarelocator.adapter.search.HCLPlaceAdapter
 import com.healthcarelocator.adapter.search.IndividualAdapter
 import com.healthcarelocator.dialog.LoadingDialog
-import com.healthcarelocator.adapter.search.HCLPlaceAdapter
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.FullMapFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
@@ -105,6 +105,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         }
 
         healthCareLocatorCustomObject?.also {
+            val darkMode = it.darkMode
             val primaryColor = it.colorPrimary.getColor()
             btnSearch.setRippleBackground(primaryColor, 20f)
             edtName.textSize = it.fontSearchInput.size.toFloat()
@@ -119,13 +120,24 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             ivNameClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
             ivSpecialityClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
             ivAddressClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
-            btnSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
+            btnSearch.setIconFromDrawableId(it.searchIcon, true,
+                    if (darkMode) it.darkModeColor.getColor() else Color.WHITE)
             ivNearMe.setIconFromDrawableId(it.iconGeoLoc, true, it.colorPrimary.getColor())
             ivLocationSelected.setIconFromDrawableId(
                     it.iconMarkerMin,
                     true,
                     it.colorPrimary.getColor()
             )
+            nameChildWrapper.setBackgroundWithCorner(
+                    if (darkMode) it.darkModeColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+            specialityChildWrapper.setBackgroundWithCorner(
+                    if (darkMode) it.darkModeColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+            addressChildWrapper.setBackgroundWithCorner(
+                    if (darkMode) it.darkModeColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+            btnBack.setColorFilter(if (darkMode) Color.WHITE else Color.BLACK)
         }
         btnBack.setOnClickListener(this)
         ivNameClear.setOnClickListener(this)

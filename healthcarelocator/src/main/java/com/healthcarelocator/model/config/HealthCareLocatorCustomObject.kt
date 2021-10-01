@@ -123,8 +123,7 @@ data class HealthCareLocatorCustomObject private constructor(
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
         var defaultCountry: String = "",
-        var specialtyLabel: String = "",
-        var specialtyCode: ArrayList<String> = arrayListOf()
+        var specialtyLabel: String = ""
 ) {
 
     @Suppress
@@ -248,8 +247,7 @@ data class HealthCareLocatorCustomObject private constructor(
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
             var defaultCountry: String = "",
-            var specialtyLabel: String = "",
-            var specialtyCode: ArrayList<String> = arrayListOf()
+            var specialtyLabel: String = ""
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -380,11 +378,11 @@ data class HealthCareLocatorCustomObject private constructor(
         fun specialities(specialities: ArrayList<String>) =
                 apply { this.specialities = specialities }
 
-        fun entryScreen(@ScreenReference screenReference: Int, specialtyLabel: String, specialtyCode: ArrayList<String>) =
+        fun entryScreen(@ScreenReference screenReference: Int, specialtyLabel: String, specialities: ArrayList<String>) =
                 apply {
                     this.screenReference = screenReference
                     this.specialtyLabel = specialtyLabel
-                    this.specialtyCode = specialtyCode
+                    this.specialities = specialities
                 }
 
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
@@ -395,7 +393,6 @@ data class HealthCareLocatorCustomObject private constructor(
         fun countries(countries: ArrayList<String>) = apply { this.countries = countries }
         fun defaultCountry(defaultCountry: String) = apply { this.defaultCountry = defaultCountry }
         fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
-        fun specialtyCode(specialtyCode: ArrayList<String>) = apply { this.specialtyCode = specialtyCode }
 
         fun build() = HealthCareLocatorCustomObject(
                 colorPrimary,
@@ -461,8 +458,7 @@ data class HealthCareLocatorCustomObject private constructor(
                 env,
                 countries,
                 defaultCountry,
-                specialtyLabel,
-                specialtyCode
+                specialtyLabel
         )
     }
 

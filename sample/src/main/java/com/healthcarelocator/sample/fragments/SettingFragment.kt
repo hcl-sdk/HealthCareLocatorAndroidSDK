@@ -46,6 +46,8 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         edtAPIKey.setText(apiKey)
         edtCountryCode.setText(SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: "")
+        edtSpecialtyLabel.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "") ?: "")
+        edtSpecialtyCode.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: "")
 
         val selectedTheme = (SampleApplication.sharedPreferences.getString(
             Pref.theme,
@@ -147,6 +149,8 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             )
             putInt(Pref.language, languageSpinner.selectedItemPosition)
             putString(Pref.countryCodes, edtCountryCode.text.toString())
+            putString(Pref.specialtyLabel, edtSpecialtyLabel.text.toString())
+            putString(Pref.specialtyCode, edtSpecialtyCode.text.toString())
         }
         super.onPause()
     }
@@ -218,11 +222,15 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.fontModalTitle, "")
             putString(Pref.fontSortCriteria, "")
             putString(Pref.countryCodes, "")
+            putString(Pref.specialtyLabel, "")
+            putString(Pref.specialtyCode, "")
         }
         themeSpinner.setSelection(0)
         languageSpinner.setSelection(0)
         rBtnModificationEnabled.isChecked = true
         edtAPIKey.setText("")
         edtCountryCode.setText("")
+        edtSpecialtyLabel.setText("")
+        edtSpecialtyCode.setText("")
     }
 }

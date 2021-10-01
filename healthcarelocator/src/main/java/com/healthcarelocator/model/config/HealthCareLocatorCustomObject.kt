@@ -6,7 +6,9 @@ import com.healthcarelocator.R
 import com.healthcarelocator.extensions.MapService
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.extensions.isNullable
+import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
@@ -120,7 +122,8 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = ""
+        var defaultCountry: String = "",
+        var specialtyLabel: String = ""
 ) {
 
     @Suppress
@@ -243,7 +246,8 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = ""
+            var defaultCountry: String = "",
+            var specialtyLabel: String = ""
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -374,8 +378,12 @@ data class HealthCareLocatorCustomObject private constructor(
         fun specialities(specialities: ArrayList<String>) =
                 apply { this.specialities = specialities }
 
-        fun entryScreen(@ScreenReference screenReference: Int) =
-                apply { this.screenReference = screenReference }
+        fun entryScreen(@ScreenReference screenReference: Int, specialtyLabel: String, specialities: ArrayList<String>) =
+                apply {
+                    this.screenReference = screenReference
+                    this.specialtyLabel = specialtyLabel
+                    this.specialities = specialities
+                }
 
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
         fun showModificationForm(showModificationForm: Boolean) =
@@ -384,6 +392,7 @@ data class HealthCareLocatorCustomObject private constructor(
         fun env(env: String) = apply { this.env = env }
         fun countries(countries: ArrayList<String>) = apply { this.countries = countries }
         fun defaultCountry(defaultCountry: String) = apply { this.defaultCountry = defaultCountry }
+        fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
 
         fun build() = HealthCareLocatorCustomObject(
                 colorPrimary,
@@ -448,7 +457,8 @@ data class HealthCareLocatorCustomObject private constructor(
                 showModificationForm,
                 env,
                 countries,
-                defaultCountry
+                defaultCountry,
+                specialtyLabel
         )
     }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.healthcarelocator.custom.layout.HCLLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -37,7 +37,7 @@
                 android:padding="@dimen/default_padding_smaller"
                 android:src="@drawable/baseline_search_white_36dp" />
         </LinearLayout>
-    </LinearLayout>
+    </com.healthcarelocator.custom.layout.HCLLinearLayout>
 
     <FrameLayout
         android:id="@+id/homeContainer"

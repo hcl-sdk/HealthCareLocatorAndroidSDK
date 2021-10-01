@@ -168,6 +168,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             adapter = placeAdapter
         }
         edtName.onFocusChangeListener = this
+        edtSpecialty.onFocusChangeListener = this
+        edtWhere.onFocusChangeListener = this
         edtName.requestFocus()
         initName()
         initIndividual()
@@ -429,6 +431,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         if (v?.id == edtName.id && edtName.text.toString().isNotEmpty()) {
             rvSpeciality.visibility = hasFocus.getVisibility()
         } else {
+            rvSpeciality.visibility = View.GONE
+        }
+
+        if (v?.id == edtWhere.id) {
             rvSpeciality.visibility = View.GONE
         }
     }

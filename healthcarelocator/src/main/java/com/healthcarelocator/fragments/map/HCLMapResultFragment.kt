@@ -72,10 +72,7 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                     if (selectedPosition.isNotEmpty()) {
                         rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
                         searchAdapter.setSelectedPosition(selectedPosition)
-                        sharedPreferences.edit {
-                            putBoolean(isLocationSelection, true)
-                            putString(locationSelection, Gson().toJson(selectedPosition))
-                        }
+                        setHighLight(selectedPosition)
                     }
                 }
                 onMarkerSelection = { position ->
@@ -85,11 +82,11 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                     if (selectedPosition.isNotEmpty()) {
                         rv.smoothScrollToPosition(selectedPosition.first())
                         searchAdapter.setSelectedPosition(selectedPosition)
+                        setHighLight(selectedPosition)
                     }
                 }
             }
         }, 1000L)
-
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is HCLNearMeFragment) (parentFragment as HCLNearMeFragment).navigateToHCPProfile(oneKeyLocation)
@@ -99,6 +96,17 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnCurrentLocation.setOnClickListener(this)
         btnRelaunch.setRippleBackground(healthCareLocatorCustomObject.colorSecondary.getColor(), 50f)
         btnCurrentLocation.setIconFromDrawableId(healthCareLocatorCustomObject.iconMapGeoLoc)
+    }
+
+    private fun setHighLight(lisSelection: ArrayList<Int>) {
+        val listSelection = arrayListOf<String>()
+        for (i in lisSelection.indices) {
+            listSelection.add(activities[lisSelection[i]].id)
+        }
+        sharedPreferences.edit {
+            putBoolean(isLocationSelection, true)
+            putString(locationSelection, Gson().toJson(listSelection))
+        }
     }
 
     override fun onClick(v: View?) {

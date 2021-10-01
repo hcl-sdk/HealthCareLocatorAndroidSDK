@@ -41,20 +41,32 @@ class HCLListResultFragment : IFragment() {
             showDistance()
             searchAdapter.setData(activities)
         }
-        rvResult.postDelay({ rv ->
-            getAbsFragment()?.apply {
-                val json = sharedPreferences.getString(locationSelection, "")
-                val selectedPosition = Gson().fromJson<ArrayList<Int>>(json, object : TypeToken<ArrayList<Int?>?>() {}.type)
-                if (selectedPosition.isNotNullable() && selectedPosition.isNotEmpty() && sharedPreferences.getBoolean(isLocationSelection, false) && json != "") {
-                    rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
-                    searchAdapter.setSelectedPosition(selectedPosition)
-                }
-            }
-        }, 1000L)
+        getHighLight()
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is HCLNearMeFragment) (parentFragment as HCLNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
+    }
+
+    private fun getHighLight() {
+        rvResult.postDelay({ rv ->
+            getAbsFragment()?.apply {
+                val json = sharedPreferences.getString(locationSelection, "")
+                val selectedPosition = Gson().fromJson<ArrayList<String>>(json, object : TypeToken<ArrayList<String?>?>() {}.type)
+                val listSelect = arrayListOf<Int>()
+                val listActivitiesID = arrayListOf<String>()
+                for (i in activities.indices) {
+                    listActivitiesID.add(activities[i].id)
+                }
+                if (selectedPosition.isNotNullable() && selectedPosition.isNotEmpty() && sharedPreferences.getBoolean(isLocationSelection, false) && json != "") {
+                    for (i in selectedPosition.indices) {
+                        listSelect.add(listActivitiesID.indexOf(selectedPosition[i]))
+                    }
+                    rv?.execute { it.smoothScrollToPosition(listSelect.first()) }
+                    searchAdapter.setSelectedPosition(listSelect)
+                }
+            }
+        }, 1000L)
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {

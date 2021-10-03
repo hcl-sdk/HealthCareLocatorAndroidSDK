@@ -266,6 +266,7 @@
                         app:OneKeyTextStyle="OneKeyStyleNoResultTitle" />
 
                     <ImageView
+                        android:id="@+id/ivSearchIcon"
                         android:layout_width="@dimen/default_icon_size_bigger"
                         android:layout_height="@dimen/default_icon_size_bigger"
                         android:layout_marginTop="@dimen/default_padding"

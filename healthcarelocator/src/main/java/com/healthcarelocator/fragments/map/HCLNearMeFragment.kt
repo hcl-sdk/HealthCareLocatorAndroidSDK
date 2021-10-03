@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
@@ -27,9 +28,9 @@ import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.map.HCLPlace
 import com.healthcarelocator.state.HealthCareLocatorSDK
-import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.utils.HCLConstant
 import com.healthcarelocator.utils.HCLLog
+import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.viewmodel.map.NearMeViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
@@ -38,12 +39,12 @@ class HCLNearMeFragment :
         View.OnClickListener {
     companion object {
         fun newInstance(
-            healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
-            c: String,
-            s: HealthCareLocatorSpecialityObject?,
-            p: HCLPlace?,
-            listIds: ArrayList<String> = arrayListOf(),
-            cLocation: Location? = null
+                healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
+                c: String,
+                s: HealthCareLocatorSpecialityObject?,
+                p: HCLPlace?,
+                listIds: ArrayList<String> = arrayListOf(),
+                cLocation: Location? = null
         ) =
                 HCLNearMeFragment().apply {
                     this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
@@ -124,6 +125,10 @@ class HCLNearMeFragment :
             )
             ivSearch.setRippleBackground(colorPrimary.getColor(), 15f)
             sortWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 50f, 3)
+            btnBack.setColorFilter(if (darkMode) Color.WHITE else Color.BLACK)
+            ivSearchIcon.background = ContextCompat.getDrawable(context!!,
+                    if (darkMode) R.drawable.bg_black_circle_border else R.drawable.bg_gray_cirle)
+            loadingWrapper.setBackgroundColor(if (darkMode) darkModeColor.getColor() else Color.WHITE)
         }
 
         initHeader()
@@ -422,7 +427,8 @@ class HCLNearMeFragment :
         noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
         btnStartSearch.setRippleBackground(healthCareLocatorCustomObject.colorPrimary)
         noResultWrapper.setBackgroundWithCorner(
-                Color.WHITE,
+                if (healthCareLocatorCustomObject.darkMode)
+                    healthCareLocatorCustomObject.darkModeColor.getColor() else Color.WHITE,
                 healthCareLocatorCustomObject.colorCardBorder.getColor(),
                 15f,
                 3

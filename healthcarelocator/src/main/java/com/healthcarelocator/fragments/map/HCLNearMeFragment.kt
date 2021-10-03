@@ -33,6 +33,10 @@ import com.healthcarelocator.utils.HCLLog
 import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.viewmodel.map.NearMeViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
+import kotlinx.android.synthetic.main.fragment_full_map.edtSearch
+import kotlinx.android.synthetic.main.fragment_full_map.ivSearch
+import kotlinx.android.synthetic.main.fragment_full_map.newSearchWrapper
+import kotlinx.android.synthetic.main.fragment_one_key_home_main.*
 
 class HCLNearMeFragment :
         AbsMapFragment<HCLNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
@@ -118,11 +122,13 @@ class HCLNearMeFragment :
         newSearchWrapper.visibility = (!isSpeciality).getVisibility()
         healthCareLocatorCustomObject.apply {
             newSearchWrapper.setBackgroundWithCorner(
-                    Color.WHITE,
-                    colorCardBorder.getColor(),
-                    12f,
-                    3
-            )
+                    if (darkMode) darkModeColor.getColor() else Color.WHITE,
+                    colorCardBorder.getColor(), 12f, 3)
+            edtSearch.setBackgroundWithCorner(if (darkMode) darkModeColor.getColor() else Color.WHITE,
+                    colorCardBorder.getColor(), 12f, 3)
+            edtSearch.setHintTextColor(if (darkMode) Color.parseColor("#55ffffff") else Color.parseColor("#55000000"))
+            ivSearch.setIconFromDrawableId(searchIcon, true,
+                    if (darkMode) darkModeColor.getColor() else Color.WHITE)
             ivSearch.setRippleBackground(colorPrimary.getColor(), 15f)
             sortWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 50f, 3)
             btnBack.setColorFilter(if (darkMode) Color.WHITE else Color.BLACK)
@@ -259,18 +265,14 @@ class HCLNearMeFragment :
                 50f,
                 3
         )
-        modeWrapper.setBackgroundWithCorner(
-                Color.WHITE,
-                healthCareLocatorCustomObject.colorCardBorder.getColor(),
-                50f,
-                3
-        )
+        val darkMode = healthCareLocatorCustomObject.darkMode
+        modeWrapper.setBackgroundWithCorner(if (darkMode) healthCareLocatorCustomObject.darkModeColor.getColor() else Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(), 50f, 3)
         ivSort.setRippleCircleBackground(
                 healthCareLocatorCustomObject.colorSecondary.getColor(),
                 255
         )
         ivSort.setIconFromDrawableId(healthCareLocatorCustomObject.iconSort, true, Color.WHITE)
-        ivSearch.setIconFromDrawableId(healthCareLocatorCustomObject.searchIcon, true, Color.WHITE)
         ivList.setIconFromDrawableId(healthCareLocatorCustomObject.iconList)
         ivMap.setIconFromDrawableId(healthCareLocatorCustomObject.iconMap)
         resultContainer.setBackgroundColor(healthCareLocatorCustomObject.colorListBackground.getColor())

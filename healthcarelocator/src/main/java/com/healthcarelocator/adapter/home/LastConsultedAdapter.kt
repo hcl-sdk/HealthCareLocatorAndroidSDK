@@ -27,17 +27,7 @@ class LastConsultedAdapter(private val theme: HealthCareLocatorCustomObject =
     inner class LastSearchVH(itemView: View) : HCLViewHolder<ActivityObject>(itemView) {
         override fun bind(position: Int, data: ActivityObject) {
             itemView.apply {
-                tvDoctorName.text = when {
-                    data.individual!!.firstName.isNotNullAndEmpty() -> {
-                        data.individual!!.firstName
-                    }
-                    data.individual!!.lastName.isNotNullAndEmpty() -> {
-                        data.individual!!.lastName
-                    }
-                    else -> {
-                        data.individual!!.mailingName
-                    }
-                }
+                tvDoctorName.text = (data.individual!!.firstName + " " + data.individual!!.lastName) ?: ""
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 tvCreateAt.text = data.createdDate

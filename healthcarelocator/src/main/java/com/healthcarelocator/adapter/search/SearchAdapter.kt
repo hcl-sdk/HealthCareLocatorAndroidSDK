@@ -20,6 +20,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
         HCLAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
     private var selectedPosition = -1
     private val themeConfig by lazy { HealthCareLocatorSDK.getInstance().getConfiguration() }
+    private val darkMode = themeConfig.darkMode
     var onHCPCardClickedListener: (data: ActivityObject) -> Unit = {}
     var isPlaceAvailable: Boolean = false
 
@@ -36,7 +37,8 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         itemView.layoutParams = lp
                     }
                 tvName.text = (data.individual?.firstName + " " + data.individual?.lastName) ?: ""
-                tvSpeciality.text = TextUtils.join(",", data.individual?.specialties ?: arrayListOf<LabelObject>())
+                tvSpeciality.text = TextUtils.join(",", data.individual?.specialties
+                        ?: arrayListOf<LabelObject>())
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 if (isPlaceAvailable) {
                     tvDistance.visibility = View.VISIBLE
@@ -48,8 +50,12 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                     onHCPCardClickedListener(data)
                 }
                 if (data.selected)
-                    setBackgroundWithCorner(Color.WHITE, themeConfig.colorMarkerSelected.getColor(), 12f, 8)
-                else setBackgroundWithCorner(Color.WHITE, themeConfig.colorCardBorder.getColor(), 12f, 3)
+                    setBackgroundWithCorner(
+                            if (darkMode) themeConfig.darkModeColor.getColor() else Color.WHITE,
+                            themeConfig.colorMarkerSelected.getColor(), 12f, 8)
+                else setBackgroundWithCorner(
+                        if (darkMode) themeConfig.darkModeColor.getColor() else Color.WHITE,
+                        themeConfig.colorCardBorder.getColor(), 12f, 3)
             }
         }
     }

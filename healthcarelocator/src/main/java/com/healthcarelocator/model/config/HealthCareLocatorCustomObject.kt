@@ -6,9 +6,7 @@ import com.healthcarelocator.R
 import com.healthcarelocator.extensions.MapService
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.extensions.isNullable
-import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:

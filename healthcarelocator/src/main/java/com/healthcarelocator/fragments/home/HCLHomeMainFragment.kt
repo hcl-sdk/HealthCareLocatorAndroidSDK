@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import base.extensions.addFragment
 import base.extensions.unregisterReceiver
@@ -60,6 +61,10 @@ class HCLHomeMainFragment :
         }
 
         newSearchWrapper.setOnClickListener(this)
+        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
+            putBoolean(isLocationSelection, false)
+            putString(locationSelection, "")
+        }
     }
 
     override fun onDestroyView() {

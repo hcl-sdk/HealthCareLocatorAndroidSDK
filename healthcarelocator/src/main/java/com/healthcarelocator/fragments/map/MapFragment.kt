@@ -25,17 +25,13 @@ import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.HCLConstant
 import com.healthcarelocator.viewmodel.map.HCLMapViewModel
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
 import org.osmdroid.events.MapListener
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.TilesOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
@@ -179,6 +175,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             mMapView!!.mapOrientation = 0f
             mMapView!!.setMultiTouchControls(true)
             mMapView!!.isTilesScaledToDpi = true
+            if (healthCareLocatorCustomObject.darkMode)
+                mMapView!!.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
         }
     }
 
@@ -524,6 +522,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         this.googleMap = p0
         lastItemSelected = null
         googleMap?.apply {
+            if (healthCareLocatorCustomObject.darkMode)
+                setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.google_map_night))
             isMyLocationEnabled = true
             uiSettings.isMyLocationButtonEnabled = false
             selectedMarkerBitMap = context!!.getDrawableFilledIcon(

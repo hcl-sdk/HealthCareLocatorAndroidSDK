@@ -1,10 +1,12 @@
 package com.healthcarelocator.fragments.map
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
@@ -61,7 +63,7 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             showDistance()
             searchAdapter.setData(activities)
         }
-        rvLocations.postDelay({rv->
+        rvLocations.postDelay({ rv ->
             getRunningMapFragment()?.drawMarkerOnMap(activities, false,
                     getAbsFragment()?.isNearMe() ?: false)
             getRunningMapFragment()?.apply {
@@ -96,6 +98,11 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnCurrentLocation.setOnClickListener(this)
         btnRelaunch.setRippleBackground(healthCareLocatorCustomObject.colorSecondary.getColor(), 50f)
         btnCurrentLocation.setIconFromDrawableId(healthCareLocatorCustomObject.iconMapGeoLoc)
+        healthCareLocatorCustomObject.also {
+            btnCurrentLocation.setColorFilter(if (it.darkMode) Color.WHITE else ContextCompat.getColor(context!!, R.color.colorOneKeyText))
+            btnCurrentLocation.background = ContextCompat.getDrawable(context!!,
+                    if (it.darkMode) R.drawable.bg_black_circle_border else R.drawable.bg_white_circle_border)
+        }
     }
 
     private fun setHighLight(lisSelection: ArrayList<Int>) {

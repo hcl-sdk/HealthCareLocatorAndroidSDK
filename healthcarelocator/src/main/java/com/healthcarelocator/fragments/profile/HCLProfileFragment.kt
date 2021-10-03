@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.extensions.share
@@ -19,8 +20,8 @@ import com.healthcarelocator.R
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.StarterMapFragment
-import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.HCLLocation
+import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.activity.ActivityWorkplaceObject
 import com.healthcarelocator.model.activity.OtherActivityObject
@@ -36,8 +37,8 @@ class HCLProfileFragment :
         View.OnClickListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-            theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
-            HCLLocation: HCLLocation?, activityId: String = ""
+                theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
+                HCLLocation: HCLLocation?, activityId: String = ""
         ) =
                 HCLProfileFragment().apply {
                     this.healthCareLocatorCustomObject = theme
@@ -110,22 +111,27 @@ class HCLProfileFragment :
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
             ivBrowser.setIconFromDrawableId(iconWebsite, true, colorGrey.getColor())
+            val bgColor = if (darkMode) darkModeColor.getColor() else Color.WHITE
             cbxYes.setLayerListFromDrawable(
-                    Color.WHITE,
+                    bgColor,
                     colorPrimary.getColor(),
                     colorGreyLight.getColor(),
                     3,
                     context!!.getDrawableFilledIcon(iconVoteUp, colorGreyLight.getColor()),
-                    context!!.getDrawableFilledIcon(iconVoteUp, Color.WHITE)
+                    context!!.getDrawableFilledIcon(iconVoteUp, bgColor)
             )
             cbxNo.setLayerListFromDrawable(
-                    Color.WHITE,
+                    bgColor,
                     colorVoteDown.getColor(),
                     colorGreyLight.getColor(),
                     3,
                     context!!.getDrawableFilledIcon(iconVoteDown, colorGreyLight.getColor()),
-                    context!!.getDrawableFilledIcon(iconVoteDown, Color.WHITE)
+                    context!!.getDrawableFilledIcon(iconVoteDown, bgColor)
             )
+            contentWrapper.background = ContextCompat.getDrawable(context!!,
+                    if (darkMode) R.drawable.bg_black_border_corner else R.drawable.bg_white_border_corner)
+            profileProgressBar.setBackgroundColor(bgColor)
+            btnBack.setColorFilter(if (!darkMode) Color.BLACK else Color.WHITE)
         }
     }
 
@@ -161,15 +167,18 @@ class HCLProfileFragment :
             HCLLocation = savedInstanceState.getParcelable("selectedLocation")
         }
         val secondaryColor = healthCareLocatorCustomObject.colorSecondary.getColor()
+
+        val bgColor = if (healthCareLocatorCustomObject.darkMode)
+            healthCareLocatorCustomObject.darkModeColor.getColor() else Color.WHITE
         ivDirection.setColorFilter(secondaryColor)
         ivDirection.setBackgroundWithCorner(
-                Color.WHITE,
+                bgColor,
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                 100f,
                 3
         )
         ivCall.setBackgroundWithCorner(
-                Color.WHITE,
+                bgColor,
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                 100f,
                 3
@@ -197,7 +206,7 @@ class HCLProfileFragment :
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
             spinnerWrapper.setBackgroundWithCorner(
-                    Color.WHITE,
+                    bgColor,
                     healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                     10f,
                     2
@@ -268,7 +277,7 @@ class HCLProfileFragment :
 
             R.id.btnShare -> {
                 val obj = addressSpinner.selectedItem as? OtherActivityObject
-                val address = activityDetail.workplace?.run {"$name"} ?: ""
+                val address = activityDetail.workplace?.run { "$name" } ?: ""
                 val link = with(HealthCareLocatorSDK.getInstance().getAppDownloadLink()) {
                     if (this.isEmpty()) ""
                     " - ${HealthCareLocatorSDK.getInstance().getAppDownloadLink()}"

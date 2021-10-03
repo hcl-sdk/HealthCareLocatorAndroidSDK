@@ -2,9 +2,11 @@ package com.healthcarelocator.custom.text
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import com.healthcarelocator.R
 import com.healthcarelocator.custom.IOneKeyView
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -111,6 +113,9 @@ class HCLEditText : AppCompatEditText, IOneKeyView {
             HCLTextView.HCLColorStyle.OneKeyColorGreyDarker -> setTextColor(theme.colorGreyDarker.getColor())
             HCLTextView.HCLColorStyle.OneKeyColorGreyLight -> setTextColor(theme.colorGreyLight.getColor())
             HCLTextView.HCLColorStyle.OneKeyColorGreyLighter -> setTextColor(theme.colorGreyLighter.getColor())
+            HCLTextView.HCLColorStyle.NONE -> {
+                setTextColor(if (theme.darkMode) Color.WHITE else ContextCompat.getColor(context, R.color.colorOneKeyText))
+            }
             else -> {
             }
         }

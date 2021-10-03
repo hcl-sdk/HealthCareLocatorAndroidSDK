@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
@@ -31,15 +32,15 @@ import com.healthcarelocator.utils.HCLConstant
 import com.healthcarelocator.utils.KeyboardUtils
 import com.healthcarelocator.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
-import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.fragment_full_map.btnBack
 
 class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
         fun newInstance(
-            healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: HealthCareLocatorSpecialityObject?,
-            p: HCLPlace?, listIds: ArrayList<String> = arrayListOf(),
-            cLocation: Location? = null) = FullMapFragment().apply {
+                healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: HealthCareLocatorSpecialityObject?,
+                p: HCLPlace?, listIds: ArrayList<String> = arrayListOf(),
+                cLocation: Location? = null) = FullMapFragment().apply {
             this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
             speciality = s
             criteria = c
@@ -222,7 +223,6 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         tvAddress.text = place?.displayName ?: ""
         mapViewMode.setRippleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 50f, 3)
-        modeWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 50f, 3)
         ivSort.setRippleCircleBackground(healthCareLocatorCustomObject.colorSecondary.getColor(), 255)
         ivSort.setIconFromDrawableId(healthCareLocatorCustomObject.iconSort, true, Color.WHITE)
         ivList.setIconFromDrawableId(healthCareLocatorCustomObject.iconList)
@@ -230,6 +230,17 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         resultContainer.setBackgroundColor(healthCareLocatorCustomObject.colorListBackground.getColor())
         tvAddress.textSize = healthCareLocatorCustomObject.fontSmall.size.toFloat()
         ivSort.setOnClickListener(this)
+        healthCareLocatorCustomObject.also {
+            val darkMode = it.darkMode
+            modeWrapper.setBackgroundWithCorner(if (darkMode) it.darkModeColor.getColor() else Color.WHITE,
+                    healthCareLocatorCustomObject.colorCardBorder.getColor(), 50f, 3)
+            btnBack.setColorFilter(if (darkMode) Color.WHITE else Color.BLACK)
+            ivSearch.setIconFromDrawableId(it.searchIcon, true,
+                    if (darkMode) it.darkModeColor.getColor() else Color.WHITE)
+            ivSearchIcon.background = ContextCompat.getDrawable(context!!,
+                    if (darkMode) R.drawable.bg_black_circle_border else R.drawable.bg_gray_cirle)
+            loadingWrapper.setBackgroundColor(if (darkMode) it.darkModeColor.getColor() else Color.WHITE)
+        }
     }
 
     private fun setResult() {
@@ -369,7 +380,9 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         noResult.visibility = View.VISIBLE
         noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
         btnStartSearch.setRippleBackground(healthCareLocatorCustomObject.colorPrimary)
-        noResultWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 15f, 3)
+        noResultWrapper.setBackgroundWithCorner(if (healthCareLocatorCustomObject.darkMode)
+            healthCareLocatorCustomObject.darkModeColor.getColor() else Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(), 15f, 3)
         btnStartSearch.setOnClickListener(this)
     }
 }

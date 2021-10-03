@@ -123,7 +123,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         var fontCardTitle: HealthCareLocatorViewFontObject? = null
         var fontModalTitle: HealthCareLocatorViewFontObject? = null
         var fontSortCriteria: HealthCareLocatorViewFontObject? = null
+        var darkMode = false
         SampleApplication.sharedPreferences.also {
+            darkMode = it.getBoolean(Pref.darkMode, false)
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())
                     fontDefault = getFontSetting(this)
@@ -237,11 +239,12 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             })
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
-                .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
-                .colorMarker(colors.first { it.id == "colorMarker" }.color)
-                .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
-                .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
-                .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+                    .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
+                    .colorMarker(colors.first { it.id == "colorMarker" }.color)
+                    .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
+                    .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
+                    .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+                    .colorViewBackground(colors.first { it.id == "colorViewBackground" }.color)
         } else if (theme == "B" || theme == "R") {
             builder.colorPrimary(selectedTheme.primaryHexColor)
                 .colorSecondary(selectedTheme.secondaryHexColor)
@@ -270,6 +273,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             ) == 0
         )
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
+        builder.darkMode(darkMode)
 
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         HealthCareLocatorSDK.init(apiKey).setAppName("Sample")

@@ -2,16 +2,18 @@ package com.healthcarelocator.custom.text
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.healthcarelocator.R
 import com.healthcarelocator.custom.IOneKeyView
-import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.getEnum
 import com.healthcarelocator.model.config.HealthCareLocatorViewFontObject
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.FontUtil
 import com.healthcarelocator.utils.HCLLog
 
@@ -131,6 +133,9 @@ class HCLTextView : AppCompatTextView, IOneKeyView {
             HCLColorStyle.OneKeyColorGreyDarker -> setTextColor(theme.colorGreyDarker.getColor())
             HCLColorStyle.OneKeyColorGreyLight -> setTextColor(theme.colorGreyLight.getColor())
             HCLColorStyle.OneKeyColorGreyLighter -> setTextColor(theme.colorGreyLighter.getColor())
+            HCLColorStyle.NONE -> {
+                setTextColor(if (theme.darkMode) Color.WHITE else ContextCompat.getColor(context, R.color.colorOneKeyText))
+            }
             else -> {
             }
         }

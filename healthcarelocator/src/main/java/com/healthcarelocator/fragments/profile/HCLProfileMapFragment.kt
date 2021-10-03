@@ -3,6 +3,7 @@ package com.healthcarelocator.fragments.profile
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import base.fragments.AppFragment
 import com.healthcarelocator.R
 import com.healthcarelocator.extensions.*
@@ -55,7 +56,11 @@ class HCLProfileMapFragment : AppFragment<HCLProfileMapFragment,
         initView()
         healthCareLocatorCustomObject.apply {
             btnCurrentLocation.setIconFromDrawableId(iconMapGeoLoc)
+            btnCurrentLocation.background = ContextCompat.getDrawable(context!!,
+                    if (darkMode) R.drawable.bg_black_circle_border else R.drawable.bg_white_circle_border)
+            btnCurrentLocation.setColorFilter(if (!darkMode) darkModeColor.getColor() else Color.WHITE)
             btnClose.setIconFromDrawableId(iconCross, true, colorGrey.getColor())
+            container.setBackgroundColor(if (darkMode) darkModeColor.getColor() else Color.WHITE)
         }
     }
 

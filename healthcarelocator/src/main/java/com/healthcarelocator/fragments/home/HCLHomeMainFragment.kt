@@ -54,9 +54,11 @@ class HCLHomeMainFragment :
             })
         }
         config.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            val darkMode = it.darkMode
+            edtSearch.setBackgroundWithCorner(if (darkMode) it.darkModeColor.getColor() else Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            edtSearch.setHintTextColor(if (darkMode) Color.parseColor("#55ffffff") else Color.parseColor("#55000000"))
             ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
-            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
+            ivSearch.setIconFromDrawableId(it.searchIcon, true, if (darkMode) it.darkModeColor.getColor() else Color.WHITE)
             edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
 

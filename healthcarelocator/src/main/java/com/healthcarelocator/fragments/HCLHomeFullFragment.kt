@@ -16,8 +16,8 @@ import com.healthcarelocator.adapter.home.LastConsultedAdapter
 import com.healthcarelocator.adapter.home.LastSearchAdapter
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.FullMapFragment
-import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
+import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.StarterMapFragment
 import com.healthcarelocator.fragments.profile.HCLProfileFragment
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
@@ -91,9 +91,10 @@ class HCLHomeFullFragment : AppFragment<HCLHomeFullFragment,
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
         healthCareLocatorCustomObject.also {
-            nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
-            lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
-            lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            val darkMode = it.darkMode
+            nearMeWrapper.setBackgroundWithCorner(if (darkMode) it.darkModeColor.getColor() else Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            lastSearchWrapper.setBackgroundWithCorner(if (darkMode) it.darkModeColor.getColor() else Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            lastConsultedWrapper.setBackgroundWithCorner(if (darkMode) it.darkModeColor.getColor() else Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundColor(it.colorViewBackground.getColor())
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())

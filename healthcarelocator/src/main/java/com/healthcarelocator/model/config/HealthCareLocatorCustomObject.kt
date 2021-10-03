@@ -6,9 +6,7 @@ import com.healthcarelocator.R
 import com.healthcarelocator.extensions.MapService
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.extensions.isNullable
-import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
@@ -122,7 +120,7 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = "",
+        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#000000",
         var specialtyLabel: String = ""
 ) {
 
@@ -246,7 +244,7 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = "",
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#000000",
             var specialtyLabel: String = ""
     ) {
 
@@ -392,6 +390,8 @@ data class HealthCareLocatorCustomObject private constructor(
         fun env(env: String) = apply { this.env = env }
         fun countries(countries: ArrayList<String>) = apply { this.countries = countries }
         fun defaultCountry(defaultCountry: String) = apply { this.defaultCountry = defaultCountry }
+        fun darkMode(darkMode: Boolean) = apply { this.darkMode = darkMode }
+        fun darkModeColor(darkModeColor: String) = apply { this.darkModeColor = darkModeColor }
         fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
 
         fun build() = HealthCareLocatorCustomObject(
@@ -457,7 +457,7 @@ data class HealthCareLocatorCustomObject private constructor(
                 showModificationForm,
                 env,
                 countries,
-                defaultCountry,
+                defaultCountry, darkMode, darkModeColor,
                 specialtyLabel
         )
     }

@@ -233,11 +233,6 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 selectedPlace = null
             }
             R.id.btnSearch -> {
-                context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
-                    putBoolean(isLocationSelection, false)
-                    putString(locationSelection, "")
-                }
-
                 if (edtName.text.toString().isEmpty() && edtSpecialty.text.toString().isEmpty() && selectedPlace?.placeId != "near_me") {
                     setError(
                             nameWrapper,

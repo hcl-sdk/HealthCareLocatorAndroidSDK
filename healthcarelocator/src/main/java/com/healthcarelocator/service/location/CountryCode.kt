@@ -276,7 +276,7 @@ fun String.getValidCountryCodes(): String {
     } else ""
 }
 
-fun String.getCountryCodes(): ArrayList<String> {
+fun String.getSplitString(): ArrayList<String> {
     return if (this.isEmpty() || !this.contains(",")) arrayListOf(this)
     else this.split(",").toArrayList()
 }

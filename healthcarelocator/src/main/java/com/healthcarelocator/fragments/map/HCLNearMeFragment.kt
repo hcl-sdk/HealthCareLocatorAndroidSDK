@@ -257,7 +257,8 @@ class HCLNearMeFragment :
     }
 
     private fun initHeader() {
-        tvAddress.text = place?.displayName ?: ""
+        val specialtyLabel = context?.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)?.getString("Pref.specialtyLabel", "")
+        tvAddress.text = specialtyLabel ?: (place?.displayName ?: "")
         mapViewMode.setRippleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(
                 Color.WHITE,

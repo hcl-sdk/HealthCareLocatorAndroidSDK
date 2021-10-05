@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_tiny"
             android:background="@drawable/bg_white_border_corner"
-            android:hint="Input special code"
+            android:hint="Input special code (SP.WBE.08,SP.WFR.AR,...)"
             android:inputType="text"
             android:maxLines="1"
             android:padding="@dimen/default_padding_smaller"

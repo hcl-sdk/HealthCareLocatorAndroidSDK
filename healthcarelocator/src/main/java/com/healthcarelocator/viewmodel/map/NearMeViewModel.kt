@@ -30,6 +30,7 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val loading by lazy { MutableLiveData<Boolean>() }
     val specialityLabel by lazy { MutableLiveData<String>() }
+    var isSpeciality: Boolean = true
 
     private val executor: LocationAPI by lazy {
         HCLMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
@@ -67,9 +68,12 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
                         .locale(theme.getLocaleCode()).first(50).offset(0)
                 if (specialities.isNotEmpty()) {
                     builder.specialties(specialities)
+                    isSpeciality = true
                 } else {
-                    if (criteria.isNotEmpty())
+                    if (criteria.isNotEmpty()) {
                         builder.criteria(criteria)
+                        isSpeciality = false
+                    }
                 }
                 val p = (place ?: HCLPlace()).apply {
                     latitude = "${location.latitude}"

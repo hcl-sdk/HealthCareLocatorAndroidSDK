@@ -325,15 +325,11 @@
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
 
-                        <com.healthcarelocator.custom.text.HCLTextView
-                            android:id="@+id/tvSpecialities"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSpecialities"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="7"
-                            android:textColor="@color/colorOneKeyText"
-                            android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            tools:text="Specialities" />
+                            android:layout_weight="7"/>
                     </LinearLayout>
 
                     <com.healthcarelocator.custom.HCLView

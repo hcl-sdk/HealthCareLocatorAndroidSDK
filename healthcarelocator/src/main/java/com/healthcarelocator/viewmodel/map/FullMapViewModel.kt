@@ -23,6 +23,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     private val executor: LocationAPI by lazy {
         HCLMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
     }
+    var isSpeciality: Boolean = false
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission(
@@ -40,11 +41,14 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                     .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty() && !criteria.contains(",")) {
                 builder.specialties(specialities)
+                isSpeciality = true
             } else if (criteria.isNotEmpty() && !criteria.contains(",")){
                 builder.criteria(criteria)
+                isSpeciality = false
             } else {
                 builder.criteria(criteria)
                 builder.specialties(specialities)
+                isSpeciality = true
             }
             builder.getQuery(place)
             builder.build()

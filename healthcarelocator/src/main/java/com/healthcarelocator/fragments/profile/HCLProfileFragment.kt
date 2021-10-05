@@ -2,6 +2,7 @@ package com.healthcarelocator.fragments.profile
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -211,12 +212,18 @@ class HCLProfileFragment :
                 layoutManager = flexBoxLayoutManager
                 adapter = specialitiesAdapter
             }
-            if (individual?.specialties.isNotNullable()) {
+            if (individual?.specialties != null) {
                 val listSpecialty = arrayListOf<LabelObject>()
                 for (i in individual?.specialties!!.indices) {
-                    listSpecialty.add(individual!!.specialties[i])
+                    if (i < 2) {
+                        listSpecialty.add(individual!!.specialties[i])
+                    }
                 }
                 specialitiesAdapter.setData(listSpecialty)
+                if (individual?.specialties!!.size > 2) {
+                    lnViewMore.visibility = View.VISIBLE
+                    tvViewMore.paintFlags = tvViewMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
             } else {
                 specialitiesAdapter.setData(arrayListOf())
             }
@@ -257,6 +264,7 @@ class HCLProfileFragment :
         btnSuggestModification.setOnClickListener(this)
         cbxYes.setOnClickListener(this)
         cbxNo.setOnClickListener(this)
+        lnViewMore.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -354,6 +362,20 @@ class HCLProfileFragment :
                 cbxYes.isEnabled = true
                 cbxNo.isEnabled = false
                 viewModel.storeVote(context, activityId, 1)
+            }
+            R.id.lnViewMore -> {
+                lnViewMore.visibility = View.GONE
+                activityDetail.apply {
+                    if (individual?.specialties != null) {
+                        val listSpecialty = arrayListOf<LabelObject>()
+                        for (i in individual?.specialties!!.indices) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                        specialitiesAdapter.setData(listSpecialty)
+                    } else {
+                        specialitiesAdapter.setData(arrayListOf())
+                    }
+                }
             }
         }
     }

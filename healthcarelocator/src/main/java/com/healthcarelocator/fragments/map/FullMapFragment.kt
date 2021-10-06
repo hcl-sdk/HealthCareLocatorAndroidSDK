@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
@@ -140,6 +141,10 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         listViewMode.setOnClickListener(this)
         mapViewMode.setOnClickListener(this)
         newSearchWrapper.setOnClickListener(this)
+        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
+            putBoolean(isLocationSelection, false)
+            putString(locationSelection, "")
+        }
     }
 
     override fun onResume() {

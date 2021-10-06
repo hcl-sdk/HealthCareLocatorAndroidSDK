@@ -44,6 +44,7 @@ object Pref {
     const val darkMode = "Pref.darkMode"
     const val specialtyLabel = "Pref.specialtyLabel"
     const val specialtyCode = "Pref.specialtyCode"
+    const val distanceUnit = "Pref.distanceUnit"
 }
 
 fun getThemes(): ArrayList<ThemeObject> = arrayListOf<ThemeObject>().apply {

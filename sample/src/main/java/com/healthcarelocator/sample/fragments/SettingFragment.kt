@@ -70,6 +70,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         initHomeSpinner()
         initMapService()
         initLanguageSpinner()
+        initDistanceUnit()
 
         tvResetDefault.text = tvResetDefault.text.run {
             val span = SpannableString(this)
@@ -110,6 +111,16 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             languageSpinner.adapter = it
         }
         languageSpinner.setSelection(selectedPosition)
+    }
+
+    private fun initDistanceUnit() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.distanceUnit, 0)
+        val distanceUnit = requireContext().resources.getStringArray(R.array.distanceUnit)
+        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, distanceUnit).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            distanceUnitSpinner.adapter = it
+        }
+        distanceUnitSpinner.setSelection(selectedPosition)
     }
 
     override fun onSpinnerItemSelectedListener(
@@ -155,6 +166,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putBoolean(Pref.darkMode, cbxDarkMode.isChecked)
             putString(Pref.specialtyLabel, edtSpecialtyLabel.text.toString())
             putString(Pref.specialtyCode, edtSpecialtyCode.text.toString())
+            putInt(Pref.distanceUnit, distanceUnitSpinner.selectedItemPosition)
         }
         super.onPause()
     }
@@ -233,6 +245,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         cbxDarkMode.isChecked = false
         themeSpinner.setSelection(0)
         languageSpinner.setSelection(0)
+        distanceUnitSpinner.setSelection(0)
         rBtnModificationEnabled.isChecked = true
         edtAPIKey.setText("")
         edtCountryCode.setText("")

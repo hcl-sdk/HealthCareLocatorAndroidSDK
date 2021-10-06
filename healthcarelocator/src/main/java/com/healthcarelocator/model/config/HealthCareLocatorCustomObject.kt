@@ -120,8 +120,8 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
-        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232"
+        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#000000",
+        var specialtyLabel: String = "", val distanceUnit: String
 ) {
 
     @Suppress
@@ -244,8 +244,8 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#232323",
-            var specialtyLabel: String = ""
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#000000",
+            var specialtyLabel: String = "", var distanceUnit: String = "km"
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -393,6 +393,7 @@ data class HealthCareLocatorCustomObject private constructor(
         fun darkMode(darkMode: Boolean) = apply { this.darkMode = darkMode }
         fun darkModeColor(darkModeColor: String) = apply { this.darkModeColor = darkModeColor }
         fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
+        fun distanceUnit(distanceUnit: String) = apply { this.distanceUnit = distanceUnit }
 
         fun build() = HealthCareLocatorCustomObject(
                 colorPrimary,
@@ -458,7 +459,8 @@ data class HealthCareLocatorCustomObject private constructor(
                 env,
                 countries,
                 defaultCountry, darkMode, darkModeColor,
-                specialtyLabel
+                specialtyLabel,
+                distanceUnit
         )
     }
 

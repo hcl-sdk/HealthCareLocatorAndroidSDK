@@ -193,6 +193,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         }
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
         val language = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
+        val distanceUnit = SampleApplication.sharedPreferences.getInt(Pref.distanceUnit, 0)
 
         /**
          * Add OneKey screen into parent application
@@ -236,6 +237,11 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 11 -> "ru"
                 12 -> "ar"
                 else -> "en"
+            })
+            .distanceUnit(when (distanceUnit) {
+                0 -> "km"
+                1 -> "mi"
+                else -> "km"
             })
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)

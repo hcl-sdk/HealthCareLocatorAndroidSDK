@@ -257,13 +257,14 @@ class HCLNearMeFragment :
     }
 
     private fun setSpecialityName() {
-        if (healthCareLocatorCustomObject.specialities.isNotEmpty())
-            tvSpeciality.text = specialityName
+        if (healthCareLocatorCustomObject.specialities.isNotEmpty()) {
+            val specialtyLabel = context?.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)?.getString("Pref.specialtyLabel", "")
+            tvSpeciality.text = specialtyLabel ?: specialityName
+        }
     }
 
     private fun initHeader() {
-        val specialtyLabel = context?.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)?.getString("Pref.specialtyLabel", "")
-        tvAddress.text = specialtyLabel ?: (place?.displayName ?: "")
+        tvAddress.text = place?.displayName ?: ""
         mapViewMode.setRippleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(
                 Color.WHITE,

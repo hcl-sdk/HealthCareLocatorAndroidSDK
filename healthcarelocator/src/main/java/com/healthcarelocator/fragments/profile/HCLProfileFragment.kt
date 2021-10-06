@@ -2,10 +2,10 @@ package com.healthcarelocator.fragments.profile
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.TextUtils
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.AdapterView
@@ -16,7 +16,12 @@ import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.extensions.share
 import base.fragments.AppFragment
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.healthcarelocator.R
+import com.healthcarelocator.adapter.search.HCLSpecialitiesAdapter
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.StarterMapFragment
@@ -38,12 +43,13 @@ class HCLProfileFragment :
     companion object {
         fun newInstance(
                 theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
-                HCLLocation: HCLLocation?, activityId: String = ""
+                HCLLocation: HCLLocation?, activityId: String = "", isSpeciality: Boolean = false
         ) =
                 HCLProfileFragment().apply {
                     this.healthCareLocatorCustomObject = theme
                     this.HCLLocation = HCLLocation
                     this.activityId = activityId
+                    this.isSpeciality = isSpeciality
                 }
 
     }
@@ -58,6 +64,8 @@ class HCLProfileFragment :
     private var vote: Int = -1
     private var phone: String = ""
     override val viewModel = HCLProfileViewModel()
+    private val specialitiesAdapter by lazy { HCLSpecialitiesAdapter(isSpeciality) }
+    private var isSpeciality = false
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
@@ -195,11 +203,30 @@ class HCLProfileFragment :
             this@HCLProfileFragment.phone = phone
             tvDoctorName.text = (individual?.firstName + " " + individual?.lastName) ?: ""
             tvSpeciality.text = individual?.professionalType?.label ?: ""
-
-            tvSpecialities.text = TextUtils.join(
-                    ",", individual?.specialties
-                    ?: arrayListOf<LabelObject>()
-            )
+            val flexBoxLayoutManager = FlexboxLayoutManager(context).apply {
+                flexWrap = FlexWrap.WRAP
+                flexDirection = FlexDirection.ROW
+                alignItems = AlignItems.FLEX_START
+            }
+            rvSpecialities.apply {
+                layoutManager = flexBoxLayoutManager
+                adapter = specialitiesAdapter
+            }
+            if (individual?.specialties != null) {
+                val listSpecialty = arrayListOf<LabelObject>()
+                for (i in individual?.specialties!!.indices) {
+                    if (i < 2) {
+                        listSpecialty.add(individual!!.specialties[i])
+                    }
+                }
+                specialitiesAdapter.setData(listSpecialty)
+                if (individual?.specialties!!.size > 2) {
+                    lnViewMore.visibility = View.VISIBLE
+                    tvViewMore.paintFlags = tvViewMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
+            } else {
+                specialitiesAdapter.setData(arrayListOf())
+            }
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
         }
 
@@ -237,6 +264,7 @@ class HCLProfileFragment :
         btnSuggestModification.setOnClickListener(this)
         cbxYes.setOnClickListener(this)
         cbxNo.setOnClickListener(this)
+        lnViewMore.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -334,6 +362,20 @@ class HCLProfileFragment :
                 cbxYes.isEnabled = true
                 cbxNo.isEnabled = false
                 viewModel.storeVote(context, activityId, 1)
+            }
+            R.id.lnViewMore -> {
+                lnViewMore.visibility = View.GONE
+                activityDetail.apply {
+                    if (individual?.specialties != null) {
+                        val listSpecialty = arrayListOf<LabelObject>()
+                        for (i in individual?.specialties!!.indices) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                        specialitiesAdapter.setData(listSpecialty)
+                    } else {
+                        specialitiesAdapter.setData(arrayListOf())
+                    }
+                }
             }
         }
     }

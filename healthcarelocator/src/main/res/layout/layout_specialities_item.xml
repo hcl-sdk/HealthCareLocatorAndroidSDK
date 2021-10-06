@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/default_padding_tiny"
+    android:layout_marginEnd="@dimen/default_padding_tiny"
+    android:layout_marginBottom="@dimen/default_padding_tiny"
+    android:background="@drawable/bg_blue_border"
+    android:id="@+id/itemSpecialities">
+
+    <com.healthcarelocator.custom.text.HCLTextView
+        android:id="@+id/tvSpecialities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_smaller"
+        android:textColor="@color/colorOneKeyText"
+        android:textSize="@dimen/default_text"
+        app:forceTextSize="true"
+        tools:text="Specialities"
+        android:layout_margin="@dimen/default_padding_smaller"/>
+
+</LinearLayout>

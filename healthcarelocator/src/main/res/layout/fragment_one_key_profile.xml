@@ -316,16 +316,38 @@
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
 
-                        <com.healthcarelocator.custom.text.HCLTextView
-                            android:id="@+id/tvSpecialities"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSpecialities"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/default_padding_smaller"
-                            android:layout_weight="1"
-                            android:textColor="@color/colorOneKeyText"
-                            android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            tools:text="Specialities" />
+                            android:layout_weight="1"/>
+
+                        <LinearLayout
+                            android:id="@+id/lnViewMore"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            android:visibility="gone">
+
+                            <com.healthcarelocator.custom.text.HCLTextView
+                                android:id="@+id/tvViewMore"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.18"
+                                android:text="@string/hcl_view_more"
+                                android:textSize="@dimen/default_text_smaller"
+                                app:OneKeyTextColor="OneKeyColorPrimary"
+                                app:OneKeyTextStyle="OneKeyStyleSmall" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/default_text_small"
+                                android:layout_weight="0.82"
+                                android:src="@drawable/ic_view_more"
+                                android:scaleType="fitStart"/>
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <com.healthcarelocator.custom.HCLView

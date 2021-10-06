@@ -335,7 +335,7 @@ class HCLNearMeFragment :
         healthCareLocatorCustomObject.also {
             (activity as? AppCompatActivity)?.pushFragment(
                     R.id.fragmentContainer,
-                    HCLProfileFragment.newInstance(it, null, obj.id), true
+                    HCLProfileFragment.newInstance(it, null, obj.id, viewModel.isSpeciality), true
             )
         }
     }

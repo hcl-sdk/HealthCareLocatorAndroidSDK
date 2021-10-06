@@ -51,6 +51,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         cbxDarkMode.isChecked = shared.getBoolean(Pref.darkMode, false)
         edtSpecialtyLabel.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "") ?: "")
         edtSpecialtyCode.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: "")
+        edtDistanceDefault.setText(SampleApplication.sharedPreferences.getString(Pref.distanceDefault, "") ?: "")
 
         val selectedTheme = (SampleApplication.sharedPreferences.getString(
             Pref.theme,
@@ -167,6 +168,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.specialtyLabel, edtSpecialtyLabel.text.toString())
             putString(Pref.specialtyCode, edtSpecialtyCode.text.toString())
             putInt(Pref.distanceUnit, distanceUnitSpinner.selectedItemPosition)
+            putString(Pref.distanceDefault, edtDistanceDefault.text.toString())
         }
         super.onPause()
     }
@@ -241,6 +243,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putBoolean(Pref.darkMode, false)
             putString(Pref.specialtyLabel, "")
             putString(Pref.specialtyCode, "")
+            putString(Pref.distanceDefault, "")
         }
         cbxDarkMode.isChecked = false
         themeSpinner.setSelection(0)
@@ -251,5 +254,6 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         edtCountryCode.setText("")
         edtSpecialtyLabel.setText("")
         edtSpecialtyCode.setText("")
+        edtDistanceDefault.setText("")
     }
 }

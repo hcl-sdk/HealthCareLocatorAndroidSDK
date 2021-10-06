@@ -28,7 +28,7 @@
     <string name="hcl_results_label">Results</string>
     <string name="hcl_list_label">List</string>
     <string name="hcl_map_label">Map</string>
-    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
     <string name="hcl_no_result_found">No Results found</string>
     <string name="hcl_no_result_message">Oups, it\'s looks like there is no matches for your search.</string>
     <string name="hcl_relaunch">Relaunch</string>

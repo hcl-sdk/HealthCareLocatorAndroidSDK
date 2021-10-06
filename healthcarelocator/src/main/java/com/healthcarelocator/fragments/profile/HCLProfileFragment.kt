@@ -43,13 +43,14 @@ class HCLProfileFragment :
     companion object {
         fun newInstance(
                 theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
-                HCLLocation: HCLLocation?, activityId: String = "", isSpeciality: Boolean = false
+                HCLLocation: HCLLocation?, activityId: String = "", isSpeciality: Boolean = false, speciality: String = ""
         ) =
                 HCLProfileFragment().apply {
                     this.healthCareLocatorCustomObject = theme
                     this.HCLLocation = HCLLocation
                     this.activityId = activityId
                     this.isSpeciality = isSpeciality
+                    this.speciality = speciality
                 }
 
     }
@@ -66,6 +67,7 @@ class HCLProfileFragment :
     override val viewModel = HCLProfileViewModel()
     private val specialitiesAdapter by lazy { HCLSpecialitiesAdapter(isSpeciality) }
     private var isSpeciality = false
+    private var speciality = ""
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
@@ -214,9 +216,22 @@ class HCLProfileFragment :
             }
             if (individual?.specialties != null) {
                 val listSpecialty = arrayListOf<LabelObject>()
-                for (i in individual?.specialties!!.indices) {
-                    if (i < 2) {
-                        listSpecialty.add(individual!!.specialties[i])
+                if (speciality.isNotNullable()) {
+                    for (i in individual?.specialties!!.indices) {
+                        if (individual?.specialties!!.size < 3 && speciality.equals(individual!!.specialties[i].toString(), true)) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                    }
+                    for (i in individual?.specialties!!.indices) {
+                        if (individual?.specialties!!.size < 3 && !speciality.equals(individual!!.specialties[i].toString(), true)) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                    }
+                } else {
+                    for (i in individual?.specialties!!.indices) {
+                        if (individual?.specialties!!.size < 3) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
                     }
                 }
                 specialitiesAdapter.setData(listSpecialty)
@@ -368,8 +383,21 @@ class HCLProfileFragment :
                 activityDetail.apply {
                     if (individual?.specialties != null) {
                         val listSpecialty = arrayListOf<LabelObject>()
-                        for (i in individual?.specialties!!.indices) {
-                            listSpecialty.add(individual!!.specialties[i])
+                        if (speciality.isNotNullable()) {
+                            for (i in individual?.specialties!!.indices) {
+                                if (speciality.equals(individual!!.specialties[i].toString(), true)) {
+                                    listSpecialty.add(individual!!.specialties[i])
+                                }
+                            }
+                            for (i in individual?.specialties!!.indices) {
+                                if (!speciality.equals(individual!!.specialties[i].toString(), true)) {
+                                    listSpecialty.add(individual!!.specialties[i])
+                                }
+                            }
+                        } else {
+                            for (i in individual?.specialties!!.indices) {
+                                listSpecialty.add(individual!!.specialties[i])
+                            }
                         }
                         specialitiesAdapter.setData(listSpecialty)
                     } else {

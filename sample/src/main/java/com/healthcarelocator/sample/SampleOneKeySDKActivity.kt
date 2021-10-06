@@ -18,7 +18,7 @@ import com.healthcarelocator.sample.model.ThemeObject
 import com.healthcarelocator.sample.utils.Pref
 import com.healthcarelocator.sample.utils.getFonts
 import com.healthcarelocator.sample.utils.getThemes
-import com.healthcarelocator.service.location.getCountryCodes
+import com.healthcarelocator.service.location.getSplitString
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.activity_sample.*
@@ -257,14 +257,14 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: ""
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.08"))
-                .entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, arrayListOf(specialtyCode))
+                .entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, specialtyCode.getSplitString())
         }
         if (nearMe) {
-            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, arrayListOf(specialtyCode))
+            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, specialtyCode.getSplitString())
         }
         val countryCodeString =
             SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""
-        builder.countries(countryCodeString.getCountryCodes())
+        builder.countries(countryCodeString.getSplitString())
         builder.env(BuildConfig.env)
         builder.showModificationForm(
             SampleApplication.sharedPreferences.getInt(

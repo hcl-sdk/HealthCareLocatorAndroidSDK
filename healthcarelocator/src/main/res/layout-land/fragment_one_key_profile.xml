@@ -69,6 +69,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/ivDoctor"
                             android:layout_width="@dimen/default_icon_size_bigger"
                             android:layout_height="@dimen/default_icon_size_bigger"
                             android:layout_marginEnd="@dimen/default_padding"
@@ -543,6 +544,7 @@
                                         tools:tint="@color/colorOneKeyBlue" />
 
                                     <com.healthcarelocator.custom.text.HCLTextView
+                                        android:id="@+id/tvSuggestModification"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"

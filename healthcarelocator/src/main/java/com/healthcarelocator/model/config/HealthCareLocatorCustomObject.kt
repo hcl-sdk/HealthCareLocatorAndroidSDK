@@ -106,11 +106,11 @@ data class HealthCareLocatorCustomObject private constructor(
                 id = "sortCriteria",
                 size = 16
         ).build(),
-        val colorListBackground: String = "#f8f9fa", val colorDark: String, val colorGrey: String,
-        val colorGreyDark: String, val colorGreyDarker: String, val colorGreyLight: String,
+        var colorListBackground: String = "#f8f9fa", var colorDark: String, val colorGrey: String,
+        val colorGreyDark: String, var colorGreyDarker: String, val colorGreyLight: String,
         val colorGreyLighter: String, val colorVoteUp: String, val colorVoteDown: String,
-        val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
-        val colorButtonBackground: String, val colorButtonAcceptBackground: String,
+        var colorViewBackground: String, var colorCardBorder: String, var colorButtonBorder: String,
+        var colorButtonBackground: String, var colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val locale: String,
         val specialities: ArrayList<String>, @ScreenReference val screenReference: Int,
         @MapService val mapService: Int, val iconCross: Int, val iconGeoLoc: Int,
@@ -120,8 +120,8 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#000000",
-        var specialtyLabel: String = ""
+        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
+        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232"
 ) {
 
     @Suppress
@@ -244,7 +244,7 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#000000",
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#232323",
             var specialtyLabel: String = ""
     ) {
 

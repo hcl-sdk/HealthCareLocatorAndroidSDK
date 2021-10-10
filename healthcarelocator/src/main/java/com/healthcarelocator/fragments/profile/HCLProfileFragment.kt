@@ -140,6 +140,9 @@ class HCLProfileFragment :
             )
             contentWrapper.background = ContextCompat.getDrawable(context!!,
                     if (darkMode) R.drawable.bg_black_border_corner else R.drawable.bg_white_border_corner)
+            ivDoctor.setBackgroundWithCorner(
+                    if (darkMode) darkModeLightColor.getColor() else Color.parseColor("#e6e6e6"),
+                    Color.TRANSPARENT, 10f)
             profileProgressBar.setBackgroundColor(bgColor)
             btnBack.setColorFilter(if (!darkMode) Color.BLACK else Color.WHITE)
         }
@@ -200,6 +203,10 @@ class HCLProfileFragment :
                 healthCareLocatorCustomObject.colorButtonBackground.getColor(),
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(), 8f, 3
         )
+        healthCareLocatorCustomObject.also {
+            if (it.darkMode)
+                tvSuggestModification.setTextColor(Color.WHITE)
+        }
 
         activityDetail.apply {
             this@HCLProfileFragment.phone = phone

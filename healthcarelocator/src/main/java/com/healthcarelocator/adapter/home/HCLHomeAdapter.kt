@@ -29,12 +29,13 @@ class HCLHomeAdapter(private val healthCareLocatorCustomObject: HealthCareLocato
             healthCareLocatorCustomObject?.also {
                 itemView.apply {
                     if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+                        setBackgroundWithCorner(if (it.darkMode) it.darkModeLightColor.getColor() else Color.WHITE,
+                                it.colorCardBorder.getColor(), 12f, 3)
                     } else
-                        setBackgroundColor(Color.WHITE)
+                        setBackgroundColor(if (it.darkMode) it.darkModeLightColor.getColor() else Color.WHITE)
                     ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
-                    ivFind.setRippleCircleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 26)
-                    ivFind.setColorFilter(healthCareLocatorCustomObject.colorPrimary.getColor())
+                    ivFind.setRippleCircleBackground(it.colorPrimary.getColor(), if (it.darkMode) 255 else 26)
+                    ivFind.setColorFilter(if (it.darkMode) Color.WHITE else it.colorPrimary.getColor())
                     tvTitle.text = data.title
                     tvDescription.text = data.description
                 }

@@ -7,15 +7,23 @@
     android:paddingTop="@dimen/default_padding_big"
     android:paddingBottom="@dimen/default_padding_big">
 
-    <ImageView
-        android:id="@+id/ivFind"
-        android:layout_width="@dimen/default_icon_size"
-        android:layout_height="@dimen/default_icon_size"
-        android:background="@drawable/bg_green_circle"
-        android:padding="8dp"
-        app:tint="@color/colorOneKeyGreen"
-        tools:src="@drawable/baseline_search_white_24dp"
-        tools:tint="@color/colorOneKeyGreen" />
+    <FrameLayout
+        android:id="@+id/iconWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:background="@drawable/bg_circle_outline">
+
+        <ImageView
+            android:id="@+id/ivFind"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:background="@drawable/bg_green_circle"
+            android:padding="8dp"
+            app:tint="@color/colorOneKeyGreen"
+            tools:src="@drawable/baseline_search_white_24dp"
+            tools:tint="@color/colorOneKeyGreen" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +39,8 @@
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_padding"
             android:textStyle="bold"
-            app:OneKeyTextStyle="OneKeyStyleTitleSecondary"
-            app:OneKeyTextColor="OneKeyColorDark"/>
+            app:OneKeyTextColor="OneKeyColorDark"
+            app:OneKeyTextStyle="OneKeyStyleTitleSecondary" />
 
         <com.healthcarelocator.custom.text.HCLTextView
             android:id="@+id/tvDescription"
@@ -41,7 +49,7 @@
             android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_padding"
-            app:OneKeyTextStyle="OneKeyStyleDefault"
-            app:OneKeyTextColor="OneKeyColorGreyDarker" />
+            app:OneKeyTextColor="OneKeyColorGreyDarker"
+            app:OneKeyTextStyle="OneKeyStyleDefault" />
     </LinearLayout>
 </LinearLayout>

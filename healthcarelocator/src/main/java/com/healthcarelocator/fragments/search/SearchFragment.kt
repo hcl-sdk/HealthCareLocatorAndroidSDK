@@ -120,8 +120,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             ivNameClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
             ivSpecialityClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
             ivAddressClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
-            btnSearch.setIconFromDrawableId(it.searchIcon, true,
-                    if (darkMode) it.darkModeColor.getColor() else Color.WHITE)
+            btnSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             ivNearMe.setIconFromDrawableId(it.iconGeoLoc, true, it.colorPrimary.getColor())
             ivLocationSelected.setIconFromDrawableId(
                     it.iconMarkerMin,
@@ -129,14 +128,14 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     it.colorPrimary.getColor()
             )
             nameChildWrapper.setBackgroundWithCorner(
-                    if (darkMode) it.darkModeColor.getColor()
-                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+                    if (darkMode) it.darkModeLightColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 10f, 0)
             specialityChildWrapper.setBackgroundWithCorner(
-                    if (darkMode) it.darkModeColor.getColor()
-                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+                    if (darkMode) it.darkModeLightColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 10f, 0)
             addressChildWrapper.setBackgroundWithCorner(
-                    if (darkMode) it.darkModeColor.getColor()
-                    else Color.WHITE, it.colorCardBorder.getColor(), 12f, 0)
+                    if (darkMode) it.darkModeLightColor.getColor()
+                    else Color.WHITE, it.colorCardBorder.getColor(), 10f, 0)
             btnBack.setColorFilter(if (darkMode) Color.WHITE else Color.BLACK)
         }
         btnBack.setOnClickListener(this)

@@ -9,15 +9,24 @@
     android:orientation="vertical"
     android:padding="@dimen/default_padding">
 
-    <ImageView
-        android:id="@+id/ivFind"
-        android:layout_width="@dimen/default_icon_size_big"
-        android:layout_height="@dimen/default_icon_size_big"
-        android:background="@drawable/bg_green_circle"
-        android:padding="@dimen/default_padding_smaller"
-        app:tint="@color/colorOneKeyGreen"
-        tools:src="@drawable/ic_profile"
-        tools:tint="@color/colorOneKeyGreen" />
+
+    <FrameLayout
+        android:id="@+id/iconWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle_outline"
+        android:padding="1dp">
+
+        <ImageView
+            android:id="@+id/ivFind"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:background="@drawable/bg_green_circle"
+            android:padding="8dp"
+            app:tint="@color/colorOneKeyGreen"
+            tools:src="@drawable/baseline_search_white_24dp"
+            tools:tint="@color/colorOneKeyGreen" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

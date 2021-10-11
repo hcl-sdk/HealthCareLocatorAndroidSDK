@@ -5,7 +5,6 @@ import androidx.annotation.Size
 import com.healthcarelocator.R
 import com.healthcarelocator.extensions.MapService
 import com.healthcarelocator.extensions.ScreenReference
-import com.healthcarelocator.extensions.isNotNullable
 import com.healthcarelocator.extensions.isNullable
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -123,8 +122,8 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#000000",
-        var specialtyLabel: String = "", private val distanceUnit: String, val distanceDefault: String
+        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
+        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232", private val distanceUnit: String, val distanceDefault: String = "0.0"
 ) {
 
     @Suppress
@@ -247,7 +246,7 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#000000",
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#232323",
             var specialtyLabel: String = "", var distanceUnit: String = "Kilometer", var distanceDefault: String = "0.0"
     ) {
 

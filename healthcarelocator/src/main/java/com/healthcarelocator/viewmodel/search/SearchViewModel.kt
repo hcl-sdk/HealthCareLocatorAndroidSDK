@@ -35,7 +35,6 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private val countries by lazy { arrayListOf<String>() }
     private var specialty: HealthCareLocatorSpecialityObject? = null
     private var address: HCLPlace? = null
-    private var name: GetIndividualByNameQuery.Individual? = null
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<HCLPlace>>() }
@@ -268,18 +267,6 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         return specialty
     }
 
-    private fun checkNameSearch(listName: ArrayList<GetIndividualByNameQuery.Individual>): GetIndividualByNameQuery.Individual? {
-        if (listName.size > 0)
-            name = listName[0]
-        else
-            null
-        return name
-    }
-
-    fun getNameSearch(): GetIndividualByNameQuery.Individual? {
-        return name
-    }
-
     private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
         query({
             GetIndividualByNameQuery.builder()
@@ -289,7 +276,6 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                 callback(arrayListOf())
             } else {
                 callback(ArrayList(response.data?.individualsByName()?.individuals()!!))
-                checkNameSearch(ArrayList(response.data?.individualsByName()?.individuals()!!))
             }
         }, { e ->
             HCLLog.d("onFailure::${e.localizedMessage}")

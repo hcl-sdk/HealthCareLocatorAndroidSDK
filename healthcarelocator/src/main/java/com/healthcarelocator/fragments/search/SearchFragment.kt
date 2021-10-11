@@ -248,22 +248,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                         edtSpecialty.setText(selectedSpeciality.toString())
                     }
 
-                    if (edtName.text.toString().isNotEmpty() && viewModel.getNameSearch().isNotNullable()) {
+                    if (edtName.text.toString().isNotEmpty()) {
                         viewBlockedNameEditable.visibility = View.VISIBLE
-                        when {
-                            viewModel.getNameSearch()!!.firstName().isNotNullAndEmpty() && viewModel.getNameSearch()!!.lastName().isNotNullAndEmpty() -> {
-                                edtName.setText(viewModel.getNameSearch()!!.firstName() + " " + viewModel.getNameSearch()!!.lastName())
-                            }
-                            viewModel.getNameSearch()!!.firstName().isNotNullAndEmpty() && viewModel.getNameSearch()!!.lastName().isEmpty() -> {
-                                edtName.setText(viewModel.getNameSearch()!!.firstName())
-                            }
-                            viewModel.getNameSearch()!!.firstName().isNullOrEmpty() && viewModel.getNameSearch()!!.lastName().isNotNullAndEmpty() -> {
-                                edtName.setText(viewModel.getNameSearch()!!.lastName())
-                            }
-                            else -> {
-                                edtName.setText(viewModel.getNameSearch()!!.mailingName())
-                            }
-                        }
                     }
                 }
 

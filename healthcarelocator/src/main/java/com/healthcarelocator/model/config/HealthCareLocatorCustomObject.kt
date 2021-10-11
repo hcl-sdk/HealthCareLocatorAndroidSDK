@@ -248,7 +248,7 @@ data class HealthCareLocatorCustomObject private constructor(
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
             var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#000000",
-            var specialtyLabel: String = "", var distanceUnit: String = "Kilometer", var distanceDefault: String = "20000"
+            var specialtyLabel: String = "", var distanceUnit: String = "Kilometer", var distanceDefault: String = "0.0"
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -495,9 +495,9 @@ data class HealthCareLocatorCustomObject private constructor(
         return df.format(number).toDouble()
     }
 
-    fun getDistanceDefault(): Double = if (distanceDefault.isNotEmpty()) {
+    fun getDistanceDefault(): Double = if (distanceDefault.isNotEmpty() && distanceDefault.toDouble() != 0.0) {
         distanceDefault.toDouble()
-    } else 20000.0
+    } else 0.0
 
     fun getDistanceUnit(): String = if (distanceUnit.isNotEmpty()) {
         when (distanceUnit) {

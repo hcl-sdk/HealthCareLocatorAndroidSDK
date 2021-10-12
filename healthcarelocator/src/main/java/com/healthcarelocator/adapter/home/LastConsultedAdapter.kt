@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.HCLAdapter
 import com.healthcarelocator.adapter.HCLViewHolder
-import com.healthcarelocator.extensions.getColor
-import com.healthcarelocator.extensions.getVisibility
-import com.healthcarelocator.extensions.isNotNullAndEmpty
-import com.healthcarelocator.extensions.setIconFromDrawableId
+import com.healthcarelocator.extensions.*
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -27,7 +24,14 @@ class LastConsultedAdapter(private val theme: HealthCareLocatorCustomObject =
     inner class LastSearchVH(itemView: View) : HCLViewHolder<ActivityObject>(itemView) {
         override fun bind(position: Int, data: ActivityObject) {
             itemView.apply {
-                tvDoctorName.text = (data.individual!!.firstName + " " + data.individual!!.lastName) ?: ""
+                var name = ""
+                if (data.individual.isNotNullable() && data.individual?.firstName.isNotNullAndEmpty())
+                    name += data.individual?.firstName + " "
+                if (data.individual.isNotNullable() && data.individual?.middleName.isNotNullAndEmpty())
+                    name += data.individual?.middleName + " "
+                if (data.individual.isNotNullable() && data.individual?.lastName.isNotNullAndEmpty())
+                    name += data.individual?.lastName
+                tvDoctorName.text = name
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 tvCreateAt.text = data.createdDate

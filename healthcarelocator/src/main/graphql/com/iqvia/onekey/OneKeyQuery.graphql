@@ -19,6 +19,7 @@ query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offse
         individuals {
             id
             firstName
+            middleName
             lastName
             mailingName
             professionalType { label }
@@ -100,6 +101,7 @@ query getActivityById($id:ID!, $locale:String){
             id
             name
             localPhone
+            intlPhone
             emailAddress
             address{
                 id

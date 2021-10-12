@@ -11,6 +11,8 @@ import com.healthcarelocator.adapter.HCLAdapter
 import com.healthcarelocator.adapter.HCLViewHolder
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.getVisibility
+import com.healthcarelocator.extensions.isNotNullAndEmpty
+import com.healthcarelocator.extensions.isNotNullable
 import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetIndividualByNameQuery
@@ -58,7 +60,13 @@ class IndividualAdapter : HCLAdapter<Any,
             HCLViewHolder<GetIndividualByNameQuery.Individual>(itemView) {
         override fun bind(position: Int, data: GetIndividualByNameQuery.Individual) {
             itemView.apply {
-                val name: String = (data.firstName() + " " + data.lastName()) ?: ""
+                var name = ""
+                if (data.isNotNullable() && data.firstName().isNotNullAndEmpty())
+                    name += data.firstName() + " "
+                if (data.isNotNullable() && data.middleName().isNotNullAndEmpty())
+                    name += data.middleName() + " "
+                if (data.isNotNullable() && data.lastName().isNotNullAndEmpty())
+                    name += data.lastName()
                 tvName.text = SpannableStringBuilder(name).apply {
                     val indexOf = name.toLowerCase().indexOf(keyword.toLowerCase())
                     if (indexOf >= 0)

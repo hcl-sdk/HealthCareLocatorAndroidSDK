@@ -18,12 +18,15 @@ import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class HCLListResultFragment : IFragment() {
     companion object {
-        fun newInstance() = HCLListResultFragment().apply {}
+        fun newInstance(speciality: String = "") = HCLListResultFragment().apply {
+            this.speciality = speciality
+        }
     }
 
     private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
-    private val searchAdapter by lazy { SearchAdapter() }
+    private var speciality: String = ""
+    private val searchAdapter by lazy { SearchAdapter(-1, speciality) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_one_key_list_result, container, false)

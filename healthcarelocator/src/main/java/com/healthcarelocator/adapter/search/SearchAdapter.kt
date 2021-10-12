@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.HCLAdapter
 import com.healthcarelocator.adapter.HCLViewHolder
-import com.healthcarelocator.extensions.getColor
-import com.healthcarelocator.extensions.setBackgroundWithCorner
-import com.healthcarelocator.extensions.setIconFromDrawableId
+import com.healthcarelocator.extensions.*
 import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
@@ -37,7 +35,14 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         lp.width = (screenWidth * 0.85f).toInt()
                         itemView.layoutParams = lp
                     }
-                tvName.text = (data.individual?.firstName + " " + data.individual?.lastName) ?: ""
+                var name = ""
+                if (data.individual.isNotNullable() && data.individual?.firstName.isNotNullAndEmpty())
+                    name += data.individual?.firstName + " "
+                if (data.individual.isNotNullable() && data.individual?.middleName.isNotNullAndEmpty())
+                    name += data.individual?.middleName + " "
+                if (data.individual.isNotNullable() && data.individual?.lastName.isNotNullAndEmpty())
+                    name += data.individual?.lastName
+                tvName.text = name
                 tvSpeciality.text = TextUtils.join(",", data.individual?.specialties
                         ?: arrayListOf<LabelObject>())
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""

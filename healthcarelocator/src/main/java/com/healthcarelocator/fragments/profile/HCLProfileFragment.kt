@@ -427,7 +427,15 @@ class HCLProfileFragment :
 
     private fun changeAddress(it: OtherActivityObject) {
         setAddress(it.workplace, it.webAddress, it.phone, it.fax)
-        this.phone = it.phone
+        this.phone = if (it.phone.isNotNullAndEmpty()) {
+            it.phone
+        } else if (it.workplace.isNotNullable() && it.workplace!!.localPhone.isNotNullAndEmpty()) {
+            it.workplace!!.localPhone
+        } else if (it.workplace.isNotNullable() && it.workplace!!.intlPhone.isNotNullAndEmpty()) {
+            it.workplace!!.intlPhone
+        } else {
+            ""
+        }
         tvAddress.postDelay({ _ ->
             val address = it.workplace?.address
             if (address.isNotNullable())
@@ -464,12 +472,14 @@ class HCLProfileFragment :
             phone: String, fax: String
     ) {
         tvAddress.text = workplace?.run {
-            var string = "$name"
-            if (!address?.buildingLabel.isNullOrEmpty())
+            var string = ""
+            if (name.isNotNullAndEmpty())
+                string += "$name"
+            if (address.isNotNullable() && address?.buildingLabel.isNotNullAndEmpty())
                 string += "\n${address?.buildingLabel}"
-            if (!address?.longLabel.isNullOrEmpty())
+            if (address.isNotNullable() && address?.longLabel.isNotNullAndEmpty())
                 string += "\n${address?.longLabel}"
-            if (address.isNotNullable())
+            if (address.isNotNullable() && address?.postalCode.isNotNullAndEmpty() && address?.city?.label.isNotNullAndEmpty())
                 string += ", ${address?.postalCode} ${address?.city?.label}"
             string
         } ?: ""

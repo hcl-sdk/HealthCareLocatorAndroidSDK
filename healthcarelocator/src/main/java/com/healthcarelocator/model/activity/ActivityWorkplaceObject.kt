@@ -7,8 +7,9 @@ import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
 class ActivityWorkplaceObject(var id: String = "", var name: String = "", var localPhone: String = "",
-                              var emailAddress: String = "", var address: AddressObject? = null) : Parcelable {
+                              var intlPhone: String = "", var emailAddress: String = "", var address: AddressObject? = null) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -21,6 +22,7 @@ class ActivityWorkplaceObject(var id: String = "", var name: String = "", var lo
             writeString(id)
             writeString(name)
             writeString(localPhone)
+            writeString(intlPhone)
             writeString(emailAddress)
             writeParcelable(address, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
         }
@@ -49,6 +51,7 @@ class ActivityWorkplaceObject(var id: String = "", var name: String = "", var lo
         this.id = data!!.id()
         this.name = data.name()
         this.localPhone = data.localPhone() ?: ""
+        this.intlPhone = data.intlPhone() ?: ""
         this.emailAddress = data.emailAddress() ?: ""
         this.address = AddressObject().parse(data.address())
         return this

@@ -46,4 +46,9 @@
         <item>Pусский</item>
         <item>العربیة</item>
     </string-array>
+
+    <string-array name="distanceUnit">
+        <item>Kilometer</item>
+        <item>Mile</item>
+    </string-array>
 </resources>

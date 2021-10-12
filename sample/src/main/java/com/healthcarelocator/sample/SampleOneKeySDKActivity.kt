@@ -193,6 +193,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         }
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
         val language = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
+        val distanceUnit = SampleApplication.sharedPreferences.getInt(Pref.distanceUnit, 0)
+        val distanceDefault = SampleApplication.sharedPreferences.getString(Pref.distanceDefault, "") ?: ""
 
         /**
          * Add OneKey screen into parent application
@@ -237,6 +239,12 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 12 -> "ar"
                 else -> "en"
             })
+            .distanceUnit(when (distanceUnit) {
+                0 -> "Kilometer"
+                1 -> "Mile"
+                else -> "Kilometer"
+            })
+            .distanceDefault(distanceDefault)
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
                     .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
@@ -252,15 +260,17 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .colorMarkerSelected(selectedTheme.markerSelectedHexColor)
         }
         val specialtyLabel =
-                SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "") ?: ""
+                SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "")
         val specialtyCode =
-                SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: ""
+                SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "")
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.08"))
-                .entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, specialtyCode.getSplitString())
+                .entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
+                        if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf())
         }
         if (nearMe) {
-            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, specialtyLabel, specialtyCode.getSplitString())
+            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
+                    if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf())
         }
         val countryCodeString =
             SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""

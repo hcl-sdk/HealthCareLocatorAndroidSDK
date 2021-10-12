@@ -23,6 +23,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
     private val darkMode = themeConfig.darkMode
     var onHCPCardClickedListener: (data: ActivityObject) -> Unit = {}
     var isPlaceAvailable: Boolean = false
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): SearchVH =
             SearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
@@ -42,7 +43,19 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 if (isPlaceAvailable) {
                     tvDistance.visibility = View.VISIBLE
-                    tvDistance.text = itemView.context.getString(R.string.hcl_distance_unit_android, "${Math.round(data.distance)}")
+                    if (config.getDistanceUnit() == "mi") {
+                        if (config.convertMeterToMile(data.distance) < 1) {
+                            tvDistance.text = String.format(itemView.context.getString(R.string.hcl_distance_unit_android), config.roundingNumber(config.convertMeterToFoot(data.distance)), "ft")
+                        } else {
+                            tvDistance.text = String.format(itemView.context.getString(R.string.hcl_distance_unit_android), config.roundingNumber(config.convertMeterToMile(data.distance)), config.getDistanceUnit())
+                        }
+                    } else {
+                        if (config.convertMeterToKilometer(data.distance) < 1) {
+                            tvDistance.text = String.format(itemView.context.getString(R.string.hcl_distance_unit_android), config.roundingNumber(data.distance), "m")
+                        } else {
+                            tvDistance.text = String.format(itemView.context.getString(R.string.hcl_distance_unit_android), config.roundingNumber(config.convertMeterToKilometer(data.distance)), config.getDistanceUnit())
+                        }
+                    }
                 } else tvDistance.visibility = View.GONE
                 ivArrow.setIconFromDrawableId(themeConfig.iconArrowRight)
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())

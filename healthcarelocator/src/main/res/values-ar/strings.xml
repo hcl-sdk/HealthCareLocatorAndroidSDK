@@ -28,7 +28,7 @@
     <string name="hcl_results_label">النَّتائج</string>
     <string name="hcl_list_label">القائمة</string>
     <string name="hcl_map_label">الخريطة</string>
-    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
     <string name="hcl_no_result_found">لا توجد نتائج</string>
     <string name="hcl_no_result_message">عفوًا، يبدو أنه لا توجد نتائج مطابقة لبحثك.</string>
     <string name="hcl_relaunch">إعادة الإطلاق</string>

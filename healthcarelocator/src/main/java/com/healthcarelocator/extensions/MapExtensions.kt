@@ -327,9 +327,7 @@ fun GetActivitiesQuery.Builder.getQuery(place: HCLPlace?): GetActivitiesQuery.Bu
     if (place.isNotNullable() && place!!.placeId.isNotEmpty() && place.placeId != "near_me") {
         geoBuilder.lat(place.latitude.toDouble())
                 .lon(place.longitude.toDouble())
-        if (place.address.isNotNullable() && place.address!!.houseNumber.isNotEmpty()) {
-            geoBuilder.distanceMeter(5000.0)
-        } else if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
+        if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
                         || place.address!!.city.isNotEmpty())) {
             val distanceMeter = place.getDistanceMeter()
             geoBuilder.distanceMeter(distanceMeter)
@@ -337,9 +335,6 @@ fun GetActivitiesQuery.Builder.getQuery(place: HCLPlace?): GetActivitiesQuery.Bu
             this@getQuery.country(place.address!!.countryCode)
         }
     } else if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-        if (place.placeId == "near_me") {
-            geoBuilder.distanceMeter(2000.0)
-        }
         geoBuilder.lat(place.latitude.toDouble())
                 .lon(place.longitude.toDouble())
     } else {

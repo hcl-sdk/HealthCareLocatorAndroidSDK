@@ -28,7 +28,7 @@
     <string name="hcl_results_label">Resultados</string>
     <string name="hcl_list_label">Lista</string>
     <string name="hcl_map_label">Mapa</string>
-    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
     <string name="hcl_no_result_found">No se encontraron resultados</string>
     <string name="hcl_no_result_message">¡Lo sentimos! Parece que no hay coincidencias para su búsqueda.</string>
     <string name="hcl_relaunch">Reintentar</string>

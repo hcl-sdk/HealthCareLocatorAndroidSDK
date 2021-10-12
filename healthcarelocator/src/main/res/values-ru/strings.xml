@@ -28,7 +28,7 @@
     <string name="hcl_results_label">Результаты</string>
     <string name="hcl_list_label">Список</string>
     <string name="hcl_map_label">На карте</string>
-    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
     <string name="hcl_no_result_found">Ничего не найдено</string>
     <string name="hcl_no_result_message">Похоже, по параметрам Вашего поиска ничего не найдено.</string>
     <string name="hcl_relaunch">Начать заново</string>

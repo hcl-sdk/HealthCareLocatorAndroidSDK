@@ -1,7 +1,6 @@
 package com.healthcarelocator.adapter.search
 
 import android.graphics.Color
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,11 @@ import com.healthcarelocator.R
 import com.healthcarelocator.adapter.HCLAdapter
 import com.healthcarelocator.adapter.HCLViewHolder
 import com.healthcarelocator.extensions.*
-import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.layout_search_item.view.*
 
-class SearchAdapter(private val screenWidth: Int = -1) :
+class SearchAdapter(private val screenWidth: Int = -1, private val speciality: String = "") :
         HCLAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
     private var selectedPosition = -1
     private val themeConfig by lazy { HealthCareLocatorSDK.getInstance().getConfiguration() }
@@ -43,8 +41,17 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 if (data.individual.isNotNullable() && data.individual?.lastName.isNotNullAndEmpty())
                     name += data.individual?.lastName
                 tvName.text = name
-                tvSpeciality.text = TextUtils.join(",", data.individual?.specialties
-                        ?: arrayListOf<LabelObject>())
+                var specialtyDisplay = ""
+                if (speciality.isNotNullable() && speciality.isNotEmpty()) {
+                    for (i in data.individual?.specialties!!.indices) {
+                        if (speciality.equals(data.individual!!.specialties[i].toString(), true)) {
+                            specialtyDisplay = data.individual!!.specialties[i].label
+                        }
+                    }
+                } else {
+                    specialtyDisplay = data.individual!!.specialties[0].label
+                }
+                tvSpeciality.text = specialtyDisplay
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 if (isPlaceAvailable) {
                     tvDistance.visibility = View.VISIBLE

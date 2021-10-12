@@ -28,7 +28,8 @@ import org.osmdroid.events.ZoomEvent
 class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     companion object {
-        fun newInstance() = HCLMapResultFragment().apply {
+        fun newInstance(speciality: String = "") = HCLMapResultFragment().apply {
+            this.speciality = speciality
         }
     }
 
@@ -39,7 +40,8 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
     }
     private var isRelaunch = false
     private var activities: ArrayList<ActivityObject> = arrayListOf()
-    private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
+    private var speciality: String = ""
+    private val searchAdapter by lazy { SearchAdapter(getScreenWidth(), speciality)}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map_result, container, false)

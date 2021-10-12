@@ -225,18 +225,18 @@ class HCLProfileFragment :
                 val listSpecialty = arrayListOf<LabelObject>()
                 if (speciality.isNotNullable()) {
                     for (i in individual?.specialties!!.indices) {
-                        if (individual?.specialties!!.size < 3 && speciality.equals(individual!!.specialties[i].toString(), true)) {
+                        if (i < 2 && speciality.equals(individual!!.specialties[i].toString(), true)) {
                             listSpecialty.add(individual!!.specialties[i])
                         }
                     }
                     for (i in individual?.specialties!!.indices) {
-                        if (individual?.specialties!!.size < 3 && !speciality.equals(individual!!.specialties[i].toString(), true)) {
+                        if (i < 2 && !speciality.equals(individual!!.specialties[i].toString(), true)) {
                             listSpecialty.add(individual!!.specialties[i])
                         }
                     }
                 } else {
                     for (i in individual?.specialties!!.indices) {
-                        if (individual?.specialties!!.size < 3) {
+                        if (i < 2) {
                             listSpecialty.add(individual!!.specialties[i])
                         }
                     }

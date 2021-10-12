@@ -155,8 +155,12 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
             resultFragments = arrayListOf(
-                    HCLListResultFragment.newInstance(),
-                    HCLMapResultFragment.newInstance()
+                    HCLListResultFragment.newInstance(if (speciality.isNotNullable()) {
+                        speciality!!.longLbl
+                    } else {""}),
+                    HCLMapResultFragment.newInstance(if (speciality.isNotNullable()) {
+                        speciality!!.longLbl
+                    } else {""})
             )
             fragmentState.apply {
                 enableAnim(false)

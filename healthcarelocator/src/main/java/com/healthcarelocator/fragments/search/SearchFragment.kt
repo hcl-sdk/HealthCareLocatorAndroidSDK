@@ -232,7 +232,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 selectedPlace = null
             }
             R.id.btnSearch -> {
-                if (edtName.text.toString().isEmpty() && edtSpecialty.text.toString().isEmpty() && selectedPlace?.placeId != "near_me") {
+                if (selectedSpeciality == null && edtName.text.toString().isEmpty() && edtSpecialty.text.toString().isEmpty() && selectedPlace?.placeId != "near_me") {
                     setError(
                             nameWrapper,
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed)
@@ -242,8 +242,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                             ContextCompat.getColor(context!!, R.color.colorOneKeyRed)
                     )
                     return
-                } else if (selectedSpeciality == null && edtSpecialty.text.toString().isNotEmpty() || edtName.text.toString().isNotEmpty()) {
-                    if (edtSpecialty.text.toString().isNotEmpty() && viewModel.getSpecialtySearch().isNotNullable()) {
+                } else if (edtSpecialty.text.toString().isNotEmpty() || edtName.text.toString().isNotEmpty()) {
+                    if (selectedSpeciality == null && edtSpecialty.text.toString().isNotEmpty() && viewModel.getSpecialtySearch().isNotNullable()) {
                         selectedSpeciality = viewModel.getSpecialtySearch()
                         edtSpecialty.setText(selectedSpeciality.toString())
                     }
@@ -394,7 +394,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     }
 
     override fun onIndividualClickedListener(data: HealthCareLocatorSpecialityObject) {
-        this.selectedSpeciality = data
+        selectedSpeciality = data
         onItemClicked = true
         viewBlockedSpecialtyEditable.visibility = View.VISIBLE
         edtSpecialty.setText(data.longLbl)

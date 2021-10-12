@@ -175,7 +175,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             mMapView!!.mapOrientation = 0f
             mMapView!!.setMultiTouchControls(true)
             mMapView!!.isTilesScaledToDpi = true
-            if (healthCareLocatorCustomObject.darkMode)
+            if (healthCareLocatorCustomObject.darkModeForMap)
                 mMapView!!.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
         }
     }
@@ -522,7 +522,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         this.googleMap = p0
         lastItemSelected = null
         googleMap?.apply {
-            if (healthCareLocatorCustomObject.darkMode)
+            if (healthCareLocatorCustomObject.darkModeForMap)
                 setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.google_map_night))
             isMyLocationEnabled = true
             uiSettings.isMyLocationButtonEnabled = false

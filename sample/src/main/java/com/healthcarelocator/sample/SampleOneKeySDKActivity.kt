@@ -124,8 +124,10 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         var fontModalTitle: HealthCareLocatorViewFontObject? = null
         var fontSortCriteria: HealthCareLocatorViewFontObject? = null
         var darkMode = false
+        var darkModeForMap = false
         SampleApplication.sharedPreferences.also {
             darkMode = it.getBoolean(Pref.darkMode, false)
+            darkModeForMap = it.getBoolean(Pref.darkModeForMap, false)
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())
                     fontDefault = getFontSetting(this)
@@ -284,6 +286,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         )
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
         builder.darkMode(darkMode)
+        builder.darkModeForMap(darkModeForMap)
 
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         HealthCareLocatorSDK.init(apiKey).setAppName("Sample")

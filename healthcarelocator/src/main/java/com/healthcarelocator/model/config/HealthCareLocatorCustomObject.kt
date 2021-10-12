@@ -123,7 +123,9 @@ data class HealthCareLocatorCustomObject private constructor(
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
         var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
-        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232", private val distanceUnit: String, val distanceDefault: String = "0.0"
+        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232",
+        private val distanceUnit: String, val distanceDefault: String = "0.0",
+        val darkModeForMap: Boolean = false
 ) {
 
     @Suppress
@@ -246,8 +248,10 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeColor: String = "#232323",
-            var specialtyLabel: String = "", var distanceUnit: String = "Kilometer", var distanceDefault: String = "0.0"
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeForMap: Boolean = false,
+            var darkModeColor: String = "#232323", var specialtyLabel: String = "",
+            var distanceUnit: String = "Kilometer", var distanceDefault: String = "0.0",
+            var darkModeLightColor: String = "#323232"
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -393,6 +397,7 @@ data class HealthCareLocatorCustomObject private constructor(
         fun countries(countries: ArrayList<String>) = apply { this.countries = countries }
         fun defaultCountry(defaultCountry: String) = apply { this.defaultCountry = defaultCountry }
         fun darkMode(darkMode: Boolean) = apply { this.darkMode = darkMode }
+        fun darkModeForMap(darkModeForMap: Boolean) = apply { this.darkModeForMap = darkModeForMap }
         fun darkModeColor(darkModeColor: String) = apply { this.darkModeColor = darkModeColor }
         fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
         fun distanceUnit(distanceUnit: String) = apply { this.distanceUnit = distanceUnit }
@@ -462,9 +467,9 @@ data class HealthCareLocatorCustomObject private constructor(
                 env,
                 countries,
                 defaultCountry, darkMode, darkModeColor,
-                specialtyLabel,
+                specialtyLabel, darkModeLightColor,
                 distanceUnit,
-                distanceDefault
+                distanceDefault, darkModeForMap
         )
     }
 

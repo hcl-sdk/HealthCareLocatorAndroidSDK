@@ -12,6 +12,7 @@ import com.healthcarelocator.service.location.LocationAPI
 import com.healthcarelocator.service.location.HCLMapService
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetActivitiesQuery
+import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
 class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
@@ -24,6 +25,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         HCLMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
     }
     var isSpeciality: Boolean = false
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission(
@@ -50,7 +52,16 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 builder.specialties(specialities)
                 isSpeciality = true
             }
-            builder.getQuery(place)
+            if (config.getDistanceDefault() != 0.0 && place != null) {
+                builder.location(GeopointQuery.builder().lat(place.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                            config.convertMileToMeter(config.getDistanceDefault())
+                        } else {
+                            config.convertKilometerToMeter(config.getDistanceDefault())
+                        }).build())
+            } else {
+                builder.getQuery(place)
+            }
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {
@@ -86,7 +97,16 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 if (criteria.isNotEmpty()) builder.criteria(criteria)
             }
 
-            builder.getQuery(place)
+            if (config.getDistanceDefault() != 0.0 && place != null) {
+                builder.location(GeopointQuery.builder().lat(place.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                            config.convertMileToMeter(config.getDistanceDefault())
+                        } else {
+                            config.convertKilometerToMeter(config.getDistanceDefault())
+                        }).build())
+            } else {
+                builder.getQuery(place)
+            }
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {

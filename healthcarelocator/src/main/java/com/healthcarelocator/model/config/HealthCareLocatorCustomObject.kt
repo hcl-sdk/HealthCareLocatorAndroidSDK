@@ -122,9 +122,9 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
+        private val distanceUnit: String, val distanceDefault: String,
         var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
         var specialtyLabel: String = "", val darkModeLightColor: String = "#323232",
-        private val distanceUnit: String, val distanceDefault: String = "0.0",
         val darkModeForMap: Boolean = false
 ) {
 
@@ -248,9 +248,9 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
+            var distanceUnit: String = "Kilometer", var distanceDefault: String = "",
             var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeForMap: Boolean = false,
             var darkModeColor: String = "#232323", var specialtyLabel: String = "",
-            var distanceUnit: String = "Kilometer", var distanceDefault: String = "0.0",
             var darkModeLightColor: String = "#323232"
     ) {
 
@@ -466,10 +466,11 @@ data class HealthCareLocatorCustomObject private constructor(
                 showModificationForm,
                 env,
                 countries,
+                distanceUnit,
+                distanceDefault,
                 defaultCountry, darkMode, darkModeColor,
                 specialtyLabel, darkModeLightColor,
-                distanceUnit,
-                distanceDefault, darkModeForMap
+                darkModeForMap
         )
     }
 

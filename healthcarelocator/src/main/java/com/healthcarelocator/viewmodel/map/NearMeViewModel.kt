@@ -146,7 +146,8 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
                                 config.convertKilometerToMeter(config.getDistanceDefault())
                             }).build())
                 } else {
-                    builder.getQuery(place)
+                    if (usingCurrentLocation)
+                        builder.getQuery(place)
                 }
                 builder.build()
             }, { response ->

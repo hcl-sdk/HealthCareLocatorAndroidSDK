@@ -426,7 +426,6 @@ class HCLProfileFragment :
     }
 
     private fun changeAddress(it: OtherActivityObject) {
-        setAddress(it.workplace, it.webAddress, it.phone, it.fax)
         this.phone = if (it.phone.isNotNullAndEmpty()) {
             it.phone
         } else if (it.workplace.isNotNullable() && it.workplace!!.localPhone.isNotNullAndEmpty()) {
@@ -436,6 +435,7 @@ class HCLProfileFragment :
         } else {
             ""
         }
+        setAddress(it.workplace, it.webAddress, this.phone, it.fax)
         tvAddress.postDelay({ _ ->
             val address = it.workplace?.address
             if (address.isNotNullable())

@@ -495,7 +495,7 @@ data class HealthCareLocatorCustomObject private constructor(
     }
 
     fun roundingNumber(number: Double): Double {
-        val df = DecimalFormat("#.##")
+        val df = DecimalFormat("#.#")
         df.roundingMode = RoundingMode.CEILING
         return df.format(number).toDouble()
     }

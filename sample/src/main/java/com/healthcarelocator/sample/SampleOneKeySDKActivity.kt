@@ -268,7 +268,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.08"))
                 .entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
-                        if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf())
+                        if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf("SP.WFR.AR"))
         }
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",

@@ -18,8 +18,9 @@ import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class HCLListResultFragment : IFragment() {
     companion object {
-        fun newInstance(speciality: String = "") = HCLListResultFragment().apply {
+        fun newInstance(speciality: String = "", activities: ArrayList<ActivityObject>) = HCLListResultFragment().apply {
             this.speciality = speciality
+            this.activities = activities
         }
     }
 
@@ -35,9 +36,6 @@ class HCLListResultFragment : IFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listContainer.setBackgroundColor(healthCareLocatorCustomObject.colorListBackground.getColor())
-        getAbsFragment()?.getActivities()?.also {
-            this.activities = it
-        }
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

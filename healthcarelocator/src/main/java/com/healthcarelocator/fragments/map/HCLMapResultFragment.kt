@@ -28,8 +28,9 @@ import org.osmdroid.events.ZoomEvent
 class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     companion object {
-        fun newInstance(speciality: String = "") = HCLMapResultFragment().apply {
+        fun newInstance(speciality: String = "", activities: ArrayList<ActivityObject>) = HCLMapResultFragment().apply {
             this.speciality = speciality
+            this.activities = activities
         }
     }
 
@@ -56,9 +57,6 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         }
         mapFragment.onMapListener = this
         isRelaunch = getAbsFragment()?.getRelaunchState() ?: false
-        getAbsFragment()?.getActivities()?.also {
-            this.activities = it
-        }
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter

@@ -196,10 +196,10 @@ class HCLNearMeFragment :
             resultFragments = arrayListOf(
                     HCLListResultFragment.newInstance(if (speciality.isNotNullable()) {
                         speciality!!.longLbl
-                    } else {""}),
+                    } else {""}, ArrayList(it)),
                     HCLMapResultFragment.newInstance(if (speciality.isNotNullable()) {
                         speciality!!.longLbl
-                    } else {""})
+                    } else {""}, ArrayList(it))
             )
             fragmentState.apply {
                 enableAnim(false)

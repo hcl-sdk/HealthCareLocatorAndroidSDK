@@ -47,6 +47,7 @@ object Pref {
     const val specialtyCode = "Pref.specialtyCode"
     const val distanceUnit = "Pref.distanceUnit"
     const val distanceDefault = "Pref.distanceDefault"
+    const val isSearchCardiology = "Pref.isSearchCardiology"
 }
 
 fun getThemes(): ArrayList<ThemeObject> = arrayListOf<ThemeObject>().apply {

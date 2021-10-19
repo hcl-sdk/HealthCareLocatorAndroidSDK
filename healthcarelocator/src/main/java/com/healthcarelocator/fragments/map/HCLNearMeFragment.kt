@@ -261,8 +261,19 @@ class HCLNearMeFragment :
     }
 
     private fun setSpecialityName() {
-        if (healthCareLocatorCustomObject.specialities.isNotEmpty()) {
-            val specialtyLabel = context?.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)?.getString("Pref.specialtyLabel", "")
+        val sharedPreferences = context!!.getSharedPreferences("SampleOneKeySDK", Context.MODE_PRIVATE)
+        val isSearchCardiology = sharedPreferences.getBoolean("Pref.isSearchCardiology", false)
+        val specialtyLabel = sharedPreferences.getString("Pref.specialtyLabel", "")
+        if (isSearchCardiology) {
+            if (specialtyLabel.isNotNullAndEmpty()) {
+                tvSpeciality.text = specialtyLabel
+            } else {
+                tvSpeciality.text = "CARDIOLOGY"
+            }
+            sharedPreferences.edit {
+                putBoolean("Pref.isSearchCardiology", false)
+            }
+        } else if (healthCareLocatorCustomObject.specialities.isNotEmpty()) {
             tvSpeciality.text = specialtyLabel ?: specialityName
         }
     }

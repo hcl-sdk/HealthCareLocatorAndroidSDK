@@ -343,19 +343,33 @@ class HCLProfileFragment :
                     shareString += "${activityDetail.individual?.professionalType?.label}\n\n"
                 }
                 shareString += "$address\n"
-                if (activityDetail.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.buildingLabel}\n"
+                } else if (activityDetail.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
                     shareString += "${activityDetail.workplace?.address?.buildingLabel}\n"
                 }
-                if (activityDetail.workplace?.address?.longLabel.isNotNullAndEmpty()) {
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.longLabel.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.longLabel}\n"
+                } else if (activityDetail.workplace?.address?.longLabel.isNotNullAndEmpty()) {
                     shareString += "${activityDetail.workplace?.address?.longLabel}\n"
                 }
-                if (activityDetail.workplace?.address?.postalCode.isNotNullAndEmpty()) {
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.postalCode.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.postalCode}\n"
+                } else if (activityDetail.workplace?.address?.postalCode.isNotNullAndEmpty()) {
                     shareString += "${activityDetail.workplace?.address?.postalCode}\n"
                 }
-                if (activityDetail.workplace?.address?.city.isNotNullable()) {
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.city.isNotNullable()) {
+                    shareString += "${obj?.workplace?.address?.city}\n"
+                } else if (activityDetail.workplace?.address?.city.isNotNullable()) {
                     shareString += "${activityDetail.workplace?.address?.city}\n\n"
                 }
-                if (activityDetail.phone.isNotNullAndEmpty()) {
+
+                if (obj?.workplace.isNotNullable() && obj?.phone.isNotNullAndEmpty()) {
+                    shareString += "${obj?.phone}\n"
+                } else if (activityDetail.phone.isNotNullAndEmpty()) {
                     shareString += "${activityDetail.phone}\n"
                 }
                 shareString += "\nI found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."

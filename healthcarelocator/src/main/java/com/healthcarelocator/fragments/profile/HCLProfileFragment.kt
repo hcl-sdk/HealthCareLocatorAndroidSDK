@@ -2,25 +2,31 @@ package com.healthcarelocator.fragments.profile
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.TextUtils
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.extensions.share
 import base.fragments.AppFragment
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.healthcarelocator.R
+import com.healthcarelocator.adapter.search.HCLSpecialitiesAdapter
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.StarterMapFragment
-import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.HCLLocation
+import com.healthcarelocator.model.LabelObject
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.activity.ActivityWorkplaceObject
 import com.healthcarelocator.model.activity.OtherActivityObject
@@ -36,13 +42,15 @@ class HCLProfileFragment :
         View.OnClickListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-            theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
-            HCLLocation: HCLLocation?, activityId: String = ""
+                theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
+                HCLLocation: HCLLocation?, activityId: String = "", isSpeciality: Boolean = false, speciality: String = ""
         ) =
                 HCLProfileFragment().apply {
                     this.healthCareLocatorCustomObject = theme
                     this.HCLLocation = HCLLocation
                     this.activityId = activityId
+                    this.isSpeciality = isSpeciality
+                    this.speciality = speciality
                 }
 
     }
@@ -57,6 +65,9 @@ class HCLProfileFragment :
     private var vote: Int = -1
     private var phone: String = ""
     override val viewModel = HCLProfileViewModel()
+    private val specialitiesAdapter by lazy { HCLSpecialitiesAdapter(isSpeciality) }
+    private var isSpeciality = false
+    private var speciality = ""
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
@@ -110,22 +121,30 @@ class HCLProfileFragment :
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
             ivBrowser.setIconFromDrawableId(iconWebsite, true, colorGrey.getColor())
+            val bgColor = if (darkMode) darkModeColor.getColor() else Color.WHITE
             cbxYes.setLayerListFromDrawable(
-                    Color.WHITE,
+                    bgColor,
                     colorPrimary.getColor(),
                     colorGreyLight.getColor(),
                     3,
                     context!!.getDrawableFilledIcon(iconVoteUp, colorGreyLight.getColor()),
-                    context!!.getDrawableFilledIcon(iconVoteUp, Color.WHITE)
+                    context!!.getDrawableFilledIcon(iconVoteUp, bgColor)
             )
             cbxNo.setLayerListFromDrawable(
-                    Color.WHITE,
+                    bgColor,
                     colorVoteDown.getColor(),
                     colorGreyLight.getColor(),
                     3,
                     context!!.getDrawableFilledIcon(iconVoteDown, colorGreyLight.getColor()),
-                    context!!.getDrawableFilledIcon(iconVoteDown, Color.WHITE)
+                    context!!.getDrawableFilledIcon(iconVoteDown, bgColor)
             )
+            contentWrapper.background = ContextCompat.getDrawable(context!!,
+                    if (darkMode) R.drawable.bg_black_border_corner else R.drawable.bg_white_border_corner)
+            ivDoctor.setBackgroundWithCorner(
+                    if (darkMode) darkModeLightColor.getColor() else Color.parseColor("#e6e6e6"),
+                    Color.TRANSPARENT, 10f)
+            profileProgressBar.setBackgroundColor(bgColor)
+            btnBack.setColorFilter(if (!darkMode) Color.BLACK else Color.WHITE)
         }
     }
 
@@ -161,15 +180,18 @@ class HCLProfileFragment :
             HCLLocation = savedInstanceState.getParcelable("selectedLocation")
         }
         val secondaryColor = healthCareLocatorCustomObject.colorSecondary.getColor()
+
+        val bgColor = if (healthCareLocatorCustomObject.darkMode)
+            healthCareLocatorCustomObject.darkModeColor.getColor() else Color.WHITE
         ivDirection.setColorFilter(secondaryColor)
         ivDirection.setBackgroundWithCorner(
-                Color.WHITE,
+                bgColor,
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                 100f,
                 3
         )
         ivCall.setBackgroundWithCorner(
-                Color.WHITE,
+                bgColor,
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                 100f,
                 3
@@ -181,23 +203,59 @@ class HCLProfileFragment :
                 healthCareLocatorCustomObject.colorButtonBackground.getColor(),
                 healthCareLocatorCustomObject.colorButtonBorder.getColor(), 8f, 3
         )
+        healthCareLocatorCustomObject.also {
+            if (it.darkMode)
+                tvSuggestModification.setTextColor(Color.WHITE)
+        }
 
         activityDetail.apply {
             this@HCLProfileFragment.phone = phone
-            tvDoctorName.text = individual?.mailingName ?: ""
+            tvDoctorName.text = (individual?.firstName + " " + individual?.lastName) ?: ""
             tvSpeciality.text = individual?.professionalType?.label ?: ""
-
-            tvSpecialities.text = TextUtils.join(
-                    ",", individual?.specialties
-                    ?: arrayListOf<LabelObject>()
-            )
+            val flexBoxLayoutManager = FlexboxLayoutManager(context).apply {
+                flexWrap = FlexWrap.WRAP
+                flexDirection = FlexDirection.ROW
+                alignItems = AlignItems.FLEX_START
+            }
+            rvSpecialities.apply {
+                layoutManager = flexBoxLayoutManager
+                adapter = specialitiesAdapter
+            }
+            if (individual?.specialties != null) {
+                val listSpecialty = arrayListOf<LabelObject>()
+                if (speciality.isNotNullable()) {
+                    for (i in individual?.specialties!!.indices) {
+                        if (i < 2 && speciality.equals(individual!!.specialties[i].toString(), true)) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                    }
+                    for (i in individual?.specialties!!.indices) {
+                        if (i < 2 && !speciality.equals(individual!!.specialties[i].toString(), true)) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                    }
+                } else {
+                    for (i in individual?.specialties!!.indices) {
+                        if (i < 2) {
+                            listSpecialty.add(individual!!.specialties[i])
+                        }
+                    }
+                }
+                specialitiesAdapter.setData(listSpecialty)
+                if (individual?.specialties!!.size > 2) {
+                    lnViewMore.visibility = View.VISIBLE
+                    tvViewMore.paintFlags = tvViewMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
+            } else {
+                specialitiesAdapter.setData(arrayListOf())
+            }
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
         }
 
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
             spinnerWrapper.setBackgroundWithCorner(
-                    Color.WHITE,
+                    bgColor,
                     healthCareLocatorCustomObject.colorButtonBorder.getColor(),
                     10f,
                     2
@@ -228,6 +286,7 @@ class HCLProfileFragment :
         btnSuggestModification.setOnClickListener(this)
         cbxYes.setOnClickListener(this)
         cbxNo.setOnClickListener(this)
+        lnViewMore.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -268,14 +327,7 @@ class HCLProfileFragment :
 
             R.id.btnShare -> {
                 val obj = addressSpinner.selectedItem as? OtherActivityObject
-                val address = obj?.workplace?.run {
-                    var string = "$name"
-                    if (!address?.buildingLabel.isNullOrEmpty())
-                        string += "\n${address?.buildingLabel}"
-                    if (!address?.longLabel.isNullOrEmpty())
-                        string += "\n${address?.longLabel}"
-                    string
-                } ?: ""
+                val address = activityDetail.workplace?.run { "$name" } ?: ""
                 val link = with(HealthCareLocatorSDK.getInstance().getAppDownloadLink()) {
                     if (this.isEmpty()) ""
                     " - ${HealthCareLocatorSDK.getInstance().getAppDownloadLink()}"
@@ -286,13 +338,41 @@ class HCLProfileFragment :
                         "$firstName $middleName $lastName"
                     }
                 }
-                val shareString = "Here is a healthcare professional that I recommend:\n" +
-                        "\n" +
-                        "$name\n" + "${activityDetail.individual?.professionalType?.label}\n\n" +
-                        "$address\n\n" +
-                        "${obj?.phone}\n" +
-                        "\n" +
-                        "I found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
+                var shareString = "Here is a healthcare professional that I recommend:\n\n$name\n"
+                if (activityDetail.individual?.professionalType?.label.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.individual?.professionalType?.label}\n\n"
+                }
+                shareString += "$address\n"
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.buildingLabel}\n"
+                } else if (activityDetail.workplace?.address?.buildingLabel.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.buildingLabel}\n"
+                }
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.longLabel.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.longLabel}\n"
+                } else if (activityDetail.workplace?.address?.longLabel.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.longLabel}\n"
+                }
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.postalCode.isNotNullAndEmpty()) {
+                    shareString += "${obj?.workplace?.address?.postalCode}\n"
+                } else if (activityDetail.workplace?.address?.postalCode.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.workplace?.address?.postalCode}\n"
+                }
+
+                if (obj?.workplace.isNotNullable() && obj?.workplace?.address?.city.isNotNullable()) {
+                    shareString += "${obj?.workplace?.address?.city}\n"
+                } else if (activityDetail.workplace?.address?.city.isNotNullable()) {
+                    shareString += "${activityDetail.workplace?.address?.city}\n\n"
+                }
+
+                if (obj?.workplace.isNotNullable() && obj?.phone.isNotNullAndEmpty()) {
+                    shareString += "${obj?.phone}\n"
+                } else if (activityDetail.phone.isNotNullAndEmpty()) {
+                    shareString += "${activityDetail.phone}\n"
+                }
+                shareString += "\nI found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
                 activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {
@@ -319,6 +399,33 @@ class HCLProfileFragment :
                 cbxNo.isEnabled = false
                 viewModel.storeVote(context, activityId, 1)
             }
+            R.id.lnViewMore -> {
+                lnViewMore.visibility = View.GONE
+                activityDetail.apply {
+                    if (individual?.specialties != null) {
+                        val listSpecialty = arrayListOf<LabelObject>()
+                        if (speciality.isNotNullable()) {
+                            for (i in individual?.specialties!!.indices) {
+                                if (speciality.equals(individual!!.specialties[i].toString(), true)) {
+                                    listSpecialty.add(individual!!.specialties[i])
+                                }
+                            }
+                            for (i in individual?.specialties!!.indices) {
+                                if (!speciality.equals(individual!!.specialties[i].toString(), true)) {
+                                    listSpecialty.add(individual!!.specialties[i])
+                                }
+                            }
+                        } else {
+                            for (i in individual?.specialties!!.indices) {
+                                listSpecialty.add(individual!!.specialties[i])
+                            }
+                        }
+                        specialitiesAdapter.setData(listSpecialty)
+                    } else {
+                        specialitiesAdapter.setData(arrayListOf())
+                    }
+                }
+            }
         }
     }
 
@@ -333,8 +440,16 @@ class HCLProfileFragment :
     }
 
     private fun changeAddress(it: OtherActivityObject) {
-        setAddress(it.workplace, it.webAddress, it.phone, it.fax)
-        this.phone = it.phone
+        this.phone = if (it.phone.isNotNullAndEmpty()) {
+            it.phone
+        } else if (it.workplace.isNotNullable() && it.workplace!!.localPhone.isNotNullAndEmpty()) {
+            it.workplace!!.localPhone
+        } else if (it.workplace.isNotNullable() && it.workplace!!.intlPhone.isNotNullAndEmpty()) {
+            it.workplace!!.intlPhone
+        } else {
+            ""
+        }
+        setAddress(it.workplace, it.webAddress, this.phone, it.fax)
         tvAddress.postDelay({ _ ->
             val address = it.workplace?.address
             if (address.isNotNullable())
@@ -371,11 +486,15 @@ class HCLProfileFragment :
             phone: String, fax: String
     ) {
         tvAddress.text = workplace?.run {
-            var string = "$name"
-            if (!address?.buildingLabel.isNullOrEmpty())
+            var string = ""
+            if (name.isNotNullAndEmpty())
+                string += "$name"
+            if (address.isNotNullable() && address?.buildingLabel.isNotNullAndEmpty())
                 string += "\n${address?.buildingLabel}"
-            if (!address?.longLabel.isNullOrEmpty())
+            if (address.isNotNullable() && address?.longLabel.isNotNullAndEmpty())
                 string += "\n${address?.longLabel}"
+            if (address.isNotNullable() && address?.postalCode.isNotNullAndEmpty() && address?.city?.label.isNotNullAndEmpty())
+                string += ", ${address?.postalCode} ${address?.city?.label}"
             string
         } ?: ""
         websiteWrapper.visibility = webAddress.isNotEmpty().getVisibility()

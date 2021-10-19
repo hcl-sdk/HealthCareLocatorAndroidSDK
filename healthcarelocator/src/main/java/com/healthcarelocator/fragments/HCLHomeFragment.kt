@@ -33,7 +33,9 @@ class HCLHomeFragment :
     override fun initView(view: View, savedInstanceState: Bundle?) {
         btnStartSearch.setOnClickListener { startNewSearch() }
         healthCareLocatorCustomObject.also {
-            contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 15f, 3)
+            contentWrapper.setBackgroundWithCorner(
+                    if (it.darkMode) it.darkModeLightColor.getColor() else Color.WHITE,
+                    it.colorCardBorder.getColor(), 15f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             container.setBackgroundColor(it.colorViewBackground.getColor())
             btnStartSearch.setRippleBackground(it.colorPrimary)

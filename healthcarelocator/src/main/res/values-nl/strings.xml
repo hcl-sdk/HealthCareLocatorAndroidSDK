@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Zorgverleners\nzoeken</string>
+    <string name="hcl_home_feat_find_hcp_title">Zorgverleners zoeken</string>
+    <string name="hcl_home_feat_find_hcp_text">Zoek naar zorgverleners op locatie, naam of specialisatie, of zoek naar zorgverleners bij u in de buurt</string>
+    <string name="hcl_home_feat_consult_profile_title">Toegang tot profielen van zorgverleners</string>
+    <string name="hcl_home_feat_consult_profile_text">Bekijk uitgebreide profielen van zorgverleners, inclusief specialisaties, locatie en contactgegevens</string>
+    <string name="hcl_home_feat_request_info_update_title">Zorgverleners delen</string>
+    <string name="hcl_home_feat_request_info_update_text">Gebruik sms of e-mail om profielen te delen met vrienden en familie </string>
+
+    <string name="hcl_start_new_search">Nieuwe zoekopdracht starten</string>
+
+    <string name="hcl_hcps_near_me">МР рядом со мной</string>
+    <string name="hcl_last_searches">Zorgverleners bij mij in de buurt</string>
+    <string name="hcl_view_more">Meer tonen</string>
+    <string name="hcl_view_less">Minder tonen</string>
+    <string name="hcl_last_hcps_consulted">Laatst geraadpleegde zorgverlener</string>
+    <string name="hcl_find_healthcare_professional">Zorgverlener zoeken</string>
+
+    <string name="hcl_search_field_label">Naam</string>
+    <string name="hcl_search_first_field_label">Specialisatie</string>
+    <string name="hcl_search_second_field_label">Waar? (adres, plaats…)</string>
+    <string name="hcl_near_me">Bij mij in de buurt</string>
+    <string name="hcl_anywhere">Overal</string>
+
+    <string name="hcl_results_label">Resultaten</string>
+    <string name="hcl_list_label">Lijst</string>
+    <string name="hcl_map_label">Kaart</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
+    <string name="hcl_no_result_found">Geen resultaten gevonden</string>
+    <string name="hcl_no_result_message">Oeps, het lijkt erop dat uw zoekopdracht geen resultaten heeft opgeleverd.</string>
+    <string name="hcl_relaunch">Opnieuw zoeken</string>
+
+    <string name="hcl_sort_label">Sorteren</string>
+    <string name="hcl_relevance_item">Relevantie</string>
+    <string name="hcl_distance_item">Afstand</string>
+    <string name="hcl_name_item">Naam</string>
+    <string name="hcl_apply_button">Toepassen</string>
+    <string name="hcl_reset_button">Resetten</string>
+
+    <string name="hcl_main_information_label">Belangrijkste informatie</string>
+    <string name="hcl_rate_refunds_label">Tarief en vergoedingen</string>
+    <string name="hcl_specialities_label">Specialisaties</string>
+    <string name="hcl_information_label">Informatie</string>
+    <string name="hcl_information_description">Klopt de informatie die u heeft gekregen over deze zorgverlener?</string>
+    <string name="hcl_information_yes_label">Ja</string>
+    <string name="hcl_information_no_label">Nee</string>
+    <string name="hcl_improve_quality_label">Verbeter de kwaliteit van de gegevens</string>
+    <string name="hcl_improve_quality_text">Geef ons meer informatie over deze zorgverlener.</string>
+    <string name="hcl_suggess_modification_button">Stel een wijziging voor</string>
+</resources>

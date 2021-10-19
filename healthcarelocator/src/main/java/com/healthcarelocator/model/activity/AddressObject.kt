@@ -46,7 +46,7 @@ class AddressObject(var longLabel: String = "", var country: String = "",
         }
     }
 
-    fun getAddress(): String = "${longLabel}, ${city?.label}"
+    fun getAddress(): String = "${longLabel}, ${postalCode} ${city?.label}"
 
     /**
      * Convert data from GraphQL

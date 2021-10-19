@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.healthcarelocator.custom.layout.HCLLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -29,13 +29,14 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/specialityWrapper"
+                android:id="@+id/nameWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_border_corner"
                 android:padding="1dp">
 
                 <LinearLayout
+                    android:id="@+id/nameChildWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_white_border"
@@ -53,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:focusable="true"
-                            android:hint="@string/hcl_search_first_field_label"
+                            android:hint="@string/hcl_search_field_label"
                             android:imeOptions="actionNext"
                             android:inputType="text|textNoSuggestions"
                             android:maxLines="1"
@@ -62,11 +63,11 @@
                             app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
                         <FrameLayout
-                            android:id="@+id/viewBlockedEditable"
+                            android:id="@+id/viewBlockedNameEditable"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
-                            android:clickable="true" />
+                            android:clickable="true"
+                            android:visibility="gone" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -74,7 +75,7 @@
                         android:layout_height="@dimen/default_icon_size">
 
                         <ImageView
-                            android:id="@+id/ivSpecialityClear"
+                            android:id="@+id/ivNameClear"
                             android:layout_width="@dimen/default_icon_size"
                             android:layout_height="@dimen/default_icon_size"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -93,6 +94,72 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/specialityWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_smaller"
+                android:background="@drawable/bg_white_border_corner"
+                android:padding="1dp">
+
+                <LinearLayout
+                    android:id="@+id/specialityChildWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_border"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.healthcarelocator.custom.text.HCLEditText
+                            android:id="@+id/edtSpecialty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:focusable="true"
+                            android:hint="@string/hcl_search_first_field_label"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:padding="@dimen/default_padding_smaller"
+                            app:OneKeyTextColor="OneKeyColorDark"
+                            app:OneKeyTextStyle="OneKeyStyleSearchInput" />
+
+                        <FrameLayout
+                            android:id="@+id/viewBlockedSpecialtyEditable"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="@dimen/default_icon_size"
+                        android:layout_height="@dimen/default_icon_size">
+
+                        <ImageView
+                            android:id="@+id/ivSpecialityClear"
+                            android:layout_width="@dimen/default_icon_size"
+                            android:layout_height="@dimen/default_icon_size"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/default_padding_smaller"
+                            android:src="@drawable/baseline_close_black_24dp"
+                            app:tint="@color/gray" />
+
+                        <com.healthcarelocator.custom.progressbar.HCLProgressBar
+                            android:id="@+id/specialtyBar"
+                            android:layout_width="@dimen/default_icon_size_small"
+                            android:layout_height="@dimen/default_icon_size_small"
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/addressWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,6 +168,7 @@
                 android:padding="1dp">
 
                 <LinearLayout
+                    android:id="@+id/addressChildWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_white_border"
@@ -291,4 +359,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false" />
-</LinearLayout>
+</com.healthcarelocator.custom.layout.HCLLinearLayout>

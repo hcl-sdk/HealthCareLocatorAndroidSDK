@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">البحث عن وتحديد أماكنn\البحث عن وتحديد أماكن</string>
+    <string name="hcl_home_feat_find_hcp_title">البحث عن المُتخَصصين في الرِّعاية الصِّحيَّة</string>
+    <string name="hcl_home_feat_find_hcp_text">البحث عن مُقدمي خدمات الرِّعاية الصِّحيَّة عن طريق تحديد الموقع والاسم والتَّخصص أو البحث في الأماكن القريبة</string>
+    <string name="hcl_home_feat_consult_profile_title">الوُصول للملفات الشَّخصية الخاصة بالمُتخَصصين في الرِّعاية الصِّحيَّة</string>
+    <string name="hcl_home_feat_consult_profile_text">مراجعة الملفات الشَّخصية المُفصلة لمُقدمي خدمات الرِّعاية الصِّحيَّة، بما في ذلك التخصصات والمواقع وبيانات الاتصال</string>
+    <string name="hcl_home_feat_request_info_update_title">مُشاركة المعلومات المتعلقة بالمُتخَصصين في الرِّعاية الصِّحيَّة</string>
+    <string name="hcl_home_feat_request_info_update_text">استخدام الرسائل النصية القصيرة أو البريد الإلكتروني لمشاركة الملفَّات الشَّخصية مع الأصدقاء وأفراد الأسرة</string>
+
+    <string name="hcl_start_new_search">بدء بحث جديد</string>
+
+    <string name="hcl_hcps_near_me">المُتخَصصين في الرِّعاية الصِّحيَّة القريبين مني</string>
+    <string name="hcl_last_searches">أحدث عمليَّات البحث</string>
+    <string name="hcl_view_more">عرض المزيد</string>
+    <string name="hcl_view_less">عرض أقل</string>
+    <string name="hcl_last_hcps_consulted">آخر مُتخصص في الرِّعاية الصِّحيَّة تمت استشارته</string>
+    <string name="hcl_find_healthcare_professional">البحث عن مُتخصص في الرِّعاية الصِّحيَّة</string>
+
+    <string name="hcl_search_field_label">الاسم</string>
+    <string name="hcl_search_first_field_label">التَّخصص</string>
+    <string name="hcl_search_second_field_label">الموقع؟ (العنوان، المدينة....)</string>
+    <string name="hcl_near_me">بالقُرب مني</string>
+    <string name="hcl_anywhere">في أيّ مكان</string>
+
+    <string name="hcl_results_label">النَّتائج</string>
+    <string name="hcl_list_label">القائمة</string>
+    <string name="hcl_map_label">الخريطة</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
+    <string name="hcl_no_result_found">لا توجد نتائج</string>
+    <string name="hcl_no_result_message">عفوًا، يبدو أنه لا توجد نتائج مطابقة لبحثك.</string>
+    <string name="hcl_relaunch">إعادة الإطلاق</string>
+
+    <string name="hcl_sort_label">الفرز</string>
+    <string name="hcl_relevance_item">المُلاءمة</string>
+    <string name="hcl_distance_item">المسافة</string>
+    <string name="hcl_name_item">الاسم</string>
+    <string name="hcl_apply_button">التَّطبيق</string>
+    <string name="hcl_reset_button">إعادة الضبط</string>
+
+    <string name="hcl_main_information_label">المعلومات الرئيسة</string>
+    <string name="hcl_rate_refunds_label">السّعر واسترداد المدفوعات</string>
+    <string name="hcl_specialities_label">التَّخصصات</string>
+    <string name="hcl_information_label">المَعلومات</string>
+    <string name="hcl_information_description">هل المَعلومات التي تمَّ تقديمها لك حول المُتخَصصين في الرِّعاية الصِّحيَّة صحيحة؟</string>
+    <string name="hcl_information_yes_label">نعم</string>
+    <string name="hcl_information_no_label">لا</string>
+    <string name="hcl_improve_quality_label">تحسين جودة البيانات</string>
+    <string name="hcl_improve_quality_text">شارك معنا المزيد من المعلومات عن هذا المُتخصص في الرِّعاية الصِّحيَّة.	</string>
+    <string name="hcl_suggess_modification_button">اقتراح تعديل</string>
+</resources>

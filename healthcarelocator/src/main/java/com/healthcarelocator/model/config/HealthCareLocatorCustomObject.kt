@@ -6,6 +6,8 @@ import com.healthcarelocator.R
 import com.healthcarelocator.extensions.MapService
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.extensions.isNullable
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 /**
@@ -106,11 +108,11 @@ data class HealthCareLocatorCustomObject private constructor(
                 id = "sortCriteria",
                 size = 16
         ).build(),
-        val colorListBackground: String = "#f8f9fa", val colorDark: String, val colorGrey: String,
-        val colorGreyDark: String, val colorGreyDarker: String, val colorGreyLight: String,
+        var colorListBackground: String = "#f8f9fa", var colorDark: String, val colorGrey: String,
+        val colorGreyDark: String, var colorGreyDarker: String, val colorGreyLight: String,
         val colorGreyLighter: String, val colorVoteUp: String, val colorVoteDown: String,
-        val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
-        val colorButtonBackground: String, val colorButtonAcceptBackground: String,
+        var colorViewBackground: String, var colorCardBorder: String, var colorButtonBorder: String,
+        var colorButtonBackground: String, var colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val locale: String,
         val specialities: ArrayList<String>, @ScreenReference val screenReference: Int,
         @MapService val mapService: Int, val iconCross: Int, val iconGeoLoc: Int,
@@ -120,7 +122,10 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconLocation: Int, val fontNoResultTitle: HealthCareLocatorViewFontObject,
         val fontNoResultDesc: HealthCareLocatorViewFontObject,
         val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
-        var defaultCountry: String = ""
+        private val distanceUnit: String, val distanceDefault: String,
+        var defaultCountry: String = "", val darkMode: Boolean = false, val darkModeColor: String = "#232323",
+        var specialtyLabel: String = "", val darkModeLightColor: String = "#323232",
+        val darkModeForMap: Boolean = false
 ) {
 
     @Suppress
@@ -243,7 +248,10 @@ data class HealthCareLocatorCustomObject private constructor(
             ).build(),
             var showModificationForm: Boolean = false,
             var env: String = "prod", var countries: ArrayList<String> = arrayListOf(),
-            var defaultCountry: String = ""
+            var distanceUnit: String = "Kilometer", var distanceDefault: String = "",
+            var defaultCountry: String = "", var darkMode: Boolean = false, var darkModeForMap: Boolean = false,
+            var darkModeColor: String = "#232323", var specialtyLabel: String = "",
+            var darkModeLightColor: String = "#323232"
     ) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) =
@@ -374,8 +382,12 @@ data class HealthCareLocatorCustomObject private constructor(
         fun specialities(specialities: ArrayList<String>) =
                 apply { this.specialities = specialities }
 
-        fun entryScreen(@ScreenReference screenReference: Int) =
-                apply { this.screenReference = screenReference }
+        fun entryScreen(@ScreenReference screenReference: Int, specialtyLabel: String, specialities: ArrayList<String>) =
+                apply {
+                    this.screenReference = screenReference
+                    this.specialtyLabel = specialtyLabel
+                    this.specialities = specialities
+                }
 
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
         fun showModificationForm(showModificationForm: Boolean) =
@@ -384,6 +396,12 @@ data class HealthCareLocatorCustomObject private constructor(
         fun env(env: String) = apply { this.env = env }
         fun countries(countries: ArrayList<String>) = apply { this.countries = countries }
         fun defaultCountry(defaultCountry: String) = apply { this.defaultCountry = defaultCountry }
+        fun darkMode(darkMode: Boolean) = apply { this.darkMode = darkMode }
+        fun darkModeForMap(darkModeForMap: Boolean) = apply { this.darkModeForMap = darkModeForMap }
+        fun darkModeColor(darkModeColor: String) = apply { this.darkModeColor = darkModeColor }
+        fun specialtyLabel(specialtyLabel: String) = apply { this.specialtyLabel = specialtyLabel }
+        fun distanceUnit(distanceUnit: String) = apply { this.distanceUnit = distanceUnit }
+        fun distanceDefault(distanceDefault: String) = apply { this.distanceDefault = distanceDefault }
 
         fun build() = HealthCareLocatorCustomObject(
                 colorPrimary,
@@ -448,11 +466,67 @@ data class HealthCareLocatorCustomObject private constructor(
                 showModificationForm,
                 env,
                 countries,
-                defaultCountry
+                distanceUnit,
+                distanceDefault,
+                defaultCountry, darkMode, darkModeColor,
+                specialtyLabel, darkModeLightColor,
+                darkModeForMap
         )
     }
 
+    fun convertMeterToKilometer(number: Double): Double {
+        return number * 0.001
+    }
+
+    fun convertKilometerToMeter(number: Double): Double {
+        return number * 1000
+    }
+
+    fun convertMeterToMile(number: Double): Double {
+        return number * 0.000621371
+    }
+
+    fun convertMileToMeter(number: Double): Double {
+        return number * 1609.34
+    }
+
+    fun convertMeterToFoot(number: Double): Double {
+        return number * 3.28084
+    }
+
+    fun roundingNumber(number: Double): Double {
+        val df = DecimalFormat("#.#")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
+    }
+
+    fun getDistanceDefault(): Double = if (distanceDefault.isNotEmpty() && distanceDefault.toDouble() != 0.0) {
+        distanceDefault.toDouble()
+    } else 0.0
+
+    fun getDistanceUnit(): String = if (distanceUnit.isNotEmpty()) {
+        when (distanceUnit) {
+            "Kilometer" -> "km"
+            "Mile" -> "mi"
+            else -> "km"
+        }
+    } else "km"
+
     fun getLocaleCode(): String = if (locale.isNotEmpty()) {
-        if (locale == "fr") "fr_CA" else locale
+        when (locale) {
+            "de" -> "de_DE"
+            "es" -> "es_ES"
+            "co" -> "es_CO"
+            "fr" -> "fr_FR"
+            "ca" -> "fr_CA"
+            "it" -> "it_IT"
+            "nl" -> "nl_NL"
+            "pl" -> "pl_PL"
+            "pt" -> "pt_PT"
+            "tr" -> "tr_tR"
+            "ru" -> "ru_RU"
+            "ar" -> "ar_SA"
+            else -> locale
+        }
     } else Locale.getDefault().language
 }

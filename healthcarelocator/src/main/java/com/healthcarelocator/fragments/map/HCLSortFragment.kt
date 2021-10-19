@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.sort.HCLSortAdapter
-import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.extensions.getColor
 import com.healthcarelocator.extensions.setBackgroundWithCorner
 import com.healthcarelocator.extensions.setIconFromDrawableId
 import com.healthcarelocator.extensions.setRippleBackground
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.map.HCLSortObject
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.viewmodel.map.HCLSortViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_sort.*
 
@@ -34,9 +34,8 @@ class HCLSortFragment : AppFragment<HCLSortFragment, HCLSortViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         sortList.clear()
-        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_relevance_item)),
-                HCLSortObject("1", getString(R.string.hcl_distance_item)),
-                HCLSortObject("2", getString(R.string.hcl_name_item))))
+        sortList.addAll(arrayListOf(HCLSortObject("0", getString(R.string.hcl_name_item)),
+                HCLSortObject("1", getString(R.string.hcl_distance_item))))
         var sort = sortList
 
         if (savedInstanceState != null) {
@@ -47,7 +46,9 @@ class HCLSortFragment : AppFragment<HCLSortFragment, HCLSortViewModel>(R.layout.
         btnApply.setRippleBackground(theme.colorPrimary.getColor(), 8f)
         btnReset.setRippleBackground(theme.colorButtonDiscardBackground.getColor(), 8f)
         btnClose.setIconFromDrawableId(theme.iconCross, true, theme.colorGrey.getColor())
-        contentWrapper.setBackgroundWithCorner(Color.WHITE, theme.colorCardBorder.getColor(), 12f, 3)
+        contentWrapper.setBackgroundWithCorner(
+                if (theme.darkMode) theme.darkModeColor.getColor()
+                else Color.WHITE, theme.colorCardBorder.getColor(), 12f, 3)
         container.setBackgroundColor(theme.colorViewBackground.getColor())
         rvSort.apply {
             layoutManager = LinearLayoutManager(context)

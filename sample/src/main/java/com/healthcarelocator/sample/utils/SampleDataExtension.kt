@@ -41,6 +41,13 @@ object Pref {
     const val language = "Pref.language"
     const val mapService = "Pref.mapService"
     const val countryCodes = "Pref.coutryCodes"
+    const val darkMode = "Pref.darkMode"
+    const val darkModeForMap = "Pref.darkModeForMap"
+    const val specialtyLabel = "Pref.specialtyLabel"
+    const val specialtyCode = "Pref.specialtyCode"
+    const val distanceUnit = "Pref.distanceUnit"
+    const val distanceDefault = "Pref.distanceDefault"
+    const val isSearchCardiology = "Pref.isSearchCardiology"
 }
 
 fun getThemes(): ArrayList<ThemeObject> = arrayListOf<ThemeObject>().apply {

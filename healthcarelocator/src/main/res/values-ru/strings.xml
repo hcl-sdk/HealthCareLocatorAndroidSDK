@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthCareLocator SDK</string>
+
+    <string name="hcl_home_title">Находите МР и узнавайте\nих местоположение</string>
+    <string name="hcl_home_feat_find_hcp_title">Поиск МР</string>
+    <string name="hcl_home_feat_find_hcp_text">Находите медицинских работников по местоположению, имени, специализации или поблизости от вас</string>
+    <string name="hcl_home_feat_consult_profile_title">Доступ к профилям МР</string>
+    <string name="hcl_home_feat_consult_profile_text">Просматривайте подробные профили МР с указанием специализации, местоположения и контактной информации</string>
+    <string name="hcl_home_feat_request_info_update_title">Делитесь профилями МР</string>
+    <string name="hcl_home_feat_request_info_update_text">Делитесь профилями с друзьями и родственниками по СМС или электронной почте</string>
+
+    <string name="hcl_start_new_search">Начать новый поиск</string>
+
+    <string name="hcl_hcps_near_me">МР рядом со мной</string>
+    <string name="hcl_last_searches">Последние операции поиска</string>
+    <string name="hcl_view_more">Показать больше</string>
+    <string name="hcl_view_less">Свернуть</string>
+    <string name="hcl_last_hcps_consulted">Последние консультации с МР</string>
+    <string name="hcl_find_healthcare_professional">Найти медицинского работника</string>
+
+    <string name="hcl_search_field_label">Ф. И. О.</string>
+    <string name="hcl_search_first_field_label">Cпециализация</string>
+    <string name="hcl_search_second_field_label">Местоположение (адрес, город…)</string>
+    <string name="hcl_near_me">Рядом со мной</string>
+    <string name="hcl_anywhere">Везде</string>
+
+    <string name="hcl_results_label">Результаты</string>
+    <string name="hcl_list_label">Список</string>
+    <string name="hcl_map_label">На карте</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
+    <string name="hcl_no_result_found">Ничего не найдено</string>
+    <string name="hcl_no_result_message">Похоже, по параметрам Вашего поиска ничего не найдено.</string>
+    <string name="hcl_relaunch">Начать заново</string>
+
+    <string name="hcl_sort_label">Сортировка</string>
+    <string name="hcl_relevance_item">Степень совпадения</string>
+    <string name="hcl_distance_item">Расстояние</string>
+    <string name="hcl_name_item">Ф. И. О.</string>
+    <string name="hcl_apply_button">Применить</string>
+    <string name="hcl_reset_button">Сбросить</string>
+
+    <string name="hcl_main_information_label">Основная информация</string>
+    <string name="hcl_rate_refunds_label">Тарифная ставка и условия возврата средств</string>
+    <string name="hcl_specialities_label">Специализации</string>
+    <string name="hcl_information_label">Информация</string>
+    <string name="hcl_information_description">Отобразившаяся информация об этом МР верна?</string>
+    <string name="hcl_information_yes_label">Да</string>
+    <string name="hcl_information_no_label">Нет</string>
+    <string name="hcl_improve_quality_label">Улучшите качество данных</string>
+    <string name="hcl_improve_quality_text">Сообщите нам дополнительные сведения об этом МР.</string>
+    <string name="hcl_suggess_modification_button">Предложить изменение</string>
+</resources>

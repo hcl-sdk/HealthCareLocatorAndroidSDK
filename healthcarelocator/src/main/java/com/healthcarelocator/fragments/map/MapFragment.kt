@@ -5,11 +5,14 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.View.OnGenericMotionListener
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import base.fragments.IFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import com.healthcarelocator.R
 import com.healthcarelocator.custom.map.HCLMapView
 import com.healthcarelocator.extensions.*
@@ -22,22 +25,17 @@ import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.HCLConstant
 import com.healthcarelocator.viewmodel.map.HCLMapViewModel
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
 import org.osmdroid.events.MapListener
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.TilesOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-import java.lang.Exception
 
 class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener,
         OnMapReadyCallback,
@@ -66,6 +64,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     var onMapListener: MapListener? = null
 
     var onMarkerSelectionChanged: (ids: ArrayList<String>) -> Unit = {}
+    var onMarkerSelection: (position: String) -> Unit = {}
     private var lastItemSelected: com.google.android.gms.maps.model.Marker? = null
 
     // ===========================================================
@@ -77,9 +76,6 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private val PREFS_LONGITUDE_STRING = "longitudeString"
     private val PREFS_ORIENTATION = "orientation"
     private val PREFS_ZOOM_LEVEL_DOUBLE = "zoomLevelDouble"
-
-    private val MENU_ABOUT = Menu.FIRST + 1
-    private val MENU_LAST_ID = MENU_ABOUT + 1
 
     // ===========================================================
     // Fields
@@ -173,22 +169,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             onMapListener?.let { mMapView?.addMapListener(it) }
             mPrefs = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             updateCurrentLocationOSM()
-//            mLocationOverlay!!.enableMyLocation()
-//            mMapView!!.overlays.add(mLocationOverlay)
             mRotationGestureOverlay = RotationGestureOverlay(mMapView)
             mRotationGestureOverlay!!.isEnabled = false
             mMapView!!.overlays.add(mRotationGestureOverlay)
             mMapView!!.mapOrientation = 0f
             mMapView!!.setMultiTouchControls(true)
             mMapView!!.isTilesScaledToDpi = true
-//            val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
-//            mMapView!!.controller.setZoom(5.0)
-//            val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
-//            val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
-//            val longitudeString = mPrefs!!.getString(PREFS_LONGITUDE_STRING, "1.0")
-//            val latitude = java.lang.Double.valueOf(latitudeString)
-//            val longitude = java.lang.Double.valueOf(longitudeString)
-//            mMapView!!.setExpectedCenter(GeoPoint(latitude, longitude))
+            if (healthCareLocatorCustomObject.darkModeForMap)
+                mMapView!!.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
         }
     }
 
@@ -268,7 +256,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                         icon = ContextCompat.getDrawable(context!!, R.drawable.ic_current_location)
                     })
-                }catch (e:Exception){
+                } catch (e: Exception) {
 
                 }
             }
@@ -332,26 +320,46 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         } else {
             this.activities = activities
             if (googleMap == null) return
+            lastItemSelected = null
             googleMap!!.clear()
             val boundBuilder = LatLngBounds.builder()
             val markers = arrayListOf<HCLMarker>()
-            activities.forEach { activity ->
-                val location = activity.workplace?.address?.location?.getLatLng()
-                        ?: LatLng(0.0, 0.0)
-                boundBuilder.include(location)
-                val marker = googleMap!!.addMarker(
-                        MarkerOptions().icon(markerBitMap)
-                                .position(location)
-                )
-                marker.tag = activity.id
-                markers.add(HCLMarker(MapView(context)).apply {
-                    position = GeoPoint(location.latitude, location.longitude)
-                })
+            viewModel.groupLocations(activities) { map ->
+                if (map.size == 0) return@groupLocations
+                map.forEach { obj ->
+                    val location = obj.key.getLatLng().run { LatLng(this[0], this[1]) }
+                    boundBuilder.include(location)
+                    val marker = googleMap!!.addMarker(
+                            MarkerOptions().icon(markerBitMap)
+                                    .position(location)
+                    )
+                    marker.tag = obj.key
+                    markers.add(HCLMarker(MapView(context)).apply {
+                        position = GeoPoint(location.latitude, location.longitude)
+                    })
+                }
+                if (markers.isEmpty()) return@groupLocations
+                if (!isNearMe)
+                    viewModel.getGoogleMapBoundLevel(googleMap!!, markers)
+                else viewModel.getGoogleMapBoundNearMeLevel(context!!, googleMap!!, markers)
             }
-            if (markers.isEmpty()) return
-            if (!isNearMe)
-                viewModel.getGoogleMapBoundLevel(googleMap!!, markers)
-            else viewModel.getGoogleMapBoundNearMeLevel(context!!, googleMap!!, markers)
+//            activities.forEach { activity ->
+//                val location = activity.workplace?.address?.location?.getLatLng()
+//                    ?: LatLng(0.0, 0.0)
+//                boundBuilder.include(location)
+//                val marker = googleMap!!.addMarker(
+//                    MarkerOptions().icon(markerBitMap)
+//                        .position(location)
+//                )
+//                marker.tag = activity.id
+//                markers.add(OneKeyMarker(MapView(context)).apply {
+//                    position = GeoPoint(location.latitude, location.longitude)
+//                })
+//            }
+//            if (markers.isEmpty()) return
+//            if (!isNearMe)
+//                viewModel.getGoogleMapBoundLevel(googleMap!!, markers)
+//            else viewModel.getGoogleMapBoundNearMeLevel(context!!, googleMap!!, markers)
 //            boundLocations(boundBuilder)
         }
 
@@ -471,9 +479,12 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 return@run if (d < 2000.0) 2000.0 else d
             } ?: 2000.0
             callback(center?.latitude ?: 0.0, center?.longitude ?: 0.0, distance)
-        } else if (healthCareLocatorCustomObject.mapService == MapService.GOOGLE_MAP) {
-            val center = googleMap?.cameraPosition?.target
-            callback(center?.latitude ?: 0.0, center?.longitude ?: 0.0, 0.0)
+        } else if (healthCareLocatorCustomObject.mapService == MapService.GOOGLE_MAP && googleMap.isNotNullable()) {
+            val center = googleMap!!.cameraPosition?.target
+            val boundingBox: LatLngBounds = googleMap!!.projection.visibleRegion.latLngBounds
+            val d = getDistanceFromTwoCoordinates(boundingBox.northeast, boundingBox.southwest)
+            val distance = if (d < 2000.0) 2000.0 else d
+            callback(center?.latitude ?: 0.0, center?.longitude ?: 0.0, distance)
         }
     }
 
@@ -509,7 +520,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onMapReady(p0: GoogleMap?) {
         if (p0.isNullable()) return
         this.googleMap = p0
+        lastItemSelected = null
         googleMap?.apply {
+            if (healthCareLocatorCustomObject.darkModeForMap)
+                setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.google_map_night))
             isMyLocationEnabled = true
             uiSettings.isMyLocationButtonEnabled = false
             selectedMarkerBitMap = context!!.getDrawableFilledIcon(
@@ -527,13 +541,15 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     }
 
     override fun onMarkerClick(p0: com.google.android.gms.maps.model.Marker?): Boolean {
+        Log.d("onMarkerClick", "lastItemSelected: ${lastItemSelected?.position?.getString()}")
+        Log.d("onMarkerClick", "Marker: ${p0?.position?.getString()}")
         p0?.also { marker ->
             if (lastItemSelected != null) {
                 lastItemSelected!!.setIcon(markerBitMap)
             }
             lastItemSelected = marker
             lastItemSelected?.setIcon(selectedMarkerBitMap)
-            onMarkerSelectionChanged(arrayListOf((marker.tag as? String) ?: ""))
+            onMarkerSelection((marker.tag as? String) ?: "")
         }
         return false
     }

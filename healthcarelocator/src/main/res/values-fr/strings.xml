@@ -18,7 +18,8 @@
     <string name="hcl_last_hcps_consulted">Derniers profils consultés</string>
     <string name="hcl_find_healthcare_professional">Rechercher un Professionnel de Santé</string>
     <!--Search-->
-    <string name="hcl_search_first_field_label">Nom, spécialité</string>
+    <string name="hcl_search_field_label">Nom</string>
+    <string name="hcl_search_first_field_label">Spécialité</string>
     <string name="hcl_search_second_field_label">Où? (adresse, ville…)</string>
     <string name="hcl_near_me">Près de moi</string>
     <string name="hcl_anywhere">N\'importe où</string>
@@ -27,10 +28,10 @@
     <string name="hcl_results_label">Résultats</string>
     <string name="hcl_list_label">Liste</string>
     <string name="hcl_map_label">Carte</string>
-    <string name="hcl_distance_unit_android">%sm</string>
+    <string name="hcl_distance_unit_android">%s%s</string>
     <string name="hcl_no_result_found">Aucun résultat trouvé</string>
     <string name="hcl_no_result_message">Oups, il semble qu\'il n\'y ait aucune correspondance pour votre recherche.</string>
-    <string name="hcl_relaunch">Relaunch</string>
+    <string name="hcl_relaunch">Relancer</string>
 
     <!--Sort-->
     <string name="hcl_sort_label">Trier</string>

@@ -2,22 +2,24 @@ package com.healthcarelocator.viewmodel.map
 
 import android.content.Context
 import base.viewmodel.AppViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.healthcarelocator.extensions.*
-import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.fragments.map.HCLNearMeFragment
+import com.healthcarelocator.fragments.map.MapFragment
 import com.healthcarelocator.model.activity.ActivityObject
 import com.healthcarelocator.model.map.HCLMarker
 import com.healthcarelocator.model.map.compareByDistance
 import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.utils.HCLLog
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
@@ -87,6 +89,12 @@ class HCLMapViewModel : AppViewModel<MapFragment>() {
             client.removeLocationUpdate()
             client.releaseApiClient()
             disposable?.add(Flowable.just(markers)
+                    .delay(500, TimeUnit.MILLISECONDS)
+                    .switchMap {
+                        Flowable.create<ArrayList<HCLMarker>>({ s ->
+                            s.success(it)
+                        }, BackpressureStrategy.LATEST)
+                    }
                     .map {
                         it.map { marker ->
                             marker.distance = getDistanceFromLatLonInKm(
@@ -192,6 +200,6 @@ class HCLMapViewModel : AppViewModel<MapFragment>() {
                     map
                 }
                 .compose(compose())
-                .subscribe({callback(it)}, {callback(hashMapOf())}))
+                .subscribe({ callback(it) }, { callback(hashMapOf()) }))
     }
 }

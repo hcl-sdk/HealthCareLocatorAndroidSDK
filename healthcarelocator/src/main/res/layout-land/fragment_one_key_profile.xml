@@ -69,6 +69,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/ivDoctor"
                             android:layout_width="@dimen/default_icon_size_bigger"
                             android:layout_height="@dimen/default_icon_size_bigger"
                             android:layout_marginEnd="@dimen/default_padding"
@@ -325,15 +326,43 @@
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
 
-                        <com.healthcarelocator.custom.text.HCLTextView
-                            android:id="@+id/tvSpecialities"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="7"
-                            android:textColor="@color/colorOneKeyText"
-                            android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            tools:text="Specialities" />
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSpecialities"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <LinearLayout
+                                android:id="@+id/lnViewMore"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <com.healthcarelocator.custom.text.HCLTextView
+                                    android:id="@+id/tvViewMore"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.15"
+                                    android:text="@string/hcl_view_more"
+                                    android:textSize="@dimen/default_text_smaller"
+                                    app:OneKeyTextColor="OneKeyColorPrimary"
+                                    app:OneKeyTextStyle="OneKeyStyleSmall" />
+
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/default_text_small"
+                                    android:layout_weight="0.85"
+                                    android:src="@drawable/ic_view_more"
+                                    android:scaleType="fitStart"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <com.healthcarelocator.custom.HCLView
@@ -515,6 +544,7 @@
                                         tools:tint="@color/colorOneKeyBlue" />
 
                                     <com.healthcarelocator.custom.text.HCLTextView
+                                        android:id="@+id/tvSuggestModification"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"

@@ -3,6 +3,7 @@ package com.healthcarelocator.sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
 import com.ekino.sample.onekeysdk.BuildConfig
@@ -18,7 +19,7 @@ import com.healthcarelocator.sample.model.ThemeObject
 import com.healthcarelocator.sample.utils.Pref
 import com.healthcarelocator.sample.utils.getFonts
 import com.healthcarelocator.sample.utils.getThemes
-import com.healthcarelocator.service.location.getCountryCodes
+import com.healthcarelocator.service.location.getSplitString
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.activity_sample.*
@@ -123,7 +124,11 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         var fontCardTitle: HealthCareLocatorViewFontObject? = null
         var fontModalTitle: HealthCareLocatorViewFontObject? = null
         var fontSortCriteria: HealthCareLocatorViewFontObject? = null
+        var darkMode = false
+        var darkModeForMap = false
         SampleApplication.sharedPreferences.also {
+            darkMode = it.getBoolean(Pref.darkMode, false)
+            darkModeForMap = it.getBoolean(Pref.darkModeForMap, false)
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())
                     fontDefault = getFontSetting(this)
@@ -191,6 +196,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         }
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
         val language = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
+        val distanceUnit = SampleApplication.sharedPreferences.getInt(Pref.distanceUnit, 0)
+        val distanceDefault = SampleApplication.sharedPreferences.getString(Pref.distanceDefault, "") ?: ""
 
         /**
          * Add OneKey screen into parent application
@@ -219,30 +226,66 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //                .iconSort(R.drawable.baseline_location_on_white_36dp)
 //                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
 //                .iconLocation(R.drawable.baseline_list_white_24dp)
-            .locale(if (language == 0) "en" else "fr")
+            .locale(when (language) {
+                0 -> "en"
+                1 -> "de"
+                2 -> "es"
+                3 -> "co"
+                4 -> "fr"
+                5 -> "ca"
+                6 -> "it"
+                7 -> "nl"
+                8 -> "pl"
+                9 -> "pt"
+                10 -> "tr"
+                11 -> "ru"
+                12 -> "ar"
+                else -> "en"
+            })
+            .distanceUnit(when (distanceUnit) {
+                0 -> "Kilometer"
+                1 -> "Mile"
+                else -> "Kilometer"
+            })
+            .distanceDefault(distanceDefault)
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
-                .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
-                .colorMarker(colors.first { it.id == "colorMarker" }.color)
-                .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
-                .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
-                .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+                    .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
+                    .colorMarker(colors.first { it.id == "colorMarker" }.color)
+                    .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
+                    .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
+                    .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+                    .colorViewBackground(colors.first { it.id == "colorViewBackground" }.color)
         } else if (theme == "B" || theme == "R") {
             builder.colorPrimary(selectedTheme.primaryHexColor)
                 .colorSecondary(selectedTheme.secondaryHexColor)
                 .colorMarker(selectedTheme.markerHexColor)
                 .colorMarkerSelected(selectedTheme.markerSelectedHexColor)
         }
+        val specialtyLabel =
+                SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "")
+        val specialtyCode =
+                SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "")
         if (favoriteNearMe) {
+            SampleApplication.sharedPreferences.edit {
+                putBoolean(Pref.isSearchCardiology, true)
+            }
             builder.specialities(arrayListOf("SP.WCA.08"))
-                .entryScreen(ScreenReference.SEARCH_NEAR_ME)
+                .entryScreen(
+                    ScreenReference.SEARCH_NEAR_ME,
+                    if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
+                    if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf(
+                        "SP.WFR.AR"
+                    )
+                )
         }
         if (nearMe) {
-            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
+            builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
+                    if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf())
         }
         val countryCodeString =
             SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""
-        builder.countries(countryCodeString.getCountryCodes())
+        builder.countries(countryCodeString.getSplitString())
         builder.env(BuildConfig.env)
         builder.showModificationForm(
             SampleApplication.sharedPreferences.getInt(
@@ -251,6 +294,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             ) == 0
         )
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
+        builder.darkMode(darkMode)
+        builder.darkModeForMap(darkModeForMap)
 
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         HealthCareLocatorSDK.init(apiKey).setAppName("Sample")

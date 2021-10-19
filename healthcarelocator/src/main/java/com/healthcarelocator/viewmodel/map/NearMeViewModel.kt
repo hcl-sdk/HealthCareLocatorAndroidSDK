@@ -30,6 +30,8 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val loading by lazy { MutableLiveData<Boolean>() }
     val specialityLabel by lazy { MutableLiveData<String>() }
+    var isSpeciality: Boolean = true
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     private val executor: LocationAPI by lazy {
         HCLMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
@@ -67,15 +69,27 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
                         .locale(theme.getLocaleCode()).first(50).offset(0)
                 if (specialities.isNotEmpty()) {
                     builder.specialties(specialities)
+                    isSpeciality = true
                 } else {
-                    if (criteria.isNotEmpty())
+                    if (criteria.isNotEmpty()) {
                         builder.criteria(criteria)
+                        isSpeciality = false
+                    }
                 }
-                val p = (place ?: HCLPlace()).apply {
-                    latitude = "${location.latitude}"
-                    longitude = "${location.longitude}"
+                if (config.getDistanceDefault() != 0.0) {
+                    builder.location(GeopointQuery.builder().lat(location.latitude)
+                            .lon(location.longitude).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                                config.convertMileToMeter(config.getDistanceDefault())
+                            } else {
+                                config.convertKilometerToMeter(config.getDistanceDefault())
+                            }).build())
+                } else {
+                    val p = (place ?: HCLPlace()).apply {
+                        latitude = "${location.latitude}"
+                        longitude = "${location.longitude}"
+                    }
+                    builder.getQuery(p)
                 }
-                builder.getQuery(p)
                 builder.build()
             }, { response ->
                 if (response.data?.activities().isNullable()) {
@@ -124,10 +138,17 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
                     if (criteria.isNotEmpty())
                         builder.criteria(criteria)
                 }
-                if (usingCurrentLocation)
+                if (config.getDistanceDefault() != 0.0) {
                     builder.location(GeopointQuery.builder().lat(location.latitude)
-                            .lon(location.longitude).distanceMeter(2000.0).build())
-                else builder.getQuery(place)
+                            .lon(location.longitude).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                                config.convertMileToMeter(config.getDistanceDefault())
+                            } else {
+                                config.convertKilometerToMeter(config.getDistanceDefault())
+                            }).build())
+                } else {
+                    if (usingCurrentLocation)
+                        builder.getQuery(place)
+                }
                 builder.build()
             }, { response ->
                 if (response.data?.activities().isNullable()) {
@@ -179,11 +200,10 @@ class NearMeViewModel : ApolloViewModel<HCLNearMeFragment>() {
     ) {
         Flowable.just(list)
                 .map {
-                    if (sorting == 0) return@map it
                     it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 1) o1.distance.compareTo(o2.distance)
+                        if (sorting == 0) (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
                         else
-                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                            o1.distance.compareTo(o2.distance)
                     })
                     it
                 }

@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
 import base.fragments.IFragment
+import com.ekino.sample.onekeysdk.R
 import com.healthcarelocator.sample.SampleApplication
 import com.healthcarelocator.sample.SampleOneKeySDKActivity
 import com.healthcarelocator.sample.model.FontObject
@@ -18,11 +19,10 @@ import com.healthcarelocator.sample.utils.Pref
 import com.healthcarelocator.sample.utils.SpinnerInteractionListener
 import com.healthcarelocator.sample.utils.getFonts
 import com.healthcarelocator.sample.utils.getThemes
-import com.ekino.sample.onekeysdk.R
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener,
-    View.OnClickListener {
+        View.OnClickListener {
     companion object {
         fun newInstance() = SettingFragment()
     }
@@ -45,7 +45,14 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         btnBack.setOnClickListener { activity?.onBackPressed() }
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         edtAPIKey.setText(apiKey)
-        edtCountryCode.setText(SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: "")
+        edtCountryCode.setText(SampleApplication.sharedPreferences.getString(Pref.countryCodes, "")
+                ?: "")
+        val shared = SampleApplication.sharedPreferences
+        cbxDarkMode.isChecked = shared.getBoolean(Pref.darkMode, false)
+        cbxMapDarkMode.isChecked = shared.getBoolean(Pref.darkModeForMap, false)
+        edtSpecialtyLabel.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyLabel, "") ?: "")
+        edtSpecialtyCode.setText(SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "") ?: "")
+        edtDistanceDefault.setText(SampleApplication.sharedPreferences.getString(Pref.distanceDefault, "") ?: "")
 
         val selectedTheme = (SampleApplication.sharedPreferences.getString(
             Pref.theme,
@@ -65,6 +72,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         initHomeSpinner()
         initMapService()
         initLanguageSpinner()
+        initDistanceUnit()
 
         tvResetDefault.text = tvResetDefault.text.run {
             val span = SpannableString(this)
@@ -107,6 +115,16 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         languageSpinner.setSelection(selectedPosition)
     }
 
+    private fun initDistanceUnit() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.distanceUnit, 0)
+        val distanceUnit = requireContext().resources.getStringArray(R.array.distanceUnit)
+        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, distanceUnit).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            distanceUnitSpinner.adapter = it
+        }
+        distanceUnitSpinner.setSelection(selectedPosition)
+    }
+
     override fun onSpinnerItemSelectedListener(
         parent: AdapterView<*>?,
         view: View?,
@@ -147,6 +165,12 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             )
             putInt(Pref.language, languageSpinner.selectedItemPosition)
             putString(Pref.countryCodes, edtCountryCode.text.toString())
+            putBoolean(Pref.darkMode, cbxDarkMode.isChecked)
+            putBoolean(Pref.darkModeForMap, cbxMapDarkMode.isChecked)
+            putString(Pref.specialtyLabel, edtSpecialtyLabel.text.toString())
+            putString(Pref.specialtyCode, edtSpecialtyCode.text.toString())
+            putInt(Pref.distanceUnit, distanceUnitSpinner.selectedItemPosition)
+            putString(Pref.distanceDefault, edtDistanceDefault.text.toString())
         }
         super.onPause()
     }
@@ -218,11 +242,22 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.fontModalTitle, "")
             putString(Pref.fontSortCriteria, "")
             putString(Pref.countryCodes, "")
+            putBoolean(Pref.darkMode, false)
+            putBoolean(Pref.darkModeForMap, false)
+            putString(Pref.specialtyLabel, "")
+            putString(Pref.specialtyCode, "")
+            putString(Pref.distanceDefault, "")
         }
+        cbxDarkMode.isChecked = false
+        cbxMapDarkMode.isChecked = false
         themeSpinner.setSelection(0)
         languageSpinner.setSelection(0)
+        distanceUnitSpinner.setSelection(0)
         rBtnModificationEnabled.isChecked = true
         edtAPIKey.setText("")
         edtCountryCode.setText("")
+        edtSpecialtyLabel.setText("")
+        edtSpecialtyCode.setText("")
+        edtDistanceDefault.setText("")
     }
 }

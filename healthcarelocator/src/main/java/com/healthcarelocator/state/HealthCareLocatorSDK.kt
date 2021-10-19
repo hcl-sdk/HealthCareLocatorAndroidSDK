@@ -30,7 +30,8 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         val instance: HealthCareLocatorState = HealthCareLocatorSDK()
     }
 
-    private var config: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build()
+    private var config: HealthCareLocatorCustomObject =
+            HealthCareLocatorCustomObject.Builder().build()
     private var appName: String = ""
     private var appDownloadLink: String = ""
     private var apiKey: String = ""
@@ -46,7 +47,8 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         fun getInstance(): HealthCareLocatorState = Instance.instance
 
         @JvmStatic
-        fun init(apiKey: String): HealthCareLocatorState = Instance.instance.apply { this.setApiKey(apiKey) }
+        fun init(apiKey: String): HealthCareLocatorState =
+                Instance.instance.apply { this.setApiKey(apiKey) }
     }
 
     override fun setCustomObject(customObject: HealthCareLocatorCustomObject) {
@@ -87,24 +89,38 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
 
     override fun startSDKFragment(activity: AppCompatActivity?, containerId: Int) {
         if (activity.isNullable())
-            throw HCLException(ErrorReference.ACTIVITY_INVALID,
-                    "The provided Activity must NOT be nullable.")
+            throw HCLException(
+                    ErrorReference.ACTIVITY_INVALID,
+                    "The provided Activity must NOT be nullable."
+            )
         else if (containerId == 0)
-            throw HCLException(ErrorReference.ID_INVALID,
-                    "The provided containerId must NOT be 0.")
+            throw HCLException(
+                    ErrorReference.ID_INVALID,
+                    "The provided containerId must NOT be 0."
+            )
         reverseGeoCoding(activity!!)
         readConfig(activity)
+        setDarkModeData()
         if (config.mapService == MapService.GOOGLE_MAP &&
-                activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY").isNullOrEmpty())
-            throw HCLException(ErrorReference.DATA_INVALID,
-                    "Should provide the map API key for google map service.")
+                activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY").isNullOrEmpty()
+        )
+            throw HCLException(
+                    ErrorReference.DATA_INVALID,
+                    "Should provide the map API key for google map service."
+            )
         when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
                 activity!!.changeLocale(config.locale)
                 activity.pushFragment(
-                        containerId, HCLNearMeFragment.newInstance(config, "", null,
-                        HCLPlace(placeId = "near_me", displayName = activity.getString(R.string.hcl_near_me)),
-                        config.specialities), true)
+                        containerId, HCLNearMeFragment.newInstance(
+                        config, "", null,
+                        HCLPlace(
+                                placeId = "near_me",
+                                displayName = activity.getString(R.string.hcl_near_me)
+                        ),
+                        config.specialities
+                ), true
+                )
             }
 //            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
             else -> activity!!.addFragment(containerId, HCLHomeMainFragment.newInstance(), true)
@@ -113,16 +129,21 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
 
     override fun startSDKActivity(activity: AppCompatActivity?) {
         if (activity.isNullable())
-            throw HCLException(ErrorReference.ACTIVITY_INVALID,
-                    "The provided Activity must NOT be nullable.")
+            throw HCLException(
+                    ErrorReference.ACTIVITY_INVALID,
+                    "The provided Activity must NOT be nullable."
+            )
         reverseGeoCoding(activity!!)
         readConfig(activity)
+        setDarkModeData()
         activity!!.startActivity(Intent(activity, HCLActivity::class.java))
     }
 
     override fun getServices(context: Context): HealthCareLocatorService {
-        if (getApiKey().isEmpty()) throw HCLException(ErrorReference.API_KEY_INVALID,
-                "The provided API key must NOT be nullable or emtpy.")
+        if (getApiKey().isEmpty()) throw HCLException(
+                ErrorReference.API_KEY_INVALID,
+                "The provided API key must NOT be nullable or emtpy."
+        )
         reverseGeoCoding(context)
         readConfig(context)
         return HealthCareLocatorService.getInstance(context)
@@ -147,8 +168,11 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
     }
 
     override fun reverseGeoCoding(context: Context) {
-        if (ContextCompat.checkSelfPermission(context,
-                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val client = LocationClient(context)
             client.requestLastLocation().registerDataCallBack({ location ->
                 client.removeLocationUpdate()
@@ -159,13 +183,28 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
                 params["format"] = "json"
                 executor.reverseGeoCoding(params).map {
                     it.address?.countryCode ?: ""
-                }.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    if (it.isNotEmpty()) {
-                        getConfiguration().defaultCountry = it
-                    }
-                }, { })
+                }.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            if (it.isNotEmpty()) {
+                                getConfiguration().defaultCountry = it
+                            }
+                        }, { })
             }, {}, {})
 
+        }
+    }
+
+    private fun setDarkModeData() {
+        if (getConfiguration().darkMode) {
+            getConfiguration().also {
+                it.colorViewBackground = "#080808"
+                it.colorDark = "#ffffff"
+                it.colorGreyDarker = "#aaffffff"
+                it.colorCardBorder = "#505050"
+                it.colorButtonBorder = "#505050"
+                it.colorListBackground = "#080808"
+                it.colorButtonBackground = "#323232"
+            }
         }
     }
 }

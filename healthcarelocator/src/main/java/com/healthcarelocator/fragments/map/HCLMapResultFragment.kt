@@ -1,12 +1,16 @@
 package com.healthcarelocator.fragments.map
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
+import com.google.gson.Gson
 import com.healthcarelocator.R
 import com.healthcarelocator.adapter.search.SearchAdapter
 import com.healthcarelocator.custom.CenterLayoutManager
@@ -24,7 +28,9 @@ import org.osmdroid.events.ZoomEvent
 class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     companion object {
-        fun newInstance() = HCLMapResultFragment().apply {
+        fun newInstance(speciality: String = "", activities: ArrayList<ActivityObject>) = HCLMapResultFragment().apply {
+            this.speciality = speciality
+            this.activities = activities
         }
     }
 
@@ -35,7 +41,8 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
     }
     private var isRelaunch = false
     private var activities: ArrayList<ActivityObject> = arrayListOf()
-    private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
+    private var speciality: String = ""
+    private val searchAdapter by lazy { SearchAdapter(getScreenWidth(), speciality)}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map_result, container, false)
@@ -50,29 +57,38 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         }
         mapFragment.onMapListener = this
         isRelaunch = getAbsFragment()?.getRelaunchState() ?: false
-        getAbsFragment()?.getActivities()?.also {
-            this.activities = it
-        }
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
             showDistance()
             searchAdapter.setData(activities)
         }
-        rvLocations.postDelay({
+        rvLocations.postDelay({ rv ->
             getRunningMapFragment()?.drawMarkerOnMap(activities, false,
                     getAbsFragment()?.isNearMe() ?: false)
-            getRunningMapFragment()?.onMarkerSelectionChanged = { ids ->
-                val selectedPosition = activities.getIndexes {
-                    ids.indexOf(it.id)>=0
+            getRunningMapFragment()?.apply {
+                onMarkerSelectionChanged = { ids ->
+                    val selectedPosition = activities.getIndexes {
+                        ids.indexOf(it.id) >= 0
+                    }
+                    if (selectedPosition.isNotEmpty()) {
+                        rv?.execute { it.smoothScrollToPosition(selectedPosition.first()) }
+                        searchAdapter.setSelectedPosition(selectedPosition)
+                        setHighLight(selectedPosition)
+                    }
                 }
-                if (selectedPosition.isNotEmpty()) {
-                    rvLocations.smoothScrollToPosition(selectedPosition.first())
-                    searchAdapter.setSelectedPosition(selectedPosition)
+                onMarkerSelection = { position ->
+                    val selectedPosition = activities.getIndexes {
+                        (it.workplace?.address?.location?.getLocationByString() ?: "") == position
+                    }
+                    if (selectedPosition.isNotEmpty()) {
+                        rv.smoothScrollToPosition(selectedPosition.first())
+                        searchAdapter.setSelectedPosition(selectedPosition)
+                        setHighLight(selectedPosition)
+                    }
                 }
             }
         }, 1000L)
-
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is HCLNearMeFragment) (parentFragment as HCLNearMeFragment).navigateToHCPProfile(oneKeyLocation)
@@ -82,6 +98,22 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnCurrentLocation.setOnClickListener(this)
         btnRelaunch.setRippleBackground(healthCareLocatorCustomObject.colorSecondary.getColor(), 50f)
         btnCurrentLocation.setIconFromDrawableId(healthCareLocatorCustomObject.iconMapGeoLoc)
+        healthCareLocatorCustomObject.also {
+            btnCurrentLocation.setColorFilter(if (it.darkMode) Color.WHITE else ContextCompat.getColor(context!!, R.color.colorOneKeyText))
+            btnCurrentLocation.background = ContextCompat.getDrawable(context!!,
+                    if (it.darkMode) R.drawable.bg_black_circle_border else R.drawable.bg_white_circle_border)
+        }
+    }
+
+    private fun setHighLight(lisSelection: ArrayList<Int>) {
+        val listSelection = arrayListOf<String>()
+        for (i in lisSelection.indices) {
+            listSelection.add(activities[lisSelection[i]].id)
+        }
+        sharedPreferences.edit {
+            putBoolean(isLocationSelection, true)
+            putString(locationSelection, Gson().toJson(listSelection))
+        }
     }
 
     override fun onClick(v: View?) {
@@ -126,6 +158,12 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     }
 
+    override fun onDestroyView() {
+        searchAdapter.reset()
+        searchAdapter.notifyDataSetChanged()
+        super.onDestroyView()
+    }
+
     fun requestRelaunch() {
         isRelaunch = true
         getAbsFragment()?.setRelaunchState(true)
@@ -168,8 +206,9 @@ class HCLMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnRelaunch.visibility = state.getVisibility()
     }
 
-    private fun showDistance(){
-        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()?:false
+    private fun showDistance() {
+        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()
+                ?: false
     }
 
     private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>

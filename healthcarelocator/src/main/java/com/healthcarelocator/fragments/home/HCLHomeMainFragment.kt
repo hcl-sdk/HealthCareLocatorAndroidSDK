@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import base.extensions.addFragment
 import base.extensions.unregisterReceiver
@@ -53,13 +54,19 @@ class HCLHomeMainFragment :
             })
         }
         config.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            val darkMode = it.darkMode
+            edtSearch.setBackgroundWithCorner(if (darkMode) it.darkModeLightColor.getColor() else Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            edtSearch.setHintTextColor(if (darkMode) Color.parseColor("#55ffffff") else Color.parseColor("#55000000"))
             ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
             ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
 
         newSearchWrapper.setOnClickListener(this)
+        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.edit {
+            putBoolean(isLocationSelection, false)
+            putString(locationSelection, "")
+        }
     }
 
     override fun onDestroyView() {

@@ -12,6 +12,7 @@ import com.healthcarelocator.service.location.LocationAPI
 import com.healthcarelocator.service.location.HCLMapService
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetActivitiesQuery
+import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
 class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
@@ -23,6 +24,8 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     private val executor: LocationAPI by lazy {
         HCLMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
     }
+    var isSpeciality: Boolean = false
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission(
@@ -38,13 +41,27 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         query({
             val builder = GetActivitiesQuery.builder()
                     .locale(theme.getLocaleCode()).first(50).offset(0)
-            if (specialities.isNotEmpty()) {
+            if (specialities.isNotEmpty() && !criteria.contains(",")) {
                 builder.specialties(specialities)
+                isSpeciality = true
+            } else if (criteria.isNotEmpty() && !criteria.contains(",")){
+                builder.criteria(criteria)
+                isSpeciality = false
             } else {
-                if (criteria.isNotEmpty())
-                    builder.criteria(criteria)
+                builder.criteria(criteria)
+                builder.specialties(specialities)
+                isSpeciality = true
             }
-            builder.getQuery(place)
+            if (config.getDistanceDefault() != 0.0 && place != null) {
+                builder.location(GeopointQuery.builder().lat(place.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                            config.convertMileToMeter(config.getDistanceDefault())
+                        } else {
+                            config.convertKilometerToMeter(config.getDistanceDefault())
+                        }).build())
+            } else {
+                builder.getQuery(place)
+            }
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {
@@ -80,7 +97,16 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 if (criteria.isNotEmpty()) builder.criteria(criteria)
             }
 
-            builder.getQuery(place)
+            if (config.getDistanceDefault() != 0.0 && place != null) {
+                builder.location(GeopointQuery.builder().lat(place.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).distanceMeter(if (config.getDistanceUnit() == "mi") {
+                            config.convertMileToMeter(config.getDistanceDefault())
+                        } else {
+                            config.convertKilometerToMeter(config.getDistanceDefault())
+                        }).build())
+            } else {
+                builder.getQuery(place)
+            }
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {
@@ -125,11 +151,10 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     ) {
         Flowable.just(list)
                 .map {
-                    if (sorting == 0) return@map it
                     it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 1) o1.distance.compareTo(o2.distance)
+                        if (sorting == 0) (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
                         else
-                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                            o1.distance.compareTo(o2.distance)
                     })
                     it
                 }

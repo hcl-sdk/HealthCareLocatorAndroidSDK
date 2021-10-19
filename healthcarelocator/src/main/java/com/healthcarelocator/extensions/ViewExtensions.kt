@@ -108,8 +108,8 @@ fun CheckBox.setLayerList(normalBackgroundColor: Int, activatedBackgroundColor: 
 }
 
 fun CheckBox.setLayerListFromDrawable(normalBackgroundColor: Int, activatedBackgroundColor: Int,
-                          strokeColor: Int, strokeWidth: Int, normalIcon: Drawable?, activatedIcon: Drawable?,
-                          radius: Float = 12f) {
+                                      strokeColor: Int, strokeWidth: Int, normalIcon: Drawable?, activatedIcon: Drawable?,
+                                      radius: Float = 12f) {
     val normalDrawable = GradientDrawable().apply {
         cornerRadius = radius
         setColor(normalBackgroundColor)
@@ -149,4 +149,13 @@ fun <T : View> T.postDelay(run: (view: T) -> Unit, time: Long = 0L) {
         if (this == null) return@postDelayed
         run(this)
     }, time)
+}
+
+fun <T : View> T?.execute(run: (view: T) -> Unit) {
+    try {
+        if (this.isNullable()) return
+        run(this!!)
+    } catch (e: Exception) {
+
+    }
 }

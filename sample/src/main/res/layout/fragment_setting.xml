@@ -95,6 +95,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:text="Special Label"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <EditText
+            android:id="@+id/edtSpecialtyLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner"
+            android:hint="Input special label"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/default_padding_smaller"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:text="Special Code"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <EditText
+            android:id="@+id/edtSpecialtyCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner"
+            android:hint="Input special code (SP.WBE.08,SP.WFR.AR,...)"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/default_padding_smaller"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Theme"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_text" />
@@ -167,6 +211,48 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_larger"
+            android:text="Distance Default"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <EditText
+            android:id="@+id/edtDistanceDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="@dimen/default_padding_smaller"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_larger"
+            android:text="Distance Unit"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:background="@drawable/bg_white_border_corner">
+
+            <com.healthcarelocator.sample.view.SSpinner
+                android:id="@+id/distanceUnitSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding_smaller" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Suggest Edit"
             android:textColor="@color/colorOneKeyText"
@@ -199,16 +285,14 @@
             android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Map"
             android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text"
-            android:visibility="gone" />
+            android:textSize="@dimen/default_text" />
 
         <RadioGroup
             android:id="@+id/mapGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_tiny"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rBtnOpenStreetMap"
@@ -223,5 +307,41 @@
                 android:layout_height="wrap_content"
                 android:text="Google Map" />
         </RadioGroup>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark mode"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <CheckBox
+                android:id="@+id/cbxDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </androidx.appcompat.widget.LinearLayoutCompat><androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark mode for Map"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <CheckBox
+                android:id="@+id/cbxMapDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
 </ScrollView>

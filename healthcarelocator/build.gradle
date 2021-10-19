@@ -109,14 +109,15 @@ dependencies {
     implementation("com.apollographql.apollo:apollo-runtime:2.4.4") { transitive(true) }
     implementation("com.apollographql.apollo:apollo-android-support:2.4.4") { transitive(true) }
     implementation("com.apollographql.apollo:apollo-rx2-support:2.4.4") { transitive(true) }
+    implementation("com.google.android:flexbox:2.0.1") {transitive(true)}
 
     /**
      * Google services
      */
-    implementation "com.google.android.gms:play-services-maps:16.0.0"
-    implementation "com.google.android.gms:play-services-location:16.0.0"
-    implementation 'com.google.android.libraries.places:places:1.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.5'
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.gms:play-services-location:17.0.0"
+    implementation 'com.google.android.libraries.places:places:2.2.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     compileOnly "org.jetbrains:annotations:13.0"
     testImplementation "com.google.truth:truth:1.0.1"
 

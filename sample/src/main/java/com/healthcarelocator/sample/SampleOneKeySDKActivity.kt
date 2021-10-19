@@ -3,6 +3,7 @@ package com.healthcarelocator.sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
 import com.ekino.sample.onekeysdk.BuildConfig
@@ -266,9 +267,17 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         val specialtyCode =
                 SampleApplication.sharedPreferences.getString(Pref.specialtyCode, "")
         if (favoriteNearMe) {
+            SampleApplication.sharedPreferences.edit {
+                putBoolean(Pref.isSearchCardiology, true)
+            }
             builder.specialities(arrayListOf("SP.WCA.08"))
-                .entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
-                        if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf("SP.WFR.AR"))
+                .entryScreen(
+                    ScreenReference.SEARCH_NEAR_ME,
+                    if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
+                    if (specialtyCode != null && specialtyCode != "") specialtyCode.getSplitString() else arrayListOf(
+                        "SP.WFR.AR"
+                    )
+                )
         }
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME, if (specialtyLabel != null && specialtyLabel != "") specialtyLabel else "",
